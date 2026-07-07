@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freesia DEX — LitVM Hard Money Web3</title>
+<meta name="description" content="Freesia DEX menghadirkan sepuluh fitur fundamental yang sangat dibutuhkan trader DeFi: gasless trading, MEV protection, privacy pools, cross-chain limit orders, dan lainnya. Dibangun di atas LitVM.">
+<meta name="theme-color" content="#4A9B8E">
+<meta property="og:title" content="Freesia DEX — DEX yang Seharusnya Sudah Ada">
+<meta property="og:description" content="Sepuluh fitur fundamental yang dibutuhkan trader DeFi namun jarang tersedia di platform besar saat ini. Dibangun di atas LitVM — Hard Money Web3.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://freesia.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@0xzackbh">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='95' fill='%234A9B8E'/%3E%3Cellipse cx='100' cy='75' rx='12' ry='18' fill='%23fff' transform='rotate(-15 100 75)'/%3E%3C/svg%3E">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:#1A3B36;line-height:1.6}
+  :focus-visible{outline:2px solid #F5A623;outline-offset:2px}
+
+  /* NAVBAR */
+  .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(74,155,142,0.95);backdrop-filter:blur(20px);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .brand-icon{width:36px;height:36px}
+  .brand-icon svg{width:100%;height:100%;display:block}
+  .brand-text{font-size:18px;font-weight:800;color:#fff;letter-spacing:3px}
+  .nav-right{display:flex;align-items:center;gap:16px}
+  .lang-toggle{display:flex;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:100px;padding:3px;gap:2px}
+  .lang-btn{border:none;background:transparent;padding:6px 14px;border-radius:100px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);cursor:pointer}
+  .lang-btn.active{background:#fff;color:#4A9B8E}
+  .menu-btn{display:none;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:8px}
+  .menu-btn span{width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s ease,opacity .25s ease}
+  .menu-btn.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+  .menu-btn.open span:nth-child(2){opacity:0}
+  .menu-btn.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+  .mobile-menu{display:none;position:fixed;top:60px;left:0;right:0;background:#3D8579;z-index:999;flex-direction:column;padding:8px 20px 20px;border-bottom:1px solid rgba(255,255,255,0.15)}
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{color:#fff;text-decoration:none;font-weight:600;font-size:15px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .mobile-menu a:last-child{border-bottom:none}
+
+  /* HERO */
+  .hero{background:linear-gradient(180deg,#4A9B8E 0%,#5AAA9D 50%,#7BC4B5 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px;color:#fff}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);padding:8px 18px;border-radius:100px;font-size:13px;font-weight:600;margin-bottom:32px}
+  .hero-badge-dot{width:8px;height:8px;background:#34D399;border-radius:50%}
+  .hero-logo{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:24px}
+  .hero-logo-icon{width:72px;height:72px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.15))}
+  .hero-logo-icon svg{width:100%;height:100%;display:block}
+  .hero-logo-text{font-size:22px;font-weight:800;letter-spacing:4px;color:#fff}
+  .hero h1{font-size:clamp(32px,8vw,56px);font-weight:900;line-height:1.1;letter-spacing:-1px;margin-bottom:16px}
+  .hero h1 span{display:block}
+  .hero h1 .gradient{background:linear-gradient(135deg,#A7F3D0,#6EE7B7,#34D399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero p{font-size:16px;color:rgba(255,255,255,0.85);max-width:520px;margin:0 auto 32px;line-height:1.7}
+  .hero p strong{color:#fff}
+  .hero-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{padding:14px 32px;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;display:inline-block;cursor:pointer;border:none;letter-spacing:0.5px}
+  .btn-white{background:#fff;color:#3D8579;box-shadow:0 4px 20px rgba(0,0,0,0.15)}
+  .btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.5)}
+
+  /* MARQUEE */
+  .marquee{background:#F5FAF8;border-top:1px solid #D0E8E3;border-bottom:1px solid #D0E8E3;padding:16px 0;overflow:hidden}
+  .marquee-track{display:flex;animation:marquee 25s linear infinite;width:max-content}
+  .marquee-item{padding:0 24px;color:#7A9E97;font-weight:600;font-size:14px;white-space:nowrap}
+  @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  /* SECTIONS */
+  .section{padding:64px 24px;max-width:1000px;margin:0 auto}
+  .section-header{text-align:center;max-width:600px;margin:0 auto 48px}
+  .section-label{display:inline-block;background:#E8F5F2;color:#3D8579;padding:6px 16px;border-radius:100px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+  .section-header h2{font-size:clamp(28px,5vw,40px);font-weight:800;margin-bottom:12px;line-height:1.2}
+  .section-header p{color:#7A9E97;font-size:16px}
+
+  /* FEATURES */
+  .features{background:#F5FAF8}
+  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .feature-card{background:#fff;border:1px solid #D0E8E3;border-radius:20px;padding:24px}
+  .feature-icon{font-size:32px;margin-bottom:12px}
+  .feature-card h3{font-size:16px;font-weight:700;margin-bottom:8px;color:#1A3B36}
+  .feature-card p{font-size:14px;color:#7A9E97;line-height:1.6}
+  .feature-tag{display:inline-block;margin-top:12px;padding:4px 12px;background:rgba(245,166,35,0.1);color:#D4890F;border-radius:100px;font-size:11px;font-weight:700}
+
+  /* ROADMAP */
+  .roadmap{background:linear-gradient(180deg,#fff 0%,#F5FAF8 50%,#fff 100%)}
+  .roadmap-timeline{position:relative;padding-left:24px}
+  .roadmap-timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#4A9B8E,#7BC4B5,#F5A623);border-radius:2px}
+  .roadmap-item{position:relative;padding:24px 0 24px 32px;border-bottom:1px solid #D0E8E3}
+  .roadmap-item:last-child{border-bottom:none}
+  .roadmap-dot{position:absolute;left:-24px;top:28px;width:14px;height:14px;background:#fff;border:3px solid #4A9B8E;border-radius:50%;transform:translateX(-7px)}
+  .roadmap-dot.active{background:#4A9B8E;box-shadow:0 0 0 4px rgba(74,155,142,0.2)}
+  .roadmap-phase{display:inline-block;background:#E8F5F2;color:#3D8579;padding:4px 14px;border-radius:100px;font-size:12px;font-weight:700;margin-bottom:10px}
+  .roadmap-item h3{font-size:18px;font-weight:700;margin-bottom:8px;color:#1A3B36}
+  .roadmap-item p{color:#7A9E97;font-size:14px;margin-bottom:12px;line-height:1.6}
+  .roadmap-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .roadmap-tags span{font-size:12px;padding:4px 12px;background:#E8F5F2;color:#3D8579;border-radius:100px;font-weight:600}
+  .roadmap-meta{display:flex;gap:16px;margin-top:12px;font-size:13px;color:#7A9E97}
+
+  /* SOCIAL */
+  .social{background:linear-gradient(135deg,#4A9B8E,#3D8579);border-radius:24px;padding:48px 24px;text-align:center;color:#fff;max-width:800px;margin:0 auto}
+  .social h2{font-size:clamp(24px,5vw,32px);font-weight:800;margin-bottom:12px}
+  .social p{opacity:0.85;max-width:400px;margin:0 auto 24px;font-size:15px}
+  .social-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+  .social-link{display:flex;align-items:center;gap:8px;padding:12px 24px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:100px;color:#fff;text-decoration:none;font-weight:600;font-size:14px}
+
+  /* CTA */
+  .cta{background:linear-gradient(135deg,#4A9B8E,#3D8579);border-radius:24px;padding:56px 24px;text-align:center;color:#fff;max-width:900px;margin:48px auto}
+  .cta h2{font-size:clamp(24px,5vw,36px);font-weight:800;margin-bottom:12px}
+  .cta p{opacity:0.9;max-width:480px;margin:0 auto 24px;font-size:15px}
+  .cta-form{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:420px;margin:0 auto}
+  .cta-form input{flex:1;min-width:200px;padding:14px 20px;border-radius:100px;border:none;font-size:14px;font-family:inherit}
+  .cta-btn{background:#fff;color:#3D8579;padding:14px 32px;border-radius:100px;font-weight:700;text-decoration:none;display:inline-block;box-shadow:0 10px 30px rgba(0,0,0,0.2);font-size:14px;border:none;cursor:pointer;font-family:inherit}
+  .cta-note{font-size:12px;opacity:0.7;margin-top:12px}
+
+  /* FOOTER */
+  .footer{background:#F5FAF8;border-top:1px solid #D0E8E3;padding:48px 24px 24px;text-align:center}
+  .footer-brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:12px}
+  .footer-brand-icon{width:32px;height:32px}
+  .footer-brand-icon svg{width:100%;height:100%;display:block}
+  .footer-brand-text{font-size:18px;font-weight:800;color:#1A3B36;letter-spacing:3px}
+  .footer p{color:#7A9E97;font-size:14px;max-width:400px;margin:0 auto 20px}
+  .footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:24px;flex-wrap:wrap}
+  .footer-links a{color:#7A9E97;text-decoration:none;font-size:14px}
+  .footer-copy{color:#A8C4BF;font-size:13px;padding-top:20px;border-top:1px solid #D0E8E3}
+
+  /* MOBILE */
+  @media(max-width:768px){
+    .navbar{padding:10px 16px}
+    .brand-text{font-size:16px;letter-spacing:2px}
+    .menu-btn{display:flex}
+    .hero{padding:90px 20px 40px}
+    .hero-logo-icon{width:56px;height:56px}
+    .hero h1{font-size:36px}
+    .hero-buttons{flex-direction:column;align-items:center}
+    .btn{width:100%;max-width:300px;text-align:center}
+    .section{padding:48px 20px}
+    .features-grid{grid-template-columns:1fr}
+    .social{margin:0 12px;border-radius:20px}
+    .cta{margin:32px 12px;border-radius:20px}
+    .social-links{flex-direction:column;align-items:center}
+    .social-link{width:100%;max-width:260px;justify-content:center}
+    .cta-form{flex-direction:column;align-items:stretch}
+    .roadmap-timeline{padding-left:16px}
+    .roadmap-item{padding-left:24px}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    .marquee-track{animation:none}
+    .menu-btn span{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="#hero" class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 160 Q100 130 100 110" stroke="#4A8B7F" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M100 140 Q70 130 60 110 Q75 125 100 135" fill="#6BB3A3" opacity="0.9"/>
+        <path d="M100 130 Q130 120 140 100 Q125 115 100 125" fill="#5FA89A" opacity="0.9"/>
+        <path d="M100 150 Q85 145 75 135 Q85 148 100 152" fill="#7BC4B5" opacity="0.8"/>
+        <ellipse cx="100" cy="75" rx="12" ry="18" fill="#F5F5F0" transform="rotate(-15 100 75)"/>
+        <ellipse cx="100" cy="75" rx="12" ry="18" fill="#FFFFFF" transform="rotate(15 100 75)"/>
+        <ellipse cx="100" cy="72" rx="8" ry="14" fill="#FFF8F0"/>
+        <circle cx="100" cy="68" r="3" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="82" cy="88" rx="10" ry="16" fill="#F0F5F2" transform="rotate(-35 82 88)"/>
+        <ellipse cx="82" cy="88" rx="10" ry="16" fill="#FFFFFF" transform="rotate(-5 82 88)"/>
+        <ellipse cx="82" cy="86" rx="6" ry="11" fill="#FFF8F0"/>
+        <circle cx="82" cy="82" r="2.5" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="118" cy="88" rx="10" ry="16" fill="#F0F5F2" transform="rotate(5 118 88)"/>
+        <ellipse cx="118" cy="88" rx="10" ry="16" fill="#FFFFFF" transform="rotate(35 118 88)"/>
+        <ellipse cx="118" cy="86" rx="6" ry="11" fill="#FFF8F0"/>
+        <circle cx="118" cy="82" r="2.5" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="90" cy="102" rx="9" ry="14" fill="#F5F5F0" transform="rotate(-25 90 102)"/>
+        <ellipse cx="90" cy="102" rx="9" ry="14" fill="#FFFFFF" transform="rotate(5 90 102)"/>
+        <ellipse cx="90" cy="100" rx="5" ry="9" fill="#FFF8F0"/>
+        <circle cx="90" cy="97" r="2" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="110" cy="102" rx="9" ry="14" fill="#F5F5F0" transform="rotate(-5 110 102)"/>
+        <ellipse cx="110" cy="102" rx="9" ry="14" fill="#FFFFFF" transform="rotate(25 110 102)"/>
+        <ellipse cx="110" cy="100" rx="5" ry="9" fill="#FFF8F0"/>
+        <circle cx="110" cy="97" r="2" fill="#FFD700" opacity="0.6"/>
+      </svg>
+    </div>
+    <span class="brand-text">FREESIA DEX</span>
+  </a>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="switchLang('id')" id="btn-id">ID</button>
+      <button class="lang-btn" onclick="switchLang('en')" id="btn-en">EN</button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#fitur" onclick="closeMenu()" data-i18n="navFeat">Fitur</a>
+  <a href="#tentang" onclick="closeMenu()" data-i18n="navAbout">Tentang</a>
+  <a href="#roadmap" onclick="closeMenu()" data-i18n="navRoadmap">Roadmap</a>
+  <a href="#social" onclick="closeMenu()" data-i18n="navSocial">Komunitas</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    <span data-i18n="badge">LitVM — Hard Money Web3</span>
+  </div>
+  <div class="hero-logo">
+    <div class="hero-logo-icon">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 160 Q100 130 100 110" stroke="#4A8B7F" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M100 140 Q70 130 60 110 Q75 125 100 135" fill="#6BB3A3" opacity="0.9"/>
+        <path d="M100 130 Q130 120 140 100 Q125 115 100 125" fill="#5FA89A" opacity="0.9"/>
+        <path d="M100 150 Q85 145 75 135 Q85 148 100 152" fill="#7BC4B5" opacity="0.8"/>
+        <ellipse cx="100" cy="75" rx="12" ry="18" fill="#F5F5F0" transform="rotate(-15 100 75)"/>
+        <ellipse cx="100" cy="75" rx="12" ry="18" fill="#FFFFFF" transform="rotate(15 100 75)"/>
+        <ellipse cx="100" cy="72" rx="8" ry="14" fill="#FFF8F0"/>
+        <circle cx="100" cy="68" r="3" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="82" cy="88" rx="10" ry="16" fill="#F0F5F2" transform="rotate(-35 82 88)"/>
+        <ellipse cx="82" cy="88" rx="10" ry="16" fill="#FFFFFF" transform="rotate(-5 82 88)"/>
+        <ellipse cx="82" cy="86" rx="6" ry="11" fill="#FFF8F0"/>
+        <circle cx="82" cy="82" r="2.5" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="118" cy="88" rx="10" ry="16" fill="#F0F5F2" transform="rotate(5 118 88)"/>
+        <ellipse cx="118" cy="88" rx="10" ry="16" fill="#FFFFFF" transform="rotate(35 118 88)"/>
+        <ellipse cx="118" cy="86" rx="6" ry="11" fill="#FFF8F0"/>
+        <circle cx="118" cy="82" r="2.5" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="90" cy="102" rx="9" ry="14" fill="#F5F5F0" transform="rotate(-25 90 102)"/>
+        <ellipse cx="90" cy="102" rx="9" ry="14" fill="#FFFFFF" transform="rotate(5 90 102)"/>
+        <ellipse cx="90" cy="100" rx="5" ry="9" fill="#FFF8F0"/>
+        <circle cx="90" cy="97" r="2" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="110" cy="102" rx="9" ry="14" fill="#F5F5F0" transform="rotate(-5 110 102)"/>
+        <ellipse cx="110" cy="102" rx="9" ry="14" fill="#FFFFFF" transform="rotate(25 110 102)"/>
+        <ellipse cx="110" cy="100" rx="5" ry="9" fill="#FFF8F0"/>
+        <circle cx="110" cy="97" r="2" fill="#FFD700" opacity="0.6"/>
+      </svg>
+    </div>
+    <span class="hero-logo-text">FREESIA DEX</span>
+  </div>
+  <h1>
+    <span data-i18n="hero1">DEX yang Seharusnya</span>
+    <span class="gradient" data-i18n="hero2">Sudah Ada</span>
+  </h1>
+  <p data-i18n="heroDesc">Freesia DEX menghadirkan sepuluh fitur fundamental yang sangat dibutuhkan trader DeFi, namun secara mengejutkan <strong>tidak tersedia</strong> di platform besar saat ini.</p>
+  <div class="hero-buttons">
+    <a href="#" class="btn btn-white" data-i18n="btnPrimary">Launch App →</a>
+    <a href="https://x.com/0xzackbh" target="_blank" rel="noopener" class="btn btn-outline" data-i18n="btnSecondary">𝕏 Follow on X</a>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="marquee-item">◆ Gasless Trading</span>
+    <span class="marquee-item">◆ MEV Protection</span>
+    <span class="marquee-item">◆ On-Chain Stop Loss</span>
+    <span class="marquee-item">◆ Privacy Pools</span>
+    <span class="marquee-item">◆ Cross-Chain Limit Orders</span>
+    <span class="marquee-item">◆ Real-Time PnL</span>
+    <span class="marquee-item">◆ Social Recovery</span>
+    <span class="marquee-item">◆ Intent-Based Trading</span>
+    <span class="marquee-item">◆ On-Chain Credit Score</span>
+    <span class="marquee-item">◆ Panic Button</span>
+    <span class="marquee-item">◆ Gasless Trading</span>
+    <span class="marquee-item">◆ MEV Protection</span>
+    <span class="marquee-item">◆ On-Chain Stop Loss</span>
+    <span class="marquee-item">◆ Privacy Pools</span>
+    <span class="marquee-item">◆ Cross-Chain Limit Orders</span>
+    <span class="marquee-item">◆ Real-Time PnL</span>
+    <span class="marquee-item">◆ Social Recovery</span>
+    <span class="marquee-item">◆ Intent-Based Trading</span>
+    <span class="marquee-item">◆ On-Chain Credit Score</span>
+    <span class="marquee-item">◆ Panic Button</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section features" id="fitur">
+  <div class="section-header">
+    <div class="section-label" data-i18n="featLabel">Fitur Unggulan</div>
+    <h2><span data-i18n="featTitle">Apa yang Membuat Kami </span><span style="color:#4A9B8E">Berbeda</span></h2>
+    <p data-i18n="featDesc">Sepuluh fitur ini sangat dibutuhkan komunitas DeFi, namun secara mengejutkan jarang atau belum tersedia di DEX populer saat ini.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⛽</div>
+      <h3 data-i18n="f1t">Gasless Trading</h3>
+      <p data-i18n="f1d">Swap tanpa perlu memegang native token untuk gas. Protokol membayar gas lebih dulu, dipotong dari hasil swap.</p>
+      <span class="feature-tag" data-i18n="tagRare">Jarang Ada</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <h3 data-i18n="f2t">MEV-Protected Execution</h3>
+      <p data-i18n="f2d">Proteksi bawaan terhadap sandwich attacks, front-running, dan JIT liquidity.</p>
+      <span class="feature-tag" data-i18n="tagRare">Jarang Ada</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📉</div>
+      <h3 data-i18n="f3t">On-Chain Conditional Orders</h3>
+      <p data-i18n="f3d">Stop Loss, Take Profit, dan Trailing Stop yang dieksekusi sepenuhnya on-chain.</p>
+      <span class="feature-tag" data-i18n="tagRare">Jarang Ada</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3 data-i18n="f4t">Privacy-Preserving Trading</h3>
+      <p data-i18n="f4d">Trading dengan zk-proofs dan private pools. Histori transaksi tidak terpapar penuh.</p>
+      <span class="feature-tag" data-i18n="tagRare">Jarang Ada</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌉</div>
+      <h3 data-i18n="f5t">Cross-Chain Limit Orders</h3>
+      <p data-i18n="f5d">Limit order cross-chain dengan atomic settlement. Tidak perlu bridge token.</p>
+      <span class="feature-tag" data-i18n="tagRare">Jarang Ada</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3 data-i18n="f6t">Real-Time PnL & Tax Analytics</h3>
+      <p data-i18n="f6d">Dashboard PnL real-time, cost basis tracking, dan tax reporting langsung di UI.</p>
+      <span class="feature-tag" data-i18n="tagRare">Jarang Ada</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔑</div>
+      <h3 data-i18n="f7t">Social Recovery</h3>
+      <p data-i18n="f7d">Mekanisme recovery posisi dan aset melalui guardian network.</p>
+      <span class="feature-tag" data-i18n="tagRare">Jarang Ada</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <h3 data-i18n="f8t">Intent-Based Trading</h3>
+      <p data-i18n="f8d">Tandatangani "intent" swap, biarkan solver network berkompetisi memberikan harga terbaik.</p>
+      <span class="feature-tag" data-i18n="tagRare">Jarang Ada</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⭐</div>
+      <h3 data-i18n="f9t">On-Chain Credit Scoring</h3>
+      <p data-i18n="f9d">Credit score berbasis histori transaksi dan AI behavior analysis.</p>
+      <span class="feature-tag" data-i18n="tagRare">Jarang Ada</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚨</div>
+      <h3 data-i18n="f10t">Panic Button</h3>
+      <p data-i18n="f10d">One-click emergency exit: tutup semua posisi, swap ke stablecoin, bridge, dan kirim ke wallet cadangan.</p>
+      <span class="feature-tag" data-i18n="tagRare">Jarang Ada</span>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="section" id="tentang">
+  <div class="section-header">
+    <div class="section-label" data-i18n="aboutLabel">Mengapa Freesia</div>
+    <h2><span data-i18n="aboutTitle">Memperbaiki </span><span style="color:#4A9B8E">Yang Hilang</span></h2>
+    <p data-i18n="aboutDesc">Kami tidak membangun fitur yang sudah ada. Kami membangun fitur yang seharusnya ada.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;text-align:center;">
+    <div style="padding:24px;">
+      <div style="font-size:48px;font-weight:800;background:linear-gradient(135deg,#4A9B8E,#7BC4B5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;">01</div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:8px;" data-i18n="why1t">User-First Design</h3>
+      <p style="font-size:14px;color:#7A9E97;" data-i18n="why1d">Setiap fitur dirancang berdasarkan nyata keluhan komunitas DeFi.</p>
+    </div>
+    <div style="padding:24px;">
+      <div style="font-size:48px;font-weight:800;background:linear-gradient(135deg,#4A9B8E,#7BC4B5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;">02</div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:8px;" data-i18n="why2t">Transparan & Jujur</h3>
+      <p style="font-size:14px;color:#7A9E97;" data-i18n="why2d">Kami terbuka tentang status pengembangan. Tidak ada janji palsu.</p>
+    </div>
+    <div style="padding:24px;">
+      <div style="font-size:48px;font-weight:800;background:linear-gradient(135deg,#4A9B8E,#7BC4B5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;">03</div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:8px;" data-i18n="why3t">LitVM Ecosystem</h3>
+      <p style="font-size:14px;color:#7A9E97;" data-i18n="why3d">Terintegrasi dengan visi "Hard Money Web3" — infrastruktur yang kokoh.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="section roadmap" id="roadmap">
+  <div class="section-header">
+    <div class="section-label" data-i18n="rmLabel">Perjalanan Kami</div>
+    <h2><span data-i18n="rmTitle">Development </span><span style="color:#4A9B8E">Roadmap</span></h2>
+    <p data-i18n="rmDesc">Setiap fase roadmap langsung meng-cover 2 dari 10 fitur unik kami. Dibangun secara bertahap dengan transparansi penuh.</p>
+  </div>
+  <div class="roadmap-timeline">
+    <div class="roadmap-item">
+      <div class="roadmap-dot active"></div>
+      <div class="roadmap-phase" data-i18n="p1p">Phase 1 — Core Execution</div>
+      <h3 data-i18n="p1t">Gasless Trading + MEV Protection</h3>
+      <p data-i18n="p1d">Fondasi DEX dengan CLMM. Fokus pada eliminasi barrier entry (gasless) dan keamanan eksekusi (MEV protection).</p>
+      <div class="roadmap-tags"><span>⛽ Gasless</span><span>🛡️ MEV Protection</span></div>
+      <div class="roadmap-meta"><span>⏱️ <span data-i18n="p1time">1-2 Bulan</span></span><span>🎯 <span data-i18n="p1target">CLMM Foundation</span></span></div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-dot"></div>
+      <div class="roadmap-phase" data-i18n="p2p">Phase 2 — Smart Trading</div>
+      <h3 data-i18n="p2t">Conditional Orders + PnL Analytics</h3>
+      <p data-i18n="p2d">Stop Loss, Take Profit, dan Trailing Stop sepenuhnya on-chain. Dashboard PnL real-time dan tax reporting.</p>
+      <div class="roadmap-tags"><span>📉 Conditional Orders</span><span>📊 PnL & Tax</span></div>
+      <div class="roadmap-meta"><span>⏱️ <span data-i18n="p2time">2-3 Bulan</span></span><span>🎯 <span data-i18n="p2target">On-Chain Intelligence</span></span></div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-dot"></div>
+      <div class="roadmap-phase" data-i18n="p3p">Phase 3 — Cross-Chain Privacy</div>
+      <h3 data-i18n="p3t">Privacy Pools + Cross-Chain Orders</h3>
+      <p data-i18n="p3d">Integrasi zk-proofs untuk privacy-preserving trading dan atomic settlement cross-chain.</p>
+      <div class="roadmap-tags"><span>🔒 Privacy Pools</span><span>🌉 Cross-Chain</span></div>
+      <div class="roadmap-meta"><span>⏱️ <span data-i18n="p3time">3-5 Bulan</span></span><span>🎯 <span data-i18n="p3target">Multi-Chain Infrastructure</span></span></div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-dot"></div>
+      <div class="roadmap-phase" data-i18n="p4p">Phase 4 — Safety Net</div>
+      <h3 data-i18n="p4t">Social Recovery + Panic Button</h3>
+      <p data-i18n="p4d">Recovery aset melalui guardian network dan one-click emergency exit untuk melindungi user.</p>
+      <div class="roadmap-tags"><span>🔑 Social Recovery</span><span>🚨 Panic Button</span></div>
+      <div class="roadmap-meta"><span>⏱️ <span data-i18n="p4time">5-7 Bulan</span></span><span>🎯 <span data-i18n="p4target">User Protection Layer</span></span></div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-dot"></div>
+      <div class="roadmap-phase" data-i18n="p5p">Phase 5 — Advanced Layer</div>
+      <h3 data-i18n="p5t">Intent-Based Trading + Credit Scoring</h3>
+      <p data-i18n="p5d">Solver network competition dan on-chain credit scoring berbasis AI. Era under-collateralized DeFi.</p>
+      <div class="roadmap-tags"><span>🎯 Intent-Based</span><span>⭐ Credit Score</span></div>
+      <div class="roadmap-meta"><span>⏱️ <span data-i18n="p5time">7-10 Bulan</span></span><span>🎯 <span data-i18n="p5target">AI & Reputation</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL -->
+<section class="section" id="social">
+  <div class="social">
+    <h2 data-i18n="socialTitle">Terhubung Dengan Kami</h2>
+    <p data-i18n="socialDesc">Bergabung dengan komunitas Freesia. Ikuti perjalanan kami dan jadilah yang pertama tahu saat kami meluncurkan.</p>
+    <div class="social-links">
+      <a href="https://x.com/0xzackbh" target="_blank" rel="noopener" class="social-link">𝕏 Follow on X</a>
+      <a href="#" class="social-link" data-i18n="tgPlaceholder">📱 Telegram (segera)</a>
+      <a href="https://github.com/Muhammadzack" target="_blank" rel="noopener" class="social-link">💻 GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding:0 24px;">
+  <div class="cta">
+    <h2 data-i18n="ctaTitle">Siap untuk Masa Depan DeFi?</h2>
+    <p data-i18n="ctaDesc">Bergabunglah dengan early access list. Jadilah yang pertama merasakan DEX yang seharusnya sudah ada sejak lama.</p>
+    <form class="cta-form" id="waitlistForm" onsubmit="return handleWaitlist(event)">
+      <input type="email" id="waitlistEmail" required placeholder="nama@email.com" data-i18n-placeholder="ctaPlaceholder">
+      <button type="submit" class="cta-btn" data-i18n="ctaBtn">Daftar →</button>
+    </form>
+    <div class="cta-note" data-i18n="ctaNote">Belum ada backend terhubung — sambungkan form ini ke penyedia waitlist pilihan Anda.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">
+    <div class="footer-brand-icon">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 160 Q100 130 100 110" stroke="#4A8B7F" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M100 140 Q70 130 60 110 Q75 125 100 135" fill="#6BB3A3" opacity="0.9"/>
+        <path d="M100 130 Q130 120 140 100 Q125 115 100 125" fill="#5FA89A" opacity="0.9"/>
+        <path d="M100 150 Q85 145 75 135 Q85 148 100 152" fill="#7BC4B5" opacity="0.8"/>
+        <ellipse cx="100" cy="75" rx="12" ry="18" fill="#F5F5F0" transform="rotate(-15 100 75)"/>
+        <ellipse cx="100" cy="75" rx="12" ry="18" fill="#FFFFFF" transform="rotate(15 100 75)"/>
+        <ellipse cx="100" cy="72" rx="8" ry="14" fill="#FFF8F0"/>
+        <circle cx="100" cy="68" r="3" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="82" cy="88" rx="10" ry="16" fill="#F0F5F2" transform="rotate(-35 82 88)"/>
+        <ellipse cx="82" cy="88" rx="10" ry="16" fill="#FFFFFF" transform="rotate(-5 82 88)"/>
+        <ellipse cx="82" cy="86" rx="6" ry="11" fill="#FFF8F0"/>
+        <circle cx="82" cy="82" r="2.5" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="118" cy="88" rx="10" ry="16" fill="#F0F5F2" transform="rotate(5 118 88)"/>
+        <ellipse cx="118" cy="88" rx="10" ry="16" fill="#FFFFFF" transform="rotate(35 118 88)"/>
+        <ellipse cx="118" cy="86" rx="6" ry="11" fill="#FFF8F0"/>
+        <circle cx="118" cy="82" r="2.5" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="90" cy="102" rx="9" ry="14" fill="#F5F5F0" transform="rotate(-25 90 102)"/>
+        <ellipse cx="90" cy="102" rx="9" ry="14" fill="#FFFFFF" transform="rotate(5 90 102)"/>
+        <ellipse cx="90" cy="100" rx="5" ry="9" fill="#FFF8F0"/>
+        <circle cx="90" cy="97" r="2" fill="#FFD700" opacity="0.6"/>
+        <ellipse cx="110" cy="102" rx="9" ry="14" fill="#F5F5F0" transform="rotate(-5 110 102)"/>
+        <ellipse cx="110" cy="102" rx="9" ry="14" fill="#FFFFFF" transform="rotate(25 110 102)"/>
+        <ellipse cx="110" cy="100" rx="5" ry="9" fill="#FFF8F0"/>
+        <circle cx="110" cy="97" r="2" fill="#FFD700" opacity="0.6"/>
+      </svg>
+    </div>
+    <span class="footer-brand-text">FREESIA DEX</span>
+  </div>
+  <p data-i18n="footerDesc">DEX generasi berikutnya yang memperbaiki apa yang hilang. Dibangun di atas LitVM — Hard Money Web3.</p>
+  <div class="footer-links">
+    <a href="#">Docs</a>
+    <a href="https://github.com/Muhammadzack" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://x.com/0xzackbh" target="_blank" rel="noopener">X / Twitter</a>
+    <a href="#" data-i18n="discordPlaceholder">Discord (segera)</a>
+  </div>
+  <div class="footer-copy" data-i18n="footerCopy">© 2026 Freesia DEX. Dibangun dengan transparansi untuk komunitas DeFi.</div>
+</footer>
+
+<script>
+const i18n = {
+  id: {
+    navFeat:'Fitur',navAbout:'Tentang',navRoadmap:'Roadmap',navSocial:'Komunitas',
+    badge:'LitVM — Hard Money Web3',hero1:'DEX yang Seharusnya',hero2:'Sudah Ada',
+    heroDesc:'Freesia DEX menghadirkan sepuluh fitur fundamental yang sangat dibutuhkan trader DeFi, namun secara mengejutkan <strong>tidak tersedia</strong> di platform besar saat ini.',
+    btnPrimary:'Launch App →',btnSecondary:'𝕏 Follow on X',
+    featLabel:'Fitur Unggulan',featTitle:'Apa yang Membuat Kami ',featDesc:'Sepuluh fitur ini sangat dibutuhkan komunitas DeFi, namun secara mengejutkan jarang atau belum tersedia di DEX populer saat ini.',
+    tagRare:'Jarang Ada',
+    f1t:'Gasless Trading',f1d:'Swap tanpa perlu memegang native token untuk gas. Protokol membayar gas lebih dulu, dipotong dari hasil swap.',
+    f2t:'MEV-Protected Execution',f2d:'Proteksi bawaan terhadap sandwich attacks, front-running, dan JIT liquidity.',
+    f3t:'On-Chain Conditional Orders',f3d:'Stop Loss, Take Profit, dan Trailing Stop yang dieksekusi sepenuhnya on-chain.',
+    f4t:'Privacy-Preserving Trading',f4d:'Trading dengan zk-proofs dan private pools. Histori transaksi tidak terpapar penuh.',
+    f5t:'Cross-Chain Limit Orders',f5d:'Limit order cross-chain dengan atomic settlement. Tidak perlu bridge token.',
+    f6t:'Real-Time PnL & Tax Analytics',f6d:'Dashboard PnL real-time, cost basis tracking, dan tax reporting langsung di UI.',
+    f7t:'Social Recovery',f7d:'Mekanisme recovery posisi dan aset melalui guardian network.',
+    f8t:'Intent-Based Trading',f8d:'Tandatangani "intent" swap, biarkan solver network berkompetisi memberikan harga terbaik.',
+    f9t:'On-Chain Credit Scoring',f9d:'Credit score berbasis histori transaksi dan AI behavior analysis.',
+    f10t:'Panic Button',f10d:'One-click emergency exit: tutup semua posisi, swap ke stablecoin, bridge, dan kirim ke wallet cadangan.',
+    aboutLabel:'Mengapa Freesia',aboutTitle:'Memperbaiki ',aboutDesc:'Kami tidak membangun fitur yang sudah ada. Kami membangun fitur yang seharusnya ada.',
+    why1t:'User-First Design',why1d:'Setiap fitur dirancang berdasarkan nyata keluhan komunitas DeFi.',
+    why2t:'Transparan & Jujur',why2d:'Kami terbuka tentang status pengembangan. Tidak ada janji palsu.',
+    why3t:'LitVM Ecosystem',why3d:'Terintegrasi dengan visi "Hard Money Web3" — infrastruktur yang kokoh.',
+    rmLabel:'Perjalanan Kami',rmTitle:'Development ',rmDesc:'Setiap fase roadmap langsung meng-cover 2 dari 10 fitur unik kami. Dibangun secara bertahap dengan transparansi penuh.',
+    p1p:'Phase 1 — Core Execution',p1t:'Gasless Trading + MEV Protection',p1d:'Fondasi DEX dengan CLMM. Fokus pada eliminasi barrier entry (gasless) dan keamanan eksekusi (MEV protection).',p1time:'1-2 Bulan',p1target:'CLMM Foundation',
+    p2p:'Phase 2 — Smart Trading',p2t:'Conditional Orders + PnL Analytics',p2d:'Stop Loss, Take Profit, dan Trailing Stop sepenuhnya on-chain. Dashboard PnL real-time dan tax reporting.',p2time:'2-3 Bulan',p2target:'On-Chain Intelligence',
+    p3p:'Phase 3 — Cross-Chain Privacy',p3t:'Privacy Pools + Cross-Chain Orders',p3d:'Integrasi zk-proofs untuk privacy-preserving trading dan atomic settlement cross-chain.',p3time:'3-5 Bulan',p3target:'Multi-Chain Infrastructure',
+    p4p:'Phase 4 — Safety Net',p4t:'Social Recovery + Panic Button',p4d:'Recovery aset melalui guardian network dan one-click emergency exit untuk melindungi user.',p4time:'5-7 Bulan',p4target:'User Protection Layer',
+    p5p:'Phase 5 — Advanced Layer',p5t:'Intent-Based Trading + Credit Scoring',p5d:'Solver network competition dan on-chain credit scoring berbasis AI. Era under-collateralized DeFi.',p5time:'7-10 Bulan',p5target:'AI & Reputation',
+    socialTitle:'Terhubung Dengan Kami',socialDesc:'Bergabung dengan komunitas Freesia. Ikuti perjalanan kami dan jadilah yang pertama tahu saat kami meluncurkan.',
+    tgPlaceholder:'📱 Telegram (segera)',discordPlaceholder:'Discord (segera)',
+    ctaTitle:'Siap untuk Masa Depan DeFi?',ctaDesc:'Bergabunglah dengan early access list. Jadilah yang pertama merasakan DEX yang seharusnya sudah ada sejak lama.',ctaBtn:'Daftar →',ctaPlaceholder:'nama@email.com',
+    ctaNote:'Belum ada backend terhubung — sambungkan form ini ke penyedia waitlist pilihan Anda.',
+    footerDesc:'DEX generasi berikutnya yang memperbaiki apa yang hilang. Dibangun di atas LitVM — Hard Money Web3.',
+    footerCopy:'© 2026 Freesia DEX. Dibangun dengan transparansi untuk komunitas DeFi.'
+  },
+  en: {
+    navFeat:'Features',navAbout:'About',navRoadmap:'Roadmap',navSocial:'Community',
+    badge:'LitVM — Hard Money Web3',hero1:'The DEX That Should',hero2:'Already Exist',
+    heroDesc:'Freesia DEX brings ten fundamental features that DeFi traders desperately need, yet surprisingly <strong>are not available</strong> on major platforms today.',
+    btnPrimary:'Launch App →',btnSecondary:'𝕏 Follow on X',
+    featLabel:'Key Features',featTitle:'What Makes Us ',featDesc:'These ten features are critically needed by the DeFi community, yet surprisingly rare or unavailable on popular DEXs today.',
+    tagRare:'Rarely Available',
+    f1t:'Gasless Trading',f1d:'Swap without holding native tokens for gas. The protocol pays gas upfront, deducted from the swap output.',
+    f2t:'MEV-Protected Execution',f2d:'Built-in protection against sandwich attacks, front-running, and JIT liquidity.',
+    f3t:'On-Chain Conditional Orders',f3d:'Stop Loss, Take Profit, and Trailing Stop executed fully on-chain.',
+    f4t:'Privacy-Preserving Trading',f4d:'Trade with zk-proofs and private pools. Your transaction history is not fully exposed.',
+    f5t:'Cross-Chain Limit Orders',f5d:'Cross-chain limit orders with atomic settlement. No need to bridge tokens.',
+    f6t:'Real-Time PnL & Tax Analytics',f6d:'Real-time PnL dashboard, cost basis tracking, and tax reporting directly in the DEX UI.',
+    f7t:'Social Recovery',f7d:'Asset and position recovery mechanism through a guardian network.',
+    f8t:'Intent-Based Trading',f8d:'Sign a swap "intent" and let the solver network compete to give you the best price.',
+    f9t:'On-Chain Credit Scoring',f9d:'Credit score based on transaction history and AI behavior analysis.',
+    f10t:'Panic Button',f10d:'One-click emergency exit: close all positions, swap to stablecoin, bridge, and send to backup wallet.',
+    aboutLabel:'Why Freesia',aboutTitle:"Fixing What's ",aboutDesc:"We don't build features that already exist. We build features that should exist.",
+    why1t:'User-First Design',why1d:'Every feature is designed based on real DeFi community pain points.',
+    why2t:'Transparent & Honest',why2d:'We are open about our development status. No false promises.',
+    why3t:'LitVM Ecosystem',why3d:'Integrated with the "Hard Money Web3" vision — solid infrastructure.',
+    rmLabel:'Our Journey',rmTitle:'Development ',rmDesc:'Each roadmap phase directly covers 2 of our 10 unique features. Built step-by-step with full transparency.',
+    p1p:'Phase 1 — Core Execution',p1t:'Gasless Trading + MEV Protection',p1d:'DEX foundation with CLMM. Focus on eliminating entry barriers (gasless) and execution security (MEV protection).',p1time:'1-2 Months',p1target:'CLMM Foundation',
+    p2p:'Phase 2 — Smart Trading',p2t:'Conditional Orders + PnL Analytics',p2d:'Implementation of Stop Loss, Take Profit, and Trailing Stop fully on-chain. Real-time PnL dashboard and tax reporting.',p2time:'2-3 Months',p2target:'On-Chain Intelligence',
+    p3p:'Phase 3 — Cross-Chain Privacy',p3t:'Privacy Pools + Cross-Chain Orders',p3d:'Integration of zk-proofs for privacy-preserving trading and atomic settlement cross-chain.',p3time:'3-5 Months',p3target:'Multi-Chain Infrastructure',
+    p4p:'Phase 4 — Safety Net',p4t:'Social Recovery + Panic Button',p4d:'Asset recovery through guardian network and one-click emergency exit to protect users.',p4time:'5-7 Months',p4target:'User Protection Layer',
+    p5p:'Phase 5 — Advanced Layer',p5t:'Intent-Based Trading + Credit Scoring',p5d:'Solver network competition and on-chain credit scoring based on AI. Opening the era of under-collateralized DeFi.',p5time:'7-10 Months',p5target:'AI & Reputation',
+    socialTitle:'Connect With Us',socialDesc:'Join the Freesia community. Follow our journey and be the first to know when we launch.',
+    tgPlaceholder:'📱 Telegram (coming soon)',discordPlaceholder:'Discord (coming soon)',
+    ctaTitle:'Ready for the Future of DeFi?',ctaDesc:'Join the early access list. Be the first to experience the DEX that should have existed all along.',ctaBtn:'Join →',ctaPlaceholder:'name@email.com',
+    ctaNote:'No backend connected yet — wire this form up to your waitlist provider of choice.',
+    footerDesc:"The next-generation DEX that fixes what's missing. Built on LitVM — Hard Money Web3.",
+    footerCopy:'© 2026 Freesia DEX. Built with transparency for the DeFi community.'
+  }
+};
+
+function switchLang(lang){
+  document.getElementById('btn-id').classList.toggle('active',lang==='id');
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  const t=i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    if(t[key]) el.innerHTML=t[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key=el.getAttribute('data-i18n-placeholder');
+    if(t[key]) el.setAttribute('placeholder',t[key]);
+  });
+  document.documentElement.lang=lang;
+  try{ localStorage.setItem('freesia_lang', lang); }catch(e){}
+}
+
+function toggleMenu(){
+  const btn=document.getElementById('menuBtn');
+  const menu=document.getElementById('mobileMenu');
+  const isOpen=menu.classList.toggle('open');
+  btn.classList.toggle('open',isOpen);
+  btn.setAttribute('aria-expanded', isOpen ? 'true':'false');
+}
+function closeMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('menuBtn').classList.remove('open');
+  document.getElementById('menuBtn').setAttribute('aria-expanded','false');
+}
+
+function handleWaitlist(e){
+  e.preventDefault();
+  const email=document.getElementById('waitlistEmail').value;
+  // TODO: sambungkan ke waitlist provider (Mailchimp/Supabase/Google Sheets/dll)
+  alert('Terima kasih! Kami akan menghubungi ' + email + ' saat Early Access dibuka.');
+  document.getElementById('waitlistForm').reset();
+  return false;
+}
+</script>
+
+</body>
+</html>
