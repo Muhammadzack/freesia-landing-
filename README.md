@@ -1,51 +1,52 @@
-# Freesia DEX — Landing Page (versi statis, v3)
+# Freesia DEX — Landing Page
 
-Landing page ini sekarang disesuaikan dengan DEX asli Anda di
-https://freesia-black.vercel.app (kode: SimpleLiquidityPoolV2 di LitVM Testnet).
+Live di: https://freesiadex.xyz
 
-## Yang berubah di v3
-- DEX_URL sudah benar: https://freesia-black.vercel.app
-- Fitur landing page diganti total: sebelumnya 10 fitur FIKSI (gasless, zk-privacy,
-  cross-chain, dll yang tidak ada di kode Anda). Sekarang menampilkan fitur ASLI:
-  Shielded Swap, Live Price Chart, Slippage Control, Add/Remove Liquidity,
-  Stake LP untuk FREE, Testnet Faucet, koneksi wallet otomatis ke LitVM, dll.
-- Live Stats & Kontrak & Transparansi sudah terisi alamat kontrak ASLI:
-    Pool USDC/DAI : 0x71D88Cff00b50860Da4367a799a17bf483e76909
-    Staking       : 0x024f68cc3bb70A41154B9468DA6b8dB2d2A76567
-    USDC          : 0x6c567a7Fb7A2b4968D230A644D3C76E731e34837
-    DAI           : 0xd06C4C54837e1BBd458948C45E306DA38b19a0Bc
-    FREE (reward) : 0x5072FE98CD78604d8750a935fa39039F06b6e800
-    RPC           : https://liteforge.rpc.caldera.xyz/infra-partner-http
-    Explorer      : https://liteforge.caldera.xyz
-    Chain ID      : 4441 (LitVM Testnet)
-- Function selector reserveA()/reserveB() dihitung ulang dengan Keccak-256
-  yang divalidasi (sebelumnya pakai tebakan yang SALAH).
-- Arsitektur diperbaiki dari "CLMM + Hooks" (tidak ada di kode) jadi
-  "AMM — Constant Product (x·y=k)" (sesuai kode asli).
+## v4 — Logo seragam, menu mobile, & kejujuran MEV (terbaru)
+
+### 1. Logo diseragamkan dengan DEX
+- Kotak hijau berhuruf "F" diganti dengan **logo bunga Freesia** (SVG),
+  sama persis dengan yang dipakai di DEX (freesia-black.vercel.app).
+- Teks brand kini "**Freesia** DEX" — "Freesia" bergradasi teal→hijau,
+  "DEX" sebagai sufiks halus. Diterapkan di navbar dan footer.
+- Celah antar kelopak transparan, jadi logo tampil benar di latar terang
+  (navbar) maupun gelap (footer).
+
+### 2. Responsif untuk laptop, tablet, dan HP
+- **Menu mobile/tablet ditambahkan.** Sebelumnya menu navigasi disembunyikan
+  di bawah 1024px (`hidden lg:flex`) **tanpa pengganti** — artinya pengunjung
+  HP dan tablet tidak punya navigasi sama sekali. Kini ada tombol hamburger
+  dengan panel menu (menutup otomatis saat link diklik, saat layar dilebarkan
+  ke ukuran desktop, dan saat menekan Escape).
+- **Ukuran heading diperbaiki.** Hero memakai `clamp(3rem, 8vw, 6rem)` —
+  minimum 48px. Di iPhone SE (320px) itu hanya muat ~10 karakter per baris,
+  sehingga judul pecah menjadi banyak baris dan memenuhi layar. Diturunkan
+  ke `clamp(2rem, 7.5vw, 6rem)`. Heading lain juga disesuaikan.
+- Tombol Launch App kini tersedia di dalam menu mobile (di navbar ia
+  tersembunyi pada layar < 640px).
+
+### 3. Berhenti mengklaim fitur MEV yang tidak ada
+Audit DEX menemukan bahwa toggle "Shielded Swap" **tidak melakukan apa pun** —
+kontrak `swap()` tidak punya parameter MEV, dan "MEV Protection Tax 0.05%"
+tidak pernah dipungut. Landing page ikut diperbaiki:
+- Hero tidak lagi menjanjikan "swap dengan proteksi MEV opsional".
+- Fitur Shielded Swap ditandai **"(Segera)"** dengan keterangan bahwa ia
+  membutuhkan private relay atau perubahan smart contract.
+- Roadmap Phase 1 tidak lagi mengklaim proteksi MEV sudah selesai.
+- Meta keywords dibersihkan.
+
+### 4. Bug teks
+- Judul bagian fitur masih tertulis "Sepuluh Fitur yang Hilang" (sisa versi
+  lama, dan jumlahnya bukan sepuluh). Diperbaiki jadi "Yang Bisa Anda Lakukan".
+
+---
 
 ## Isi folder
-- index.html, hero-bg.jpg, og-image.jpg, favicon*, robots.txt, sitemap.xml, .nojekyll
+index.html, hero-bg.jpg, og-image.jpg, favicon*, robots.txt, sitemap.xml, .nojekyll
 
-## Cek cepat setelah upload
-1. Buka situs -> scroll ke "Statistik On-Chain" -> harus muncul angka nyata
-   (bukan "—") dalam beberapa detik.
-2. Kalau tetap "—", buka Console browser (F12) untuk lihat error CORS/RPC.
-   Kemungkinan RPC LitVM tidak mengizinkan akses browser dari domain lain.
-3. Bagian "Kontrak & Jaringan" -> tombol Salin harus menyalin alamat asli.
-4. Tombol Launch App / Enter App / Mulai Sekarang -> harus membuka
-   freesia-black.vercel.app di tab baru.
+## Pengaturan (di dalam index.html)
+- `CONFIG` — DEX_URL, DOCS_URL, X, GITHUB, TELEGRAM, DISCORD
+- `CHAIN` — RPC, alamat kontrak, explorer (untuk Live Stats)
 
-## Cara upload (dari HP atau laptop)
-1. Repo GitHub -> Add file -> Upload files
-2. Pilih SEMUA file di folder ini -> Commit changes
-   (Kalau cuma index.html yang berubah, cukup upload index.html saja —
-   akan menimpa otomatis.)
-
-## Aktifkan situs
-Settings -> Pages -> Source: "Deploy from a branch"
--> Branch: main, folder: / (root) -> Save
-Situs aktif di https://USERNAME.github.io/REPO/
-
-## Yang masih perlu diisi manual
-- DOCS_URL (belum ada dokumentasi)
-- TELEGRAM, DISCORD (masih "#")
+Domain sudah aktif di **freesiadex.xyz**. Kalau mengganti domain, perbarui juga
+`index.html` (meta canonical & og:url), `robots.txt`, dan `sitemap.xml`.

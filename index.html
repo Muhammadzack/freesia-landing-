@@ -6,10 +6,10 @@
 
 <title>Freesia DEX — Trade Freely on LitVM</title>
 <meta name="description" content="Freesia DEX menghadirkan sepuluh fitur fundamental yang dibutuhkan trader DeFi. Dibangun di atas LitVM dengan prinsip Hard Money Web3. | Ten fundamental DeFi features, built on LitVM." />
-<meta name="keywords" content="Freesia DEX, DEX, decentralized exchange, LitVM, DeFi, crypto, swap, Web3, Hard Money, gasless, MEV protection" />
+<meta name="keywords" content="Freesia DEX, DEX, decentralized exchange, LitVM, DeFi, crypto, swap, Web3, Hard Money, AMM, liquidity pool" />
 <meta name="author" content="Zack" />
 <meta name="theme-color" content="#3B5A53" />
-<link rel="canonical" href="https://freesia.finance/" />
+<link rel="canonical" href="https://freesiadex.xyz/" />
 
 <link rel="icon" type="image/x-icon" href="./favicon.ico" />
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
@@ -19,8 +19,8 @@
 <meta property="og:site_name" content="Freesia DEX" />
 <meta property="og:title" content="Freesia DEX — Trade Freely on LitVM" />
 <meta property="og:description" content="Ten fundamental DeFi features traders need, built on LitVM with Hard Money Web3 principles." />
-<meta property="og:url" content="https://freesia.finance/" />
-<meta property="og:image" content="https://freesia.finance/og-image.jpg" />
+<meta property="og:url" content="https://freesiadex.xyz/" />
+<meta property="og:image" content="https://freesiadex.xyz/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -28,7 +28,7 @@
 <meta name="twitter:creator" content="@0xzackbh" />
 <meta name="twitter:title" content="Freesia DEX — Trade Freely on LitVM" />
 <meta name="twitter:description" content="Ten fundamental DeFi features traders need, built on LitVM." />
-<meta name="twitter:image" content="https://freesia.finance/og-image.jpg" />
+<meta name="twitter:image" content="https://freesiadex.xyz/og-image.jpg" />
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -65,6 +65,59 @@
     .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
     * { animation:none !important; }
   }
+
+  /* ── Logo bunga Freesia (sama dengan DEX) ── */
+  .freesia-mark { width:34px; height:34px; flex-shrink:0; display:block;
+    filter:drop-shadow(0 0 5px rgba(73,183,107,0.30));
+    animation:markGlow 3s ease-in-out infinite; transform-origin:center; }
+  @keyframes markGlow {
+    0%,100% { filter:drop-shadow(0 0 3px rgba(73,183,107,0.25)); transform:scale(1); }
+    50%     { filter:drop-shadow(0 0 9px rgba(73,183,107,0.45)); transform:scale(1.04); }
+  }
+  .brand-text { display:inline-flex; align-items:baseline; gap:6px; letter-spacing:-0.01em; font-size:19px; font-weight:800; }
+  .brand-name { background:linear-gradient(100deg,#2E6F68 0%,#49B76B 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    -webkit-text-fill-color:transparent; font-weight:800; }
+  .brand-suffix { color:#5C7A73; font-weight:700; font-size:0.86em; letter-spacing:0.06em; }
+
+  /* Footer bertema gelap: warnai ulang agar tetap terbaca */
+  footer .brand-name { background:linear-gradient(100deg,#8CDCCB 0%,#49B76B 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
+
+  @media (max-width:400px) {
+    .freesia-mark { width:30px; height:30px; }
+    .brand-text { font-size:17px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .freesia-mark { animation:none; }
+  }
+
+  /* ── Menu mobile / tablet ── */
+  .menu-btn { width:40px; height:40px; display:flex; flex-direction:column; justify-content:center;
+    align-items:center; gap:5px; border:1px solid rgba(0,0,0,0.08); background:#EEF1F2;
+    border-radius:10px; cursor:pointer; padding:0; transition:background .2s; }
+  .menu-btn:hover { background:#E3E9E6; }
+  .menu-btn span { display:block; width:18px; height:2px; background:#3B5A53; border-radius:2px;
+    transition:transform .3s ease, opacity .2s ease; }
+  .menu-btn.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+  .menu-btn.open span:nth-child(2) { opacity:0; }
+  .menu-btn.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu { display:none; flex-direction:column; gap:2px; padding:10px 20px 18px;
+    background:#FFFFFF; border-top:1px solid rgba(0,0,0,0.06);
+    box-shadow:0 12px 24px -12px rgba(20,43,37,0.18); }
+  .mobile-menu.open { display:flex; animation:menuDrop .25s ease-out; }
+  @keyframes menuDrop { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
+  .mobile-menu a { padding:13px 6px; font-size:15px; font-weight:600; color:#5C7A73;
+    text-decoration:none; border-bottom:1px solid rgba(0,0,0,0.05); transition:color .2s; }
+  .mobile-menu a:last-of-type { border-bottom:none; }
+  .mobile-menu a:hover { color:#49B76B; }
+  .mobile-menu .menu-launch { margin-top:12px; text-align:center; background:#3B5A53; color:#fff;
+    border-radius:999px; padding:13px; font-weight:700; border-bottom:none; }
+  .mobile-menu .menu-launch:hover { background:#49B76B; color:#fff; }
+
+  /* Cegah halaman ikut scroll saat menu terbuka */
+  body.menu-open { overflow:hidden; }
 </style>
 </head>
 <body class="bg-bg-white text-text-primary">
@@ -74,8 +127,8 @@
 <nav class="fixed top-0 inset-x-0 z-50 bg-pure-white/90 backdrop-blur border-b border-black/5">
   <div class="max-w-[1400px] mx-auto px-5 lg:px-12 h-16 flex items-center justify-between">
     <a href="#top" class="flex items-center gap-2.5 no-underline">
-      <div class="w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white" style="background:linear-gradient(135deg,#3B5A53,#49B76B)">F</div>
-      <span class="font-extrabold tracking-[3px] text-text-primary">FREESIA</span>
+      <svg class="freesia-mark" viewBox="0 0 80 80" role="img" aria-label="Freesia"><g transform="translate(40,40)"><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#2E6F68" transform="rotate(-12) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#3E8A80" transform="rotate(48) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#57A99B" transform="rotate(108) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#6FC2B4" transform="rotate(168) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#7FD0C2" transform="rotate(228) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#8CDCCB" transform="rotate(288) scale(0.94)"/></g></svg>
+      <span class="brand-text"><span class="brand-name">Freesia</span> <span class="brand-suffix">DEX</span></span>
     </a>
     <div class="hidden lg:flex items-center gap-7 text-sm font-semibold text-text-secondary">
       <a href="#start" class="hover:text-soft-green no-underline" data-i18n="nav_start">Cara Mulai</a>
@@ -85,13 +138,28 @@
       <a href="#contracts" class="hover:text-soft-green no-underline" data-i18n="nav_contracts">Kontrak</a>
       <a href="#faq" class="hover:text-soft-green no-underline">FAQ</a>
     </div>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2 sm:gap-3">
       <div class="flex items-center gap-1 bg-surface-raised rounded-pill p-1">
         <button onclick="setLang('id')" data-lang-btn="id" class="px-3 py-1 rounded-pill text-xs font-bold">ID</button>
         <button onclick="setLang('en')" data-lang-btn="en" class="px-3 py-1 rounded-pill text-xs font-bold">EN</button>
       </div>
       <a id="nav-launch" href="#" target="_blank" rel="noopener noreferrer" class="hidden sm:flex items-center h-10 px-5 rounded-pill bg-deep-teal text-white font-semibold text-sm hover:bg-soft-green transition no-underline">Launch App</a>
+      <!-- Tombol menu: tampil di HP & tablet (di bawah lg) -->
+      <button id="menuBtn" class="menu-btn lg:hidden" aria-label="Buka menu" aria-expanded="false" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </div>
+
+  <!-- Panel menu mobile/tablet -->
+  <div id="mobileMenu" class="mobile-menu lg:hidden" aria-hidden="true">
+    <a href="#start"      onclick="closeMenu()" data-i18n="nav_start">Cara Mulai</a>
+    <a href="#features"   onclick="closeMenu()" data-i18n="nav_features">Fitur</a>
+    <a href="#tokenomics" onclick="closeMenu()">Tokenomics</a>
+    <a href="#roadmap"    onclick="closeMenu()">Roadmap</a>
+    <a href="#contracts"  onclick="closeMenu()" data-i18n="nav_contracts">Kontrak</a>
+    <a href="#faq"        onclick="closeMenu()">FAQ</a>
+    <a id="menu-launch" href="#" target="_blank" rel="noopener noreferrer" class="menu-launch" onclick="closeMenu()">Launch App →</a>
   </div>
 </nav>
 
@@ -104,7 +172,7 @@
       <span class="w-2 h-2 rounded-full bg-bright-mint animate-pulse"></span>
       <span data-i18n="hero_badge">Testnet Live · LitVM</span>
     </div>
-    <h1 class="font-extrabold text-white leading-[0.95] tracking-tight mb-5" style="font-size:clamp(3rem,8vw,6rem)">
+    <h1 class="font-extrabold text-white leading-[0.95] tracking-tight mb-5" style="font-size:clamp(2rem,7.5vw,6rem)">
       <span data-i18n="hero_h1a">DEX yang Seharusnya</span><br />
       <span class="text-bright-mint" data-i18n="hero_h1b">Sudah Ada</span>
     </h1>
@@ -140,7 +208,7 @@
         <span id="live-dot" class="w-2 h-2 rounded-full bg-text-secondary/40"></span>
         <span data-i18n="live_badge">Data Langsung</span>
       </div>
-      <h2 class="font-bold tracking-tight" style="font-size:clamp(1.8rem,3.5vw,2.6rem)"><span data-i18n="live_title">Statistik On-Chain</span></h2>
+      <h2 class="font-bold tracking-tight" style="font-size:clamp(1.5rem,3.5vw,2.6rem)"><span data-i18n="live_title">Statistik On-Chain</span></h2>
       <p class="text-text-secondary text-sm mt-2" id="live-note" data-i18n="live_note">Diambil langsung dari smart contract.</p>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -169,7 +237,7 @@
   <div class="max-w-[1400px] mx-auto px-5 lg:px-12">
     <div class="text-center mb-12">
       <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="feat_badge">Fitur</div>
-      <h2 class="font-bold tracking-tight" style="font-size:clamp(2rem,4vw,3rem)"><span data-i18n="feat_title">Sepuluh Fitur yang Hilang</span></h2>
+      <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="feat_title">Yang Bisa Anda Lakukan</span></h2>
     </div>
     <div id="features-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
   </div>
@@ -180,7 +248,7 @@
   <div class="max-w-[1400px] mx-auto px-5 lg:px-12 grid lg:grid-cols-2 gap-12 items-center">
     <div>
       <div class="text-soft-green font-mono text-xs uppercase tracking-widest mb-3">Tokenomics</div>
-      <h2 class="font-bold tracking-tight mb-4" style="font-size:clamp(2rem,4vw,3rem)"><span data-i18n="tok_title">Ekonomi Token</span> <span class="text-soft-green">veMBG</span></h2>
+      <h2 class="font-bold tracking-tight mb-4" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="tok_title">Ekonomi Token</span> <span class="text-soft-green">veMBG</span></h2>
       <p class="text-text-secondary leading-relaxed mb-8 max-w-lg" data-i18n="tok_sub">Model vote-escrowed yang memberdayakan komunitas untuk mengarahkan insentif dan mengamankan protokol jangka panjang.</p>
       <div id="tok-list" class="space-y-5"></div>
     </div>
@@ -206,7 +274,7 @@
   <div class="max-w-[1000px] mx-auto px-5 lg:px-12">
     <div class="text-center mb-12">
       <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3">Roadmap</div>
-      <h2 class="font-bold tracking-tight" style="font-size:clamp(2rem,4vw,3rem)"><span data-i18n="road_title">Jalan Menuju Mainnet</span></h2>
+      <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="road_title">Jalan Menuju Mainnet</span></h2>
     </div>
     <div id="roadmap-list" class="space-y-4"></div>
   </div>
@@ -217,7 +285,7 @@
   <div class="max-w-[1400px] mx-auto px-5 lg:px-12">
     <div class="text-center mb-12">
       <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="sec_badge">Keamanan</div>
-      <h2 class="font-bold tracking-tight" style="font-size:clamp(2rem,4vw,3rem)"><span data-i18n="sec_title">Keamanan Sejak Hari Pertama</span></h2>
+      <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="sec_title">Keamanan Sejak Hari Pertama</span></h2>
     </div>
     <div id="security-grid" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
   </div>
@@ -228,7 +296,7 @@
   <div class="max-w-[1000px] mx-auto px-5 lg:px-12">
     <div class="text-center mb-12">
       <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="start_badge">Panduan</div>
-      <h2 class="font-bold tracking-tight" style="font-size:clamp(2rem,4vw,3rem)"><span data-i18n="start_title">Cara Mulai dalam 3 Langkah</span></h2>
+      <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="start_title">Cara Mulai dalam 3 Langkah</span></h2>
       <p class="text-text-secondary mt-3 max-w-xl mx-auto" data-i18n="start_sub">Dari nol sampai menghasilkan reward FREE. Butuh beberapa menit saja.</p>
     </div>
     <div id="steps-list" class="grid md:grid-cols-3 gap-5 mb-10"></div>
@@ -249,7 +317,7 @@
   <div class="max-w-[1000px] mx-auto px-5 lg:px-12">
     <div class="text-center mb-12">
       <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="con_badge">Transparansi</div>
-      <h2 class="font-bold tracking-tight" style="font-size:clamp(2rem,4vw,3rem)"><span data-i18n="con_title">Kontrak &amp; Jaringan</span></h2>
+      <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="con_title">Kontrak &amp; Jaringan</span></h2>
       <p class="text-text-secondary mt-3 max-w-xl mx-auto" data-i18n="con_sub">Semua kontrak terbuka untuk diperiksa. Jangan percaya, verifikasi sendiri.</p>
     </div>
     <div class="bg-bg-white border border-black/5 rounded-2xl p-5 mb-5 flex items-center justify-between flex-wrap gap-3">
@@ -271,7 +339,7 @@
 <section class="bg-bg-white py-20 lg:py-28">
   <div class="max-w-[760px] mx-auto px-5 lg:px-12">
     <div class="text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="dev_badge">Dari Pengembang</div>
-    <h2 class="font-bold tracking-tight mb-6" style="font-size:clamp(1.8rem,4vw,2.6rem)"><span data-i18n="dev_title">Dibangun dengan</span> <span class="text-soft-green" data-i18n="dev_heart">Hati</span><span data-i18n="dev_title2">, Bukan Modal Besar</span></h2>
+    <h2 class="font-bold tracking-tight mb-6" style="font-size:clamp(1.5rem,4vw,2.6rem)"><span data-i18n="dev_title">Dibangun dengan</span> <span class="text-soft-green" data-i18n="dev_heart">Hati</span><span data-i18n="dev_title2">, Bukan Modal Besar</span></h2>
     <p class="text-text-primary leading-relaxed mb-4" data-i18n="dev_p1">Freesia DEX adalah proyek solo yang saya bangun dari nol di atas LitVM. Setiap baris kode, desain, dan keputusan berasal dari pengalaman saya sendiri sebagai trader DeFi yang frustrasi dengan fitur dasar yang masih hilang di DEX besar.</p>
     <p class="text-text-primary leading-relaxed mb-4" data-i18n="dev_p2">Saat ini kami di fase testnet. Tidak ada angka TVL yang dibesar-besarkan, tidak ada testimonial palsu — hanya kode nyata yang terus berkembang. Saya percaya transparansi adalah fondasi protokol DeFi yang sehat.</p>
     <p class="text-text-secondary italic leading-relaxed mb-8" data-i18n="dev_p3">"Kalau kamu percaya pada visi DEX yang benar-benar user-first, bergabunglah sebagai early tester. Feedback-mu akan membentuk fitur-fitur berikutnya."</p>
@@ -291,7 +359,7 @@
   <div class="max-w-[760px] mx-auto px-5 lg:px-12">
     <div class="text-center mb-12">
       <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="faq_badge">Pertanyaan Umum</div>
-      <h2 class="font-bold tracking-tight" style="font-size:clamp(2rem,4vw,3rem)">FAQ</h2>
+      <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)">FAQ</h2>
     </div>
     <div id="faq-list" class="space-y-3"></div>
   </div>
@@ -300,7 +368,7 @@
 <!-- ===== CTA ===== -->
 <section class="py-20 lg:py-28 px-5">
   <div class="max-w-[900px] mx-auto rounded-3xl text-center px-6 py-16" style="background:linear-gradient(135deg,#3B5A53,#142B25)">
-    <h2 class="font-extrabold text-white tracking-tight mb-4" style="font-size:clamp(2rem,4vw,3rem)"><span data-i18n="cta_title">Siap untuk Masa Depan DeFi?</span></h2>
+    <h2 class="font-extrabold text-white tracking-tight mb-4" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="cta_title">Siap untuk Masa Depan DeFi?</span></h2>
     <p class="text-white/85 max-w-lg mx-auto leading-relaxed mb-8" data-i18n="cta_sub">Bergabunglah dengan early access list. Jadilah yang pertama merasakan DEX yang seharusnya sudah ada sejak lama.</p>
     <div class="flex flex-wrap gap-4 justify-center">
       <a id="cta-launch" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill bg-bright-mint text-deep-teal font-bold text-[15px] hover:scale-[1.03] transition inline-flex items-center gap-2 no-underline"><span data-i18n="btn_enter">Masuk ke App</span> →</a>
@@ -315,8 +383,8 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-10 text-sm">
       <div class="col-span-2 lg:col-span-1">
         <div class="flex items-center gap-2.5 mb-4">
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-white" style="background:linear-gradient(135deg,#3B5A53,#49B76B)">F</div>
-          <span class="font-extrabold tracking-[3px]">FREESIA</span>
+          <svg class="freesia-mark" viewBox="0 0 80 80" role="img" aria-label="Freesia"><g transform="translate(40,40)"><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#2E6F68" transform="rotate(-12) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#3E8A80" transform="rotate(48) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#57A99B" transform="rotate(108) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#6FC2B4" transform="rotate(168) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#7FD0C2" transform="rotate(228) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#8CDCCB" transform="rotate(288) scale(0.94)"/></g></svg>
+          <span class="brand-text"><span class="brand-name">Freesia</span> <span class="brand-suffix">DEX</span></span>
         </div>
         <p class="text-text-secondary leading-relaxed max-w-[260px]" data-i18n="foot_desc">DEX generasi berikutnya yang memperbaiki apa yang hilang. Dibangun di atas LitVM — Hard Money Web3.</p>
       </div>
@@ -353,7 +421,7 @@
 /* ============ SITE CONFIG — GANTI nilai di bawah ============ */
 var CONFIG = {
   DEX_URL:  "https://freesia-black.vercel.app",  // DEX utama (sudah benar)
-  DOCS_URL: "https://docs.freesia.finance",      // GANTI: URL dokumentasi
+  DOCS_URL: "https://docs.freesiadex.xyz",      // GANTI: URL dokumentasi
   X:        "https://x.com/0xzackbh",
   GITHUB:   "https://github.com/Muhammadzack",
   TELEGRAM: "#",
@@ -381,7 +449,7 @@ var CHAIN = {
 
 /* ============ DATA ============ */
 var FEATURES = [
-  {ic:"🛡️", t:"Shielded Swap", id:"Toggle proteksi MEV yang bisa Anda aktif/nonaktifkan sendiri di setiap swap, dengan biaya proteksi transparan (0.05%).", en:"An MEV-protection toggle you can switch on or off for each swap, with a transparent protection fee (0.05%)."},
+  {ic:"🛡️", t:"Shielded Swap (Segera)", id:"Proteksi MEV terhadap sandwich attack. Belum aktif — membutuhkan private relay atau perubahan smart contract, dan masih dalam roadmap.", en:"MEV protection against sandwich attacks. Not active yet — requires a private relay or smart contract changes, still on the roadmap."},
   {ic:"📈", t:"Live Price Chart", id:"Grafik pergerakan harga pasangan token secara real-time langsung di halaman swap.", en:"Real-time price movement chart for the token pair, right on the swap page."},
   {ic:"🎚️", t:"Slippage Control", id:"Atur toleransi slippage sesuai kebutuhan Anda — preset cepat atau nilai custom.", en:"Set your own slippage tolerance — quick presets or a custom value."},
   {ic:"💧", t:"Add / Remove Liquidity", id:"Sediakan likuiditas ke pool USDC/DAI dan tarik kembali kapan saja, langsung on-chain.", en:"Provide liquidity to the USDC/DAI pool and withdraw anytime, fully on-chain."},
@@ -400,7 +468,7 @@ var TOK = [
 ];
 
 var ROADMAP = [
-  {p:"Phase 1", t:"Core Execution", f:"AMM Swap + Shielded Swap", id:"Fondasi DEX dengan constant-product AMM. Swap, Pool, dan Earn sudah berjalan di testnet, lengkap dengan toggle proteksi MEV.", en:"DEX foundation with a constant-product AMM. Swap, Pool, and Earn are already live on testnet, complete with an MEV-protection toggle.", tId:"Selesai", tEn:"Done", active:true},
+  {p:"Phase 1", t:"Core Execution", f:"AMM Swap + Pool + Earn", id:"Fondasi DEX dengan constant-product AMM. Swap, Pool, dan Earn sudah berjalan di testnet. Proteksi MEV menyusul di fase berikutnya.", en:"DEX foundation with a constant-product AMM. Swap, Pool, and Earn are live on testnet. MEV protection comes in the next phase.", tId:"Selesai", tEn:"Done", active:true},
   {p:"Phase 2", t:"Smart Trading", f:"Conditional Orders + PnL Analytics", id:"Stop Loss, Take Profit, dan Trailing Stop sepenuhnya on-chain. Dashboard PnL real-time dan tax reporting.", en:"Stop Loss, Take Profit, and Trailing Stop fully on-chain. Real-time PnL dashboard and tax reporting.", tId:"2-3 Bulan", tEn:"2-3 Months", active:false},
   {p:"Phase 3", t:"Cross-Chain Privacy", f:"Privacy Pools + Cross-Chain Orders", id:"Integrasi zk-proofs untuk privacy-preserving trading dan atomic settlement cross-chain.", en:"Integration of zk-proofs for privacy-preserving trading and atomic settlement cross-chain.", tId:"3-5 Bulan", tEn:"3-5 Months", active:false},
   {p:"Phase 4", t:"Safety Net", f:"Social Recovery + Panic Button", id:"Recovery aset melalui guardian network dan one-click emergency exit untuk melindungi user.", en:"Asset recovery through guardian network and one-click emergency exit to protect users.", tId:"5-7 Bulan", tEn:"5-7 Months", active:false},
@@ -486,7 +554,7 @@ var I18N = {
   hero_badge:["Testnet Live · LitVM","Testnet Live · LitVM"],
   hero_h1a:["DEX Sederhana yang","A Simple DEX That"],
   hero_h1b:["Benar-Benar Berjalan","Actually Works"],
-  hero_sub:["Freesia DEX adalah AMM ringan di LitVM: swap dengan proteksi MEV opsional, sediakan likuiditas, dan stake LP untuk reward FREE. Semua on-chain, semua bisa diverifikasi.","Freesia DEX is a lightweight AMM on LitVM: swap with optional MEV protection, provide liquidity, and stake LP for FREE rewards. All on-chain, all verifiable."],
+  hero_sub:["Freesia DEX adalah AMM ringan di LitVM: swap token, sediakan likuiditas, dan stake LP untuk reward FREE. Semua on-chain, semua bisa diverifikasi.","Freesia DEX is a lightweight AMM on LitVM: swap tokens, provide liquidity, and stake LP for FREE rewards. All on-chain, all verifiable."],
   btn_launch:["Launch App","Launch App"], btn_enter:["Masuk ke App","Enter App"], btn_docs:["Baca Dokumentasi","Read Documentation"],
   st1l:["Fase","Phase"], st1v:["Testnet","Testnet"], st1s:["Pengembangan aktif","Active Development"],
   st2l:["Pengembang","Developer"], st2s:["Open source & transparan","Open source & transparent"],
@@ -564,9 +632,42 @@ function toggleFaq(i){
   items[i].classList.toggle("open");
 }
 
+/* ── Menu mobile / tablet ── */
+function toggleMenu(){
+  var menu = document.getElementById('mobileMenu');
+  var btn  = document.getElementById('menuBtn');
+  if(!menu || !btn) return;
+  var willOpen = !menu.classList.contains('open');
+  menu.classList.toggle('open', willOpen);
+  btn.classList.toggle('open', willOpen);
+  btn.setAttribute('aria-expanded', String(willOpen));
+  btn.setAttribute('aria-label', willOpen ? 'Tutup menu' : 'Buka menu');
+  menu.setAttribute('aria-hidden', String(!willOpen));
+  document.body.classList.toggle('menu-open', willOpen);
+}
+function closeMenu(){
+  var menu = document.getElementById('mobileMenu');
+  var btn  = document.getElementById('menuBtn');
+  if(!menu || !btn) return;
+  menu.classList.remove('open');
+  btn.classList.remove('open');
+  btn.setAttribute('aria-expanded','false');
+  btn.setAttribute('aria-label','Buka menu');
+  menu.setAttribute('aria-hidden','true');
+  document.body.classList.remove('menu-open');
+}
+// Tutup menu kalau layar melebar ke ukuran desktop (menu desktop muncul lagi)
+window.addEventListener('resize', function(){
+  if(window.innerWidth >= 1024) closeMenu();
+});
+// Tutup dengan tombol Escape
+window.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeMenu();
+});
+
 function applyLinks(){
   var m = {
-    "nav-launch":CONFIG.DEX_URL, "hero-launch":CONFIG.DEX_URL, "cta-launch":CONFIG.DEX_URL, "foot-launch":CONFIG.DEX_URL, "start-launch":CONFIG.DEX_URL,
+    "nav-launch":CONFIG.DEX_URL, "hero-launch":CONFIG.DEX_URL, "cta-launch":CONFIG.DEX_URL, "foot-launch":CONFIG.DEX_URL, "start-launch":CONFIG.DEX_URL, "menu-launch":CONFIG.DEX_URL,
     "hero-x":CONFIG.X, "dev-x":CONFIG.X, "foot-x":CONFIG.X,
     "dev-gh":CONFIG.GITHUB, "foot-gh":CONFIG.GITHUB,
     "cta-docs":CONFIG.DOCS_URL, "foot-docs":CONFIG.DOCS_URL,
