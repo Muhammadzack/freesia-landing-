@@ -1,3 +1,23 @@
+## v5 — Perbaikan URL block explorer (terbaru)
+
+**Bug dilaporkan pengguna:** tombol "Lihat ↗" pada bagian Kontrak & Transparansi
+mengarah ke halaman **404**.
+
+Penyebabnya: subdomain `explorer.` hilang dari URL.
+
+| | Salah | Benar |
+|---|---|---|
+| Domain | `liteforge.caldera.xyz` | `liteforge.explorer.caldera.xyz` |
+
+Path `/address/` sudah benar — diverifikasi bekerja untuk **semua** kontrak
+(pool, staking, maupun token), sedangkan `/token/` hanya cocok untuk token.
+
+**Catatan:** bug yang sama juga memengaruhi **DEX** — link "Confirmed" di riwayat
+transaksi dan tombol "View ↗" setelah swap berhasil. Pengguna yang baru saja swap
+dan ingin melihat buktinya juga kena 404. Sudah diperbaiki di kedua tempat.
+
+---
+
 # Freesia DEX — Landing Page
 
 Live di: https://freesiadex.xyz
