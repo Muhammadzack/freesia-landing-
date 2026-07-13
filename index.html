@@ -66,7 +66,7 @@
     * { animation:none !important; }
   }
 
-  /* ── Logo bunga Freesia (sama dengan DEX) ── */
+  /* -- Logo bunga Freesia (sama dengan DEX) -- */
   .freesia-mark { width:34px; height:34px; flex-shrink:0; display:block;
     filter:drop-shadow(0 0 5px rgba(73,183,107,0.30));
     animation:markGlow 3s ease-in-out infinite; transform-origin:center; }
@@ -92,7 +92,7 @@
     .freesia-mark { animation:none; }
   }
 
-  /* ── Menu mobile / tablet ── */
+  /* -- Menu mobile / tablet -- */
   .menu-btn { width:40px; height:40px; display:flex; flex-direction:column; justify-content:center;
     align-items:center; gap:5px; border:1px solid rgba(0,0,0,0.08); background:#EEF1F2;
     border-radius:10px; cursor:pointer; padding:0; transition:background .2s; }
@@ -133,7 +133,7 @@
     <div class="hidden lg:flex items-center gap-7 text-sm font-semibold text-text-secondary">
       <a href="#start" class="hover:text-soft-green no-underline" data-i18n="nav_start">Cara Mulai</a>
       <a href="#features" class="hover:text-soft-green no-underline" data-i18n="nav_features">Fitur</a>
-      <a href="#tokenomics" class="hover:text-soft-green no-underline">Tokenomics</a>
+      <a href="#tokenomics" class="hover:text-soft-green no-underline">Keberlanjutan</a>
       <a href="#roadmap" class="hover:text-soft-green no-underline">Roadmap</a>
       <a href="#contracts" class="hover:text-soft-green no-underline" data-i18n="nav_contracts">Kontrak</a>
       <a href="#faq" class="hover:text-soft-green no-underline">FAQ</a>
@@ -155,11 +155,11 @@
   <div id="mobileMenu" class="mobile-menu lg:hidden" aria-hidden="true">
     <a href="#start"      onclick="closeMenu()" data-i18n="nav_start">Cara Mulai</a>
     <a href="#features"   onclick="closeMenu()" data-i18n="nav_features">Fitur</a>
-    <a href="#tokenomics" onclick="closeMenu()">Tokenomics</a>
+    <a href="#tokenomics" onclick="closeMenu()">Keberlanjutan</a>
     <a href="#roadmap"    onclick="closeMenu()">Roadmap</a>
     <a href="#contracts"  onclick="closeMenu()" data-i18n="nav_contracts">Kontrak</a>
     <a href="#faq"        onclick="closeMenu()">FAQ</a>
-    <a id="menu-launch" href="#" target="_blank" rel="noopener noreferrer" class="menu-launch" onclick="closeMenu()">Launch App →</a>
+    <a id="menu-launch" href="#" target="_blank" rel="noopener noreferrer" class="menu-launch" onclick="closeMenu()">Launch App &rarr;</a>
   </div>
 </nav>
 
@@ -170,7 +170,7 @@
   <div class="relative max-w-3xl mx-auto">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white/10 border border-white/20 text-white/90 text-xs font-mono mb-6">
       <span class="w-2 h-2 rounded-full bg-bright-mint animate-pulse"></span>
-      <span data-i18n="hero_badge">Testnet Live · LitVM</span>
+      <span data-i18n="hero_badge">Testnet Live &middot; LitVM</span>
     </div>
     <h1 class="font-extrabold text-white leading-[0.95] tracking-tight mb-5" style="font-size:clamp(2rem,7.5vw,6rem)">
       <span data-i18n="hero_h1a">DEX yang Seharusnya</span><br />
@@ -181,10 +181,10 @@
     </p>
     <div class="flex flex-wrap gap-4 justify-center">
       <a id="hero-launch" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill bg-bright-mint text-deep-teal font-bold text-[15px] hover:scale-[1.03] transition inline-flex items-center gap-2 no-underline">
-        <span data-i18n="btn_launch">Launch App</span> →
+        <span data-i18n="btn_launch">Launch App</span> &rarr;
       </a>
       <a id="hero-x" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill border border-white/50 text-white font-semibold text-[15px] hover:bg-white/10 transition inline-flex items-center gap-2 no-underline">
-        ↗ Follow on X
+        &#8599; Follow on X
       </a>
     </div>
   </div>
@@ -195,7 +195,7 @@
   <div class="max-w-[1400px] mx-auto px-5 lg:px-12 py-8 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
     <div><div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-1.5" data-i18n="st1l">Fase</div><div class="font-bold text-lg" data-i18n="st1v">Testnet</div><div class="text-text-secondary text-xs" data-i18n="st1s">Pengembangan aktif</div></div>
     <div><div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-1.5" data-i18n="st2l">Pengembang</div><div class="font-bold text-lg">Solo</div><div class="text-text-secondary text-xs" data-i18n="st2s">Open source &amp; transparan</div></div>
-    <div><div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-1.5" data-i18n="st3l">Arsitektur</div><div class="font-bold text-lg">AMM</div><div class="text-text-secondary text-xs">Constant Product (x·y=k)</div></div>
+    <div><div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-1.5" data-i18n="st3l">Arsitektur</div><div class="font-bold text-lg">AMM</div><div class="text-text-secondary text-xs">Constant Product (x&middot;y=k)</div></div>
     <div><div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-1.5">Blockchain</div><div class="font-bold text-lg">LitVM</div><div class="text-text-secondary text-xs">Hard Money Web3</div></div>
   </div>
 </div>
@@ -210,6 +210,10 @@
       </div>
       <h2 class="font-bold tracking-tight" style="font-size:clamp(1.5rem,3.5vw,2.6rem)"><span data-i18n="live_title">Statistik On-Chain</span></h2>
       <p class="text-text-secondary text-sm mt-2" id="live-note" data-i18n="live_note">Diambil langsung dari smart contract.</p>
+      <div class="inline-flex items-center gap-2 mt-3 px-3 py-1 rounded-pill bg-soft-green/10 border border-soft-green/30 text-soft-green text-xs font-semibold">
+        <span class="w-1.5 h-1.5 rounded-full bg-soft-green"></span>
+        <span data-i18n="dia_badge">Harga terverifikasi oleh DIA — oracle resmi LitVM</span>
+      </div>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="bg-pure-white rounded-2xl p-6 border border-black/5 text-center">
@@ -243,27 +247,39 @@
   </div>
 </section>
 
-<!-- ===== TOKENOMICS ===== -->
+<!-- ===== KEBERLANJUTAN ===== -->
 <section id="tokenomics" class="bg-pure-white py-20 lg:py-28">
   <div class="max-w-[1400px] mx-auto px-5 lg:px-12 grid lg:grid-cols-2 gap-12 items-center">
     <div>
-      <div class="text-soft-green font-mono text-xs uppercase tracking-widest mb-3">Tokenomics</div>
-      <h2 class="font-bold tracking-tight mb-4" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="tok_title">Ekonomi Token</span> <span class="text-soft-green">veMBG</span></h2>
-      <p class="text-text-secondary leading-relaxed mb-8 max-w-lg" data-i18n="tok_sub">Model vote-escrowed yang memberdayakan komunitas untuk mengarahkan insentif dan mengamankan protokol jangka panjang.</p>
+      <div class="text-soft-green font-mono text-xs uppercase tracking-widest mb-3">Keberlanjutan</div>
+      <h2 class="font-bold tracking-tight mb-4" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="tok_title">Model</span> <span class="text-soft-green">Keberlanjutan</span></h2>
+      <p class="text-text-secondary leading-relaxed mb-8 max-w-lg" data-i18n="tok_sub">Bagaimana Freesia bertahan tanpa mengorbankan pengguna. Fokus pada fee yang adil dan dukungan ekosistem — bukan mencetak token untuk hype.</p>
       <div id="tok-list" class="space-y-5"></div>
     </div>
     <div class="flex flex-col items-center">
-      <svg viewBox="0 0 200 200" class="w-[260px] h-[260px] -rotate-90">
-        <circle cx="100" cy="100" r="80" fill="none" stroke="#49B76B" stroke-width="24" stroke-dasharray="201 302" stroke-dashoffset="0" stroke-linecap="round"/>
-        <circle cx="100" cy="100" r="80" fill="none" stroke="#3B5A53" stroke-width="24" stroke-dasharray="126 377" stroke-dashoffset="-201" stroke-linecap="round"/>
-        <circle cx="100" cy="100" r="80" fill="none" stroke="#142B25" stroke-width="24" stroke-dasharray="75 428" stroke-dashoffset="-327" stroke-linecap="round"/>
-        <circle cx="100" cy="100" r="80" fill="none" stroke="#D4FF5C" stroke-width="24" stroke-dasharray="101 402" stroke-dashoffset="-402" stroke-linecap="round"/>
-      </svg>
-      <div class="flex flex-wrap justify-center gap-x-5 gap-y-2 mt-6 text-sm">
-        <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full" style="background:#49B76B"></span>Liquidity Mining <b class="font-mono">40%</b></span>
-        <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full" style="background:#3B5A53"></span>Treasury <b class="font-mono">25%</b></span>
-        <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full" style="background:#142B25"></span>Team <b class="font-mono">15%</b></span>
-        <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full" style="background:#D4FF5C"></span>Community <b class="font-mono">20%</b></span>
+      <div class="w-full max-w-[340px] space-y-3">
+        <div class="bg-bg-white rounded-2xl p-5 border border-black/5">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-semibold text-sm" data-i18n="sus_fee_now">Fee swap saat ini</span>
+            <span class="font-mono text-soft-green font-bold">100% &rarr; LP</span>
+          </div>
+          <div class="h-2 rounded-full bg-surface-raised overflow-hidden"><div class="h-full rounded-full" style="width:100%;background:#49B76B"></div></div>
+        </div>
+        <div class="bg-bg-white rounded-2xl p-5 border border-black/5">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-semibold text-sm" data-i18n="sus_fee_future">Protocol fee (masa depan)</span>
+            <span class="font-mono text-text-secondary font-bold" data-i18n="sus_max">maks 1/6</span>
+          </div>
+          <div class="h-2 rounded-full bg-surface-raised overflow-hidden"><div class="h-full rounded-full" style="width:16.6%;background:#3B5A53"></div></div>
+          <div class="text-text-secondary text-xs mt-2" data-i18n="sus_off">Dimatikan default. LP selalu dapat minimal 5/6 fee.</div>
+        </div>
+        <div class="bg-bg-white rounded-2xl p-5 border border-black/5">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-semibold text-sm" data-i18n="sus_treasury">Sumber treasury awal</span>
+            <span class="font-mono text-soft-green font-bold" data-i18n="sus_eco">Ekosistem</span>
+          </div>
+          <div class="text-text-secondary text-xs mt-1" data-i18n="sus_grant">Grant &amp; kredit audit LitVM — bukan fee pengguna.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -287,7 +303,7 @@
       <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="sec_badge">Keamanan</div>
       <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="sec_title">Keamanan Sejak Hari Pertama</span></h2>
     </div>
-    <div id="security-grid" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
+    <div id="security-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5"></div>
   </div>
 </section>
 
@@ -301,12 +317,12 @@
     </div>
     <div id="steps-list" class="grid md:grid-cols-3 gap-5 mb-10"></div>
     <div class="bg-pure-white border border-black/5 rounded-2xl p-6">
-      <div class="font-semibold mb-3 flex items-center gap-2">💡 <span data-i18n="tips_title">Tips Penting</span></div>
+      <div class="font-semibold mb-3 flex items-center gap-2">&#128161; <span data-i18n="tips_title">Tips Penting</span></div>
       <ul id="tips-list" class="space-y-2 text-sm text-text-secondary"></ul>
     </div>
     <div class="text-center mt-10">
       <a id="start-launch" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill bg-deep-teal text-white font-bold text-[15px] hover:bg-soft-green transition inline-flex items-center gap-2 no-underline">
-        <span data-i18n="start_cta">Mulai Sekarang</span> →
+        <span data-i18n="start_cta">Mulai Sekarang</span> &rarr;
       </a>
     </div>
   </div>
@@ -371,7 +387,7 @@
     <h2 class="font-extrabold text-white tracking-tight mb-4" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="cta_title">Siap untuk Masa Depan DeFi?</span></h2>
     <p class="text-white/85 max-w-lg mx-auto leading-relaxed mb-8" data-i18n="cta_sub">Bergabunglah dengan early access list. Jadilah yang pertama merasakan DEX yang seharusnya sudah ada sejak lama.</p>
     <div class="flex flex-wrap gap-4 justify-center">
-      <a id="cta-launch" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill bg-bright-mint text-deep-teal font-bold text-[15px] hover:scale-[1.03] transition inline-flex items-center gap-2 no-underline"><span data-i18n="btn_enter">Masuk ke App</span> →</a>
+      <a id="cta-launch" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill bg-bright-mint text-deep-teal font-bold text-[15px] hover:scale-[1.03] transition inline-flex items-center gap-2 no-underline"><span data-i18n="btn_enter">Masuk ke App</span> &rarr;</a>
       <a id="cta-docs" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill border border-white/50 text-white font-semibold text-[15px] hover:bg-white/10 transition inline-flex items-center no-underline"><span data-i18n="btn_docs">Baca Dokumentasi</span></a>
     </div>
   </div>
@@ -393,7 +409,7 @@
         <div class="flex flex-col gap-2 text-text-secondary">
           <a id="foot-launch" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline">Launch App</a>
           <a href="#features" class="hover:text-soft-green no-underline" data-i18n="nav_features">Fitur</a>
-          <a href="#tokenomics" class="hover:text-soft-green no-underline">Tokenomics</a>
+          <a href="#tokenomics" class="hover:text-soft-green no-underline">Keberlanjutan</a>
           <a href="#roadmap" class="hover:text-soft-green no-underline">Roadmap</a>
         </div>
       </div>
@@ -420,27 +436,25 @@
 <script>
 /* ============ SITE CONFIG — GANTI nilai di bawah ============ */
 var CONFIG = {
-  DEX_URL:  "https://app.freesiadex.xyz", // DEX utama (sudah benar)
-  DOCS_URL: "https://docs.freesiadex.xyz",      // GANTI: URL dokumentasi
+  DEX_URL:  "https://app.freesiadex.xyz",
+  DOCS_URL: "https://docs.freesiadex.xyz",
   X:        "https://x.com/0xzackbh",
   GITHUB:   "https://github.com/Muhammadzack",
   TELEGRAM: "#",
   DISCORD:  "#",
 };
 
-/* ===== ON-CHAIN CONFIG — GANTI dengan data jaringan & kontrak Anda =====
-   Kalau dibiarkan kosong (""), bagian Live Stats otomatis menampilkan "—"
-   dan alamat kontrak menampilkan "Segera hadir". Tidak akan error. */
+/* ===== ON-CHAIN CONFIG ===== */
 var CHAIN = {
   RPC_URL:  "https://liteforge.rpc.caldera.xyz/infra-partner-http",
   CHAIN_ID: 4441,
   EXPLORER: "https://liteforge.explorer.caldera.xyz",
   NETWORK_NAME: "LitVM Testnet",
   POOL:    "0x79989f44c13B8ed41a2bA68Cd0a584e158cD11E8",  // SimpleLiquidityPoolV3 (USDC/DAI)
-  STAKING: "0x024f68cc3bb70A41154B9468DA6b8dB2d2A76567",  // Staking / Earn
+  STAKING: "0x5810F270dd7643Caa60858b1f5CC4a250BA38C13",  // Staking / Earn (menunjuk pool V3)
   USDC:    "0x6c567a7Fb7A2b4968D230A644D3C76E731e34837",
   DAI:     "0xd06C4C54837e1BBd458948C45E306DA38b19a0Bc",
-  FREE:    "0x5072FE98CD78604d8750a935fa39039F06b6e800",  // reward token
+  FREE:    "0x5072FE98CD78604d8750a935fa39039F06b6e800",
   FN_TOTAL_SUPPLY: "totalSupply()",
   FN_RESERVE_A:    "reserveA()",
   FN_RESERVE_B:    "reserveB()",
@@ -458,13 +472,14 @@ var FEATURES = [
   {ic:"🔗", t:"Koneksi Wallet Native", id:"Sambungkan wallet Anda (mis. MetaMask) dan otomatis diarahkan ke jaringan LitVM Testnet.", en:"Connect your wallet (e.g. MetaMask) and get automatically switched to LitVM Testnet."},
   {ic:"🕐", t:"Riwayat Transaksi", id:"Lihat riwayat swap Anda di sesi berjalan, lengkap dengan link ke block explorer.", en:"View your swap history for the current session, complete with a block explorer link."},
   {ic:"🔍", t:"Kuotasi On-Chain", id:"Estimasi hasil swap dihitung langsung dari smart contract, bukan simulasi off-chain.", en:"Swap output estimates are computed directly from the smart contract, not an off-chain simulation."},
+  {ic:"📊", t:"Harga Referensi DIA", id:"Harga pasar independen dari DIA (oracle resmi LitVM) ditampilkan di samping harga pool, agar Anda tahu bila swap tidak wajar.", en:"Independent market prices from DIA (LitVM's official oracle) shown next to pool prices, so you know when a swap is off."},
 ];
 
 var TOK = [
-  {t:"Vote-Escrowed Locking", id:"Lock MBG untuk mendapatkan veMBG — semakin lama lock, semakin besar voting power dan reward.", en:"Lock MBG to receive veMBG — the longer the lock, the greater the voting power and rewards."},
-  {t:"Gauge Voting", id:"Pengguna veMBG bisa voting untuk mengarahkan insentif liquidity ke pool pilihan mereka.", en:"veMBG holders can vote to direct liquidity incentives to their preferred pools."},
-  {t:"Bribes & Yield", id:"Protokol dan user bisa memberikan bribes untuk mempengaruhi voting dan mendapatkan yield tambahan.", en:"Protocols and users can offer bribes to influence voting and earn additional yield."},
-  {t:"Protocol-Owned Liquidity", id:"Sebagian fee protokol digunakan untuk membangun POL yang sustainable dan mengurangi ketergantungan pada external LPs.", en:"Portion of protocol fees are used to build sustainable POL, reducing reliance on external LPs."},
+  {t:"Fee 0.3% — 100% ke LP", id:"Saat ini seluruh fee swap mengalir ke penyedia likuiditas, bukan ke protokol. Kami memprioritaskan menarik likuiditas dulu, bukan mengambil untung dari pengguna awal.", en:"Right now, all swap fees flow to liquidity providers, not the protocol. We prioritize attracting liquidity first, not profiting from early users."},
+  {t:"Fee-Switch: Siap, Sengaja Dimatikan", id:"Infrastruktur protocol-fee sudah dirancang (maksimal 1/6 dari fee, meniru Uniswap) tapi dimatikan default. Baru diaktifkan lewat governance saat likuiditas cukup dalam — punya sakelar bukan berarti menyalakannya.", en:"Protocol-fee infrastructure is designed (max 1/6 of fees, mirroring Uniswap) but off by default. Only enabled via governance once liquidity is deep enough — having the switch doesn't mean flipping it."},
+  {t:"Treasury dari Insentif Ekosistem", id:"Keberlanjutan awal berasal dari dukungan ekosistem LitVM (grant, kredit audit), bukan dari memeras fee pengguna saat komunitas masih kecil.", en:"Early sustainability comes from LitVM ecosystem support (grants, audit credits), not from squeezing user fees while the community is small."},
+  {t:"Reward FREE dengan Periode Jelas", id:"Reward staking berjalan dalam periode terbatas waktu yang transparan — bukan janji imbal hasil tak terbatas yang tidak berkelanjutan.", en:"Staking rewards run in transparent, time-bounded periods — not unsustainable promises of infinite yield."},
 ];
 
 var ROADMAP = [
@@ -476,9 +491,10 @@ var ROADMAP = [
 ];
 
 var SECURITY = [
-  {ic:"✅", t:{id:"Audit Smart Contract",en:"Smart Contract Audit"}, d:{id:"Audit oleh firma keamanan ternama direncanakan setelah testnet stabil dan semua fitur inti selesai diimplementasikan.",en:"Audit by reputable security firms is planned after testnet stabilizes and all core features are implemented."}},
-  {ic:"🐛", t:{id:"Bug Bounty Program",en:"Bug Bounty Program"}, d:{id:"Program bug bounty hingga $50,000 akan diluncurkan setelah audit selesai. Mengutamakan keamanan dari hari pertama.",en:"Bug bounty program up to $50,000 will launch after audit completion. Security is a priority from day one."}},
-  {ic:"🔐", t:{id:"Asuransi Deposit",en:"Deposit Insurance"}, d:{id:"Asuransi deposit melalui partner reasuransi DeFi direncanakan pada fase mainnet untuk melindungi dana pengguna.",en:"Deposit insurance through DeFi reinsurance partners is planned for the mainnet phase to protect user funds."}},
+  {ic:"🔒", t:{id:"Audit Mandiri Terbuka (V2→V3)",en:"Open Self-Audit (V2→V3)"}, d:{id:"Enam kelas kerentanan diidentifikasi dan ditutup saat migrasi ke V3: setoran kecil yang lenyap, serangan first-depositor, token sisa tak dikembalikan, proteksi slippage saat remove, reentrancy, dan transfer gagal diam-diam. Ditandai FIX #1–#6 di kode.",en:"Six vulnerability classes identified and closed during the V3 migration: vanishing small deposits, first-depositor attack, unreturned excess tokens, slippage protection on removal, reentrancy, and silent failed transfers. Marked FIX #1–#6 in code."}},
+  {ic:"🛡️", t:{id:"Reentrancy Guard",en:"Reentrancy Guard"}, d:{id:"Seluruh fungsi swap, add, dan remove liquidity dilindungi nonReentrant — menutup satu kelas serangan paling umum di AMM.",en:"All swap, add, and remove liquidity functions are protected by nonReentrant — closing one of the most common AMM attack classes."}},
+  {ic:"📊", t:{id:"Harga Referensi DIA",en:"DIA Reference Pricing"}, d:{id:"Terintegrasi dengan DIA, oracle resmi LitVM. Harga pasar independen ditampilkan di samping harga pool, agar Anda tahu bila swap tidak wajar.",en:"Integrated with DIA, LitVM's official oracle. Independent market prices shown next to pool prices, so you know when a swap is off."}},
+  {ic:"⚠️", t:{id:"Audit Profesional: Direncanakan",en:"Professional Audit: Planned"}, d:{id:"Belum diaudit pihak ketiga. Audit profesional direncanakan sebelum mainnet — kami jujur soal status ini. Sampai saat itu, gunakan hanya dana testnet.",en:"Not yet third-party audited. A professional audit is planned before mainnet — we're honest about this status. Until then, use testnet funds only."}},
 ];
 
 var FAQ = {
@@ -486,17 +502,17 @@ var FAQ = {
     {q:"Apakah Freesia DEX sudah live di mainnet?", a:"Belum. Saat ini Freesia DEX masih dalam fase testnet di LitVM. Mainnet akan diluncurkan setelah semua fitur inti diuji dan diaudit dengan baik."},
     {q:"Siapa yang membangun Freesia DEX?", a:"Freesia DEX dibangun oleh solo developer (Zack) dengan dukungan komunitas. Ini adalah proyek open source yang dibangun dengan transparansi penuh."},
     {q:"Kapan mainnet launch?", a:"Target mainnet tergantung pada progress testnet dan audit. Kami tidak memberikan janji tanggal pasti — kualitas dan keamanan adalah prioritas utama."},
-    {q:"Apakah smart contract sudah diaudit?", a:"Belum. Audit akan dilakukan oleh firma keamanan ternama setelah testnet stabil dan semua fitur inti selesai diimplementasikan."},
+    {q:"Apakah smart contract sudah diaudit?", a:"Belum oleh pihak ketiga. Tapi kami sudah melakukan audit mandiri terbuka: enam kelas kerentanan ditemukan dan ditutup saat migrasi V2→V3 (ditandai FIX #1–#6 di kode). Audit profesional direncanakan sebelum mainnet."},
     {q:"Bagaimana cara menjadi early tester?", a:"Hubungi kami di X/Twitter @0xzackbh atau join komunitas. Kamu bisa mencoba testnet dan memberikan feedback langsung."},
-    {q:"Apakah ada token?", a:"veMBG token direncanakan sebagai bagian dari tokenomics. Detail lengkap akan diumumkan mendekati mainnet launch."},
+    {q:"Apakah ada token?", a:"Belum ada token yang diluncurkan, dan kami tidak terburu-buru. Token hanya masuk akal kalau ada volume nyata yang membenarkannya — meluncurkan token sebelum ada guna adalah jebakan umum. Fokus kami sekarang: fee yang adil (100% ke LP) dan keberlanjutan dari dukungan ekosistem."},
   ],
   en:[
     {q:"Is Freesia DEX live on mainnet?", a:"Not yet. Freesia DEX is currently in testnet phase on LitVM. Mainnet will launch after all core features are tested and audited."},
     {q:"Who is building Freesia DEX?", a:"Freesia DEX is built by a solo developer (Zack) with community support. It's an open-source project built with full transparency."},
     {q:"When is mainnet launch?", a:"Mainnet target depends on testnet progress and audits. We don't give specific date promises — quality and security are our top priorities."},
-    {q:"Are the smart contracts audited?", a:"Not yet. Audits will be conducted by reputable security firms after testnet stabilizes and all core features are implemented."},
+    {q:"Are the smart contracts audited?", a:"Not yet by a third party. But we've done an open self-audit: six vulnerability classes found and closed during the V2→V3 migration (marked FIX #1–#6 in code). A professional audit is planned before mainnet."},
     {q:"How do I become an early tester?", a:"Reach out to us on X/Twitter @0xzackbh or join the community. You can try the testnet and provide direct feedback."},
-    {q:"Is there a token?", a:"The veMBG token is planned as part of our tokenomics. Full details will be announced closer to mainnet launch."},
+    {q:"Is there a token?", a:"No token has launched, and we're not rushing one. A token only makes sense when real volume justifies it — launching before there's utility is a common trap. Our focus now: fair fees (100% to LP) and sustainability from ecosystem support."},
   ],
 };
 
@@ -527,8 +543,8 @@ var TIPS = {
 };
 
 var CONTRACTS = [
-  {key:"POOL",    label:{id:"Pool Likuiditas",en:"Liquidity Pool"}, sub:"SimpleLiquidityPoolV2"},
-  {key:"STAKING", label:{id:"Kontrak Staking",en:"Staking Contract"}, sub:"Earn / Farm"},
+  {key:"POOL",    label:{id:"Pool Likuiditas",en:"Liquidity Pool"}, sub:"SimpleLiquidityPoolV3"},
+  {key:"STAKING", label:{id:"Kontrak Staking",en:"Staking Contract"}, sub:"Earn / Farm · V3-compatible"},
   {key:"FREE",    label:{id:"Token Reward",en:"Reward Token"}, sub:"FREE"},
   {key:"USDC",    label:{id:"Token USDC",en:"USDC Token"}, sub:"USDC"},
   {key:"DAI",     label:{id:"Token DAI",en:"DAI Token"}, sub:"DAI"},
@@ -540,6 +556,7 @@ var I18N = {
   live_badge:["Data Langsung","Live Data"],
   live_title:["Statistik On-Chain","On-Chain Statistics"],
   live_note:["Diambil langsung dari smart contract.","Fetched directly from the smart contract."],
+  dia_badge:["Harga terverifikasi oleh DIA — oracle resmi LitVM","Prices verified by DIA — LitVM's official oracle"],
   ls_tvl:["Total Likuiditas","Total Liquidity"],
   start_badge:["Panduan","Guide"],
   start_title:["Cara Mulai dalam 3 Langkah","Get Started in 3 Steps"],
@@ -550,7 +567,7 @@ var I18N = {
   con_title:["Kontrak & Jaringan","Contracts & Network"],
   con_sub:["Semua kontrak terbuka untuk diperiksa. Jangan percaya, verifikasi sendiri.","All contracts are open for inspection. Don't trust, verify."],
   con_net:["Jaringan","Network"],
-  con_warn:["⚠️ Ini masih fase testnet. Kontrak belum diaudit. Jangan gunakan dana sungguhan.","⚠️ This is still testnet. Contracts are not audited. Do not use real funds."],
+  con_warn:["⚠️ Ini masih fase testnet. Kontrak belum diaudit pihak ketiga. Jangan gunakan dana sungguhan.","⚠️ This is still testnet. Contracts are not third-party audited. Do not use real funds."],
   hero_badge:["Testnet Live · LitVM","Testnet Live · LitVM"],
   hero_h1a:["DEX Sederhana yang","A Simple DEX That"],
   hero_h1b:["Benar-Benar Berjalan","Actually Works"],
@@ -560,8 +577,15 @@ var I18N = {
   st2l:["Pengembang","Developer"], st2s:["Open source & transparan","Open source & transparent"],
   st3l:["Arsitektur","Architecture"],
   feat_badge:["Fitur","Features"], feat_title:["Yang Bisa Anda Lakukan","What You Can Do"],
-  tok_title:["Ekonomi Token","veMBG Token"],
-  tok_sub:["Model vote-escrowed yang memberdayakan komunitas untuk mengarahkan insentif dan mengamankan protokol jangka panjang.","A vote-escrowed model that empowers the community to direct incentives and secure the protocol long-term."],
+  tok_title:["Model","A"],
+  tok_sub:["Bagaimana Freesia bertahan tanpa mengorbankan pengguna. Fokus pada fee yang adil dan dukungan ekosistem — bukan mencetak token untuk hype.","How Freesia sustains itself without sacrificing users. Focused on fair fees and ecosystem support — not minting a token for hype."],
+  sus_fee_now:["Fee swap saat ini","Current swap fee"],
+  sus_fee_future:["Protocol fee (masa depan)","Protocol fee (future)"],
+  sus_max:["maks 1/6","max 1/6"],
+  sus_off:["Dimatikan default. LP selalu dapat minimal 5/6 fee.","Off by default. LPs always get at least 5/6 of fees."],
+  sus_treasury:["Sumber treasury awal","Early treasury source"],
+  sus_eco:["Ekosistem","Ecosystem"],
+  sus_grant:["Grant & kredit audit LitVM — bukan fee pengguna.","LitVM grants & audit credits — not user fees."],
   road_title:["Jalan Menuju Mainnet","The Road to Mainnet"],
   sec_badge:["Keamanan","Security"], sec_title:["Keamanan Sejak Hari Pertama","Security from Day One"],
   dev_badge:["Dari Pengembang","From the Developer"],
@@ -632,7 +656,7 @@ function toggleFaq(i){
   items[i].classList.toggle("open");
 }
 
-/* ── Menu mobile / tablet ── */
+/* -- Menu mobile / tablet -- */
 function toggleMenu(){
   var menu = document.getElementById('mobileMenu');
   var btn  = document.getElementById('menuBtn');
@@ -656,11 +680,9 @@ function closeMenu(){
   menu.setAttribute('aria-hidden','true');
   document.body.classList.remove('menu-open');
 }
-// Tutup menu kalau layar melebar ke ukuran desktop (menu desktop muncul lagi)
 window.addEventListener('resize', function(){
   if(window.innerWidth >= 1024) closeMenu();
 });
-// Tutup dengan tombol Escape
 window.addEventListener('keydown', function(e){
   if(e.key === 'Escape') closeMenu();
 });
@@ -739,8 +761,8 @@ function copyAddr(addr, btn){
 /* ---- Live Stats (on-chain via JSON-RPC eth_call) ---- */
 function selector(sig){
   /* Selector 4-byte hasil keccak256(signature), diverifikasi manual.
-     totalSupply() = 0x18160ddd (standar ERC20, sudah dikenal publik & tervalidasi)
-     reserveA()/reserveB() dihitung & diverifikasi dari ABI kontrak SimpleLiquidityPoolV2 */
+     totalSupply() = 0x18160ddd (standar ERC20)
+     reserveA()/reserveB() diverifikasi dari ABI kontrak SimpleLiquidityPoolV3 */
   var known = {
     "totalSupply()":"0x18160ddd",
     "reserveA()":"0xdc5fa6c5",
