@@ -137,6 +137,7 @@
       <a href="#roadmap" class="hover:text-soft-green no-underline">Roadmap</a>
       <a href="#contracts" class="hover:text-soft-green no-underline" data-i18n="nav_contracts">Kontrak</a>
       <a href="#faq" class="hover:text-soft-green no-underline">FAQ</a>
+      <a id="nav-docs" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline" data-i18n="foot_docs">Dokumentasi</a>
     </div>
     <div class="flex items-center gap-2 sm:gap-3">
       <div class="flex items-center gap-1 bg-surface-raised rounded-pill p-1">
@@ -159,6 +160,7 @@
     <a href="#roadmap"    onclick="closeMenu()">Roadmap</a>
     <a href="#contracts"  onclick="closeMenu()" data-i18n="nav_contracts">Kontrak</a>
     <a href="#faq"        onclick="closeMenu()">FAQ</a>
+    <a id="menu-docs" href="#" target="_blank" rel="noopener noreferrer" onclick="closeMenu()" data-i18n="foot_docs">Dokumentasi</a>
     <a id="menu-launch" href="#" target="_blank" rel="noopener noreferrer" class="menu-launch" onclick="closeMenu()">Launch App &rarr;</a>
   </div>
 </nav>
@@ -483,11 +485,11 @@ var TOK = [
 ];
 
 var ROADMAP = [
-  {p:"Phase 1", t:"Core Execution", f:"AMM Swap + Pool + Earn", id:"Fondasi DEX dengan constant-product AMM. Swap, Pool, dan Earn sudah berjalan di testnet. Proteksi MEV menyusul di fase berikutnya.", en:"DEX foundation with a constant-product AMM. Swap, Pool, and Earn are live on testnet. MEV protection comes in the next phase.", tId:"Selesai", tEn:"Done", active:true},
-  {p:"Phase 2", t:"Smart Trading", f:"Conditional Orders + PnL Analytics", id:"Stop Loss, Take Profit, dan Trailing Stop sepenuhnya on-chain. Dashboard PnL real-time dan tax reporting.", en:"Stop Loss, Take Profit, and Trailing Stop fully on-chain. Real-time PnL dashboard and tax reporting.", tId:"2-3 Bulan", tEn:"2-3 Months", active:false},
-  {p:"Phase 3", t:"Cross-Chain Privacy", f:"Privacy Pools + Cross-Chain Orders", id:"Integrasi zk-proofs untuk privacy-preserving trading dan atomic settlement cross-chain.", en:"Integration of zk-proofs for privacy-preserving trading and atomic settlement cross-chain.", tId:"3-5 Bulan", tEn:"3-5 Months", active:false},
-  {p:"Phase 4", t:"Safety Net", f:"Social Recovery + Panic Button", id:"Recovery aset melalui guardian network dan one-click emergency exit untuk melindungi user.", en:"Asset recovery through guardian network and one-click emergency exit to protect users.", tId:"5-7 Bulan", tEn:"5-7 Months", active:false},
-  {p:"Phase 5", t:"Advanced Layer", f:"Intent-Based Trading + Credit Scoring", id:"Solver network competition dan on-chain credit scoring berbasis AI. Era under-collateralized DeFi.", en:"Solver network competition and on-chain credit scoring based on AI. Opening the era of under-collateralized DeFi.", tId:"7-10 Bulan", tEn:"7-10 Months", active:false},
+  {p:"Fase 1", t:"Fondasi", f:"AMM Swap + Pool + Earn", id:"AMM constant-product lengkap: swap, penyediaan likuiditas, staking LP, dan reward FREE. Sudah berjalan dan bisa diverifikasi on-chain.", en:"Complete constant-product AMM: swap, liquidity provision, LP staking, and FREE rewards. Live and verifiable on-chain.", tId:"Selesai", tEn:"Done", active:true},
+  {p:"Fase 2", t:"Lapisan Perlindungan", f:"Panel Risiko + Harga DIA + Pemeriksaan Keamanan", id:"Fitur yang menerjemahkan risiko jadi bahasa manusia: panel kerugian, harga referensi oracle DIA, dan pemeriksaan keamanan swap sebelum konfirmasi. Sebagian besar sudah live.", en:"Features that translate risk into plain language: loss panel, DIA oracle reference pricing, and a swap safety check before you confirm. Mostly live already.", tId:"Berjalan", tEn:"In progress", active:true},
+  {p:"Fase 3", t:"Transparansi & Edukasi", f:"Penjelas Transaksi + Kalkulator IL + Dokumentasi", id:"Penjelas transaksi dalam bahasa sederhana, kalkulator impermanent loss sebelum jadi LP, dan dokumentasi publik. Semua ringan, aman, dan gratis.", en:"Plain-language transaction explainer, impermanent-loss calculator before becoming an LP, and public docs. All lightweight, safe, and free.", tId:"1-3 Bulan", tEn:"1-3 Months", active:false},
+  {p:"Fase 4", t:"Kesiapan Mainnet", f:"Audit + Bug Bounty + Verifikasi Kontrak", id:"Audit smart-contract profesional (mengandalkan dukungan ekosistem LitVM), bug bounty saat dana memungkinkan, dan verifikasi kontrak publik. Gerbang wajib sebelum mainnet.", en:"Professional smart-contract audit (relying on LitVM ecosystem support), a bug bounty when funds allow, and public contract verification. The required gate before mainnet.", tId:"Tergantung dukungan", tEn:"Support-dependent", active:false},
+  {p:"Fase 5", t:"Pertumbuhan Berkelanjutan", f:"Pair Baru + Fee-Switch + Governance", id:"Arah jangka panjang: pasangan token baru (mis. zkLTC), aktivasi fee-switch protokol saat likuiditas cukup dalam, dan kemungkinan governance komunitas. Aspirasional — tergantung pertumbuhan nyata.", en:"Long-term direction: new token pairs (e.g. zkLTC), activating the protocol fee-switch once liquidity is deep enough, and possible community governance. Aspirational — depends on real growth.", tId:"Aspirasional", tEn:"Aspirational", active:false},
 ];
 
 var SECURITY = [
@@ -692,7 +694,7 @@ function applyLinks(){
     "nav-launch":CONFIG.DEX_URL, "hero-launch":CONFIG.DEX_URL, "cta-launch":CONFIG.DEX_URL, "foot-launch":CONFIG.DEX_URL, "start-launch":CONFIG.DEX_URL, "menu-launch":CONFIG.DEX_URL,
     "hero-x":CONFIG.X, "dev-x":CONFIG.X, "foot-x":CONFIG.X,
     "dev-gh":CONFIG.GITHUB, "foot-gh":CONFIG.GITHUB,
-    "cta-docs":CONFIG.DOCS_URL, "foot-docs":CONFIG.DOCS_URL,
+    "cta-docs":CONFIG.DOCS_URL, "foot-docs":CONFIG.DOCS_URL, "nav-docs":CONFIG.DOCS_URL, "menu-docs":CONFIG.DOCS_URL,
     "foot-tg":CONFIG.TELEGRAM, "foot-dc":CONFIG.DISCORD,
   };
   Object.keys(m).forEach(function(id){ var el=document.getElementById(id); if(el) el.href=m[id]; });
