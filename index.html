@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <title>Freesia DEX — Trade Freely on LitVM</title>
-<meta name="description" content="Freesia DEX menghadirkan sepuluh fitur fundamental yang dibutuhkan trader DeFi. Dibangun di atas LitVM dengan prinsip Hard Money Web3. | Ten fundamental DeFi features, built on LitVM." />
+<meta name="description" content="DEX testnet di LitVM yang memperingatkan Anda sebelum rugi. Setiap kontrak bisa Anda periksa sendiri, setiap kesalahan kami terbitkan. | A testnet DEX on LitVM that warns you before you lose money." />
 <meta name="keywords" content="Freesia DEX, DEX, decentralized exchange, LitVM, DeFi, crypto, swap, Web3, Hard Money, AMM, liquidity pool" />
 <meta name="author" content="Zack" />
 <meta name="theme-color" content="#3B5A53" />
@@ -18,7 +18,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Freesia DEX" />
 <meta property="og:title" content="Freesia DEX — Trade Freely on LitVM" />
-<meta property="og:description" content="Ten fundamental DeFi features traders need, built on LitVM with Hard Money Web3 principles." />
+<meta property="og:description" content="A testnet DEX on LitVM that warns you before you lose money. Verify every contract yourself; every mistake we make is published." />
 <meta property="og:url" content="https://freesiadex.xyz/" />
 <meta property="og:image" content="https://freesiadex.xyz/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
@@ -27,7 +27,7 @@
 <meta name="twitter:site" content="@0xzackbh" />
 <meta name="twitter:creator" content="@0xzackbh" />
 <meta name="twitter:title" content="Freesia DEX — Trade Freely on LitVM" />
-<meta name="twitter:description" content="Ten fundamental DeFi features traders need, built on LitVM." />
+<meta name="twitter:description" content="A testnet DEX on LitVM that warns you before you lose money." />
 <meta name="twitter:image" content="https://freesiadex.xyz/og-image.jpg" />
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -53,18 +53,32 @@
 <style>
   html { scroll-behavior: smooth; }
   body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+
+  /* Nav melayang di atas konten — beri ruang agar judul seksi tidak tertutup */
+  section[id] { scroll-margin-top: 84px; }
+
+  /* ── Gerak: satu kurva easing dipakai konsisten di seluruh halaman ── */
+  .reveal { opacity: 0; transform: translateY(26px);
+    transition: opacity .8s cubic-bezier(.22,.61,.36,1), transform .8s cubic-bezier(.22,.61,.36,1); }
   .reveal.in { opacity: 1; transform: none; }
-  .faq-body { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
-  .faq-item.open .faq-body { max-height: 400px; }
+
+  /* Anak-anak grid muncul beruntun, bukan serempak */
+  .stagger > * { opacity: 0; transform: translateY(20px);
+    transition: opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1); }
+  .stagger.in > * { opacity: 1; transform: none; }
+
+  .faq-body { max-height: 0; overflow: hidden; transition: max-height .4s cubic-bezier(.22,.61,.36,1); }
   .faq-item.open .faq-chev { transform: rotate(180deg); }
+
   #scroll-progress { position:fixed; top:0; left:0; height:3px; width:0%; z-index:60;
-    background:linear-gradient(90deg,#49B76B,#D4FF5C); transition:width .1s linear; }
+    background:linear-gradient(90deg,#49B76B,#D4FF5C); transition:width .12s linear; }
   a, button { -webkit-tap-highlight-color: transparent; }
-  @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
-    * { animation:none !important; }
-  }
+
+  /* Nav mengecil & mengeras saat digulir */
+  #nav { transition: box-shadow .35s ease, background-color .35s ease; }
+  #nav-inner { transition: height .35s cubic-bezier(.22,.61,.36,1); }
+  #nav.shrunk { box-shadow: 0 8px 28px -18px rgba(20,43,37,.45); }
+  #nav.shrunk #nav-inner { height: 3.25rem; }
 
   /* -- Logo bunga Freesia (sama dengan DEX) -- */
   .freesia-mark { width:34px; height:34px; flex-shrink:0; display:block;
@@ -84,12 +98,53 @@
   footer .brand-name { background:linear-gradient(100deg,#8CDCCB 0%,#49B76B 100%);
     -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
 
+  /* ── Tanda tangan halaman: bunga Freesia mekar saat halaman dibuka ──
+     Kelopak muncul satu per satu, lalu bunga berputar sangat pelan.
+     Ini satu-satunya tempat kami "berani" — sisanya dibiarkan tenang. */
+  .hero-bloom { width:clamp(84px,14vw,120px); height:clamp(84px,14vw,120px); margin:0 auto 18px;
+    opacity:0; transform:scale(.72);
+    animation:bloomIn 1.1s cubic-bezier(.22,.61,.36,1) .15s forwards; }
+  @keyframes bloomIn { to { opacity:1; transform:scale(1); } }
+  .hero-bloom svg { width:100%; height:100%; display:block;
+    filter:drop-shadow(0 0 18px rgba(212,255,92,.28));
+    animation:bloomSpin 64s linear 1.3s infinite; transform-origin:center; }
+  @keyframes bloomSpin { to { transform:rotate(360deg); } }
+  .hero-bloom path { opacity:0; animation:petalIn .85s cubic-bezier(.22,.61,.36,1) forwards; }
+  @keyframes petalIn { to { opacity:1; } }
+  .hero-bloom path:nth-child(1){ animation-delay:.30s } .hero-bloom path:nth-child(2){ animation-delay:.42s }
+  .hero-bloom path:nth-child(3){ animation-delay:.54s } .hero-bloom path:nth-child(4){ animation-delay:.66s }
+  .hero-bloom path:nth-child(5){ animation-delay:.78s } .hero-bloom path:nth-child(6){ animation-delay:.90s }
+
+  /* Isi hero menyusul setelah bunganya mekar */
+  .hero-rise { opacity:0; transform:translateY(18px);
+    animation:heroRise .9s cubic-bezier(.22,.61,.36,1) forwards; }
+  @keyframes heroRise { to { opacity:1; transform:none; } }
+
+  /* Latar hero bergerak sangat pelan — hidup, tapi tidak mengganggu baca */
+  .hero-bg { animation:heroDrift 34s ease-in-out infinite alternate; }
+  @keyframes heroDrift { from{ transform:scale(1.06) translate3d(0,0,0);} to{ transform:scale(1.12) translate3d(-1.5%,-1.5%,0);} }
+
+  /* Kartu: satu perilaku angkat yang sama di seluruh halaman */
+  .lift { transition: transform .3s cubic-bezier(.22,.61,.36,1), box-shadow .3s cubic-bezier(.22,.61,.36,1), border-color .3s ease; }
+  .lift:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -20px rgba(20,43,37,.30); }
+
+  /* Titik "data langsung" berdenyut halus saat RPC menjawab */
+  @keyframes livePulse { 0%,100%{ box-shadow:0 0 0 0 rgba(73,183,107,.5);} 70%{ box-shadow:0 0 0 7px rgba(73,183,107,0);} }
+  .live-on { animation: livePulse 2.2s ease-out infinite; }
+
+  /* Angka on-chain: lebar digit tetap agar tidak "bergetar" saat menghitung */
+  .tabnum { font-variant-numeric: tabular-nums; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal, .stagger > * { opacity:1 !important; transform:none !important; transition:none !important; }
+    .hero-bloom, .hero-rise { opacity:1 !important; transform:none !important; }
+    * { animation:none !important; }
+  }
+
   @media (max-width:400px) {
     .freesia-mark { width:30px; height:30px; }
     .brand-text { font-size:17px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .freesia-mark { animation:none; }
   }
 
   /* -- Menu mobile / tablet -- */
@@ -98,15 +153,15 @@
     border-radius:10px; cursor:pointer; padding:0; transition:background .2s; }
   .menu-btn:hover { background:#E3E9E6; }
   .menu-btn span { display:block; width:18px; height:2px; background:#3B5A53; border-radius:2px;
-    transition:transform .3s ease, opacity .2s ease; }
+    transition:transform .3s cubic-bezier(.22,.61,.36,1), opacity .2s ease; }
   .menu-btn.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
   .menu-btn.open span:nth-child(2) { opacity:0; }
   .menu-btn.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
 
   .mobile-menu { display:none; flex-direction:column; gap:2px; padding:10px 20px 18px;
     background:#FFFFFF; border-top:1px solid rgba(0,0,0,0.06);
-    box-shadow:0 12px 24px -12px rgba(20,43,37,0.18); }
-  .mobile-menu.open { display:flex; animation:menuDrop .25s ease-out; }
+    box-shadow:0 12px 24px -12px rgba(20,43,37,0.18); max-height:calc(100vh - 4rem); overflow-y:auto; }
+  .mobile-menu.open { display:flex; animation:menuDrop .28s cubic-bezier(.22,.61,.36,1); }
   @keyframes menuDrop { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
   .mobile-menu a { padding:13px 6px; font-size:15px; font-weight:600; color:#5C7A73;
     text-decoration:none; border-bottom:1px solid rgba(0,0,0,0.05); transition:color .2s; }
@@ -118,23 +173,26 @@
 
   /* Cegah halaman ikut scroll saat menu terbuka */
   body.menu-open { overflow:hidden; }
+
+  a:focus-visible, button:focus-visible { outline:2px solid #49B76B; outline-offset:3px; border-radius:4px; }
 </style>
 </head>
 <body class="bg-bg-white text-text-primary">
 <div id="scroll-progress"></div>
 
 <!-- ===== NAV ===== -->
-<nav class="fixed top-0 inset-x-0 z-50 bg-pure-white/90 backdrop-blur border-b border-black/5">
-  <div class="max-w-[1400px] mx-auto px-5 lg:px-12 h-16 flex items-center justify-between">
+<nav id="nav" class="fixed top-0 inset-x-0 z-50 bg-pure-white/90 backdrop-blur border-b border-black/5">
+  <div id="nav-inner" class="max-w-[1400px] mx-auto px-5 lg:px-12 h-16 flex items-center justify-between">
     <a href="#top" class="flex items-center gap-2.5 no-underline">
       <svg class="freesia-mark" viewBox="0 0 80 80" role="img" aria-label="Freesia"><g transform="translate(40,40)"><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#2E6F68" transform="rotate(-12) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#3E8A80" transform="rotate(48) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#57A99B" transform="rotate(108) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#6FC2B4" transform="rotate(168) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#7FD0C2" transform="rotate(228) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#8CDCCB" transform="rotate(288) scale(0.94)"/></g></svg>
       <span class="brand-text"><span class="brand-name">Freesia</span> <span class="brand-suffix">DEX</span></span>
     </a>
     <div class="hidden lg:flex items-center gap-7 text-sm font-semibold text-text-secondary">
+      <a href="#proof" class="hover:text-soft-green no-underline" data-i18n="nav_proof">Bukti</a>
       <a href="#start" class="hover:text-soft-green no-underline" data-i18n="nav_start">Cara Mulai</a>
       <a href="#features" class="hover:text-soft-green no-underline" data-i18n="nav_features">Fitur</a>
-      <a href="#tokenomics" class="hover:text-soft-green no-underline">Keberlanjutan</a>
-      <a href="#roadmap" class="hover:text-soft-green no-underline">Roadmap</a>
+      <a href="#tokenomics" class="hover:text-soft-green no-underline" data-i18n="nav_sustain">Keberlanjutan</a>
+      <a href="#roadmap" class="hover:text-soft-green no-underline" data-i18n="nav_roadmap">Roadmap</a>
       <a href="#contracts" class="hover:text-soft-green no-underline" data-i18n="nav_contracts">Kontrak</a>
       <a href="#faq" class="hover:text-soft-green no-underline">FAQ</a>
       <a id="nav-docs" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline" data-i18n="foot_docs">Dokumentasi</a>
@@ -154,10 +212,11 @@
 
   <!-- Panel menu mobile/tablet -->
   <div id="mobileMenu" class="mobile-menu lg:hidden" aria-hidden="true">
+    <a href="#proof"      onclick="closeMenu()" data-i18n="nav_proof">Bukti</a>
     <a href="#start"      onclick="closeMenu()" data-i18n="nav_start">Cara Mulai</a>
     <a href="#features"   onclick="closeMenu()" data-i18n="nav_features">Fitur</a>
-    <a href="#tokenomics" onclick="closeMenu()">Keberlanjutan</a>
-    <a href="#roadmap"    onclick="closeMenu()">Roadmap</a>
+    <a href="#tokenomics" onclick="closeMenu()" data-i18n="nav_sustain">Keberlanjutan</a>
+    <a href="#roadmap"    onclick="closeMenu()" data-i18n="nav_roadmap">Roadmap</a>
     <a href="#contracts"  onclick="closeMenu()" data-i18n="nav_contracts">Kontrak</a>
     <a href="#faq"        onclick="closeMenu()">FAQ</a>
     <a id="menu-docs" href="#" target="_blank" rel="noopener noreferrer" onclick="closeMenu()" data-i18n="foot_docs">Dokumentasi</a>
@@ -167,26 +226,32 @@
 
 <!-- ===== HERO ===== -->
 <section id="top" class="relative min-h-[92vh] flex items-center justify-center text-center px-5 pt-16 overflow-hidden">
-  <div class="absolute inset-0 bg-cover bg-center" style="background-image:url('./hero-bg.jpg')"></div>
+  <div class="hero-bg absolute inset-0 bg-cover bg-center" style="background-image:url('./hero-bg.jpg')"></div>
   <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(20,43,37,.72),rgba(20,43,37,.82))"></div>
   <div class="relative max-w-3xl mx-auto">
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white/10 border border-white/20 text-white/90 text-xs font-mono mb-6">
+
+    <!-- Tanda tangan: bunga Freesia mekar kelopak demi kelopak -->
+    <div class="hero-bloom" aria-hidden="true">
+      <svg viewBox="0 0 80 80"><g transform="translate(40,40)"><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#2E6F68" transform="rotate(-12) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#3E8A80" transform="rotate(48) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#57A99B" transform="rotate(108) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#6FC2B4" transform="rotate(168) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#7FD0C2" transform="rotate(228) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#8CDCCB" transform="rotate(288) scale(0.94)"/></g></svg>
+    </div>
+
+    <div class="hero-rise inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white/10 border border-white/20 text-white/90 text-xs font-mono mb-6" style="animation-delay:.55s">
       <span class="w-2 h-2 rounded-full bg-bright-mint animate-pulse"></span>
       <span data-i18n="hero_badge">Testnet Live &middot; LitVM</span>
     </div>
-    <h1 class="font-extrabold text-white leading-[0.95] tracking-tight mb-5" style="font-size:clamp(2rem,7.5vw,6rem)">
-      <span data-i18n="hero_h1a">DEX yang Seharusnya</span><br />
-      <span class="text-bright-mint" data-i18n="hero_h1b">Sudah Ada</span>
+    <h1 class="hero-rise font-extrabold text-white leading-[0.95] tracking-tight mb-5" style="font-size:clamp(2rem,7.5vw,6rem); animation-delay:.68s">
+      <span data-i18n="hero_h1a">DEX Sederhana yang</span><br />
+      <span class="text-bright-mint" data-i18n="hero_h1b">Benar-Benar Berjalan</span>
     </h1>
-    <p class="text-white/85 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-8" data-i18n="hero_sub">
-      Freesia DEX menghadirkan sepuluh fitur fundamental yang sangat dibutuhkan trader DeFi, namun secara mengejutkan tidak tersedia di platform besar saat ini.
+    <p class="hero-rise text-white/85 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-8" data-i18n="hero_sub" style="animation-delay:.8s">
+      Freesia DEX adalah AMM ringan di LitVM: swap token, sediakan likuiditas, dan stake LP untuk reward FREE. Semua on-chain, semua bisa diverifikasi.
     </p>
-    <div class="flex flex-wrap gap-4 justify-center">
+    <div class="hero-rise flex flex-wrap gap-4 justify-center" style="animation-delay:.92s">
       <a id="hero-launch" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill bg-bright-mint text-deep-teal font-bold text-[15px] hover:scale-[1.03] transition inline-flex items-center gap-2 no-underline">
         <span data-i18n="btn_launch">Launch App</span> &rarr;
       </a>
-      <a id="hero-x" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill border border-white/50 text-white font-semibold text-[15px] hover:bg-white/10 transition inline-flex items-center gap-2 no-underline">
-        &#8599; Follow on X
+      <a id="hero-verify" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill border border-white/50 text-white font-semibold text-[15px] hover:bg-white/10 transition inline-flex items-center gap-2 no-underline">
+        &#128269; <span data-i18n="btn_verify">Periksa Kontraknya</span>
       </a>
     </div>
   </div>
@@ -202,8 +267,34 @@
   </div>
 </div>
 
+<!-- ===== BUKTI ===== -->
+<section id="proof" class="bg-bg-white py-20 lg:py-28">
+  <div class="max-w-[1000px] mx-auto px-5 lg:px-12">
+    <div class="text-center mb-12">
+      <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="proof_badge">Bukti</div>
+      <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="proof_title">Jangan Percaya. Periksa.</span></h2>
+      <p class="text-text-secondary mt-3 max-w-xl mx-auto" data-i18n="proof_sub">Setiap proyek DeFi mengaku transparan. Dua halaman ini membuat klaim itu bisa diuji — oleh siapa pun, tanpa izin kami.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5 stagger">
+      <a id="proof-verify" href="#" target="_blank" rel="noopener noreferrer" class="lift bg-pure-white rounded-2xl p-7 border border-black/5 no-underline block">
+        <div class="text-3xl mb-3">&#128269;</div>
+        <div class="font-bold text-lg mb-2" data-i18n="proof_v_t">Halaman Verifikasi</div>
+        <div class="text-text-secondary text-sm leading-relaxed mb-4" data-i18n="proof_v_d">Browser Anda sendiri menghubungi RPC LitVM dan memeriksa 19 kontrak satu per satu, langsung di depan mata: cadangan pool, suplai token, harga oracle. Tidak lewat server kami. Halaman itu juga memuat daftar hal yang <em>tidak</em> bisa dibuktikannya.</div>
+        <span class="text-soft-green font-semibold text-sm" data-i18n="proof_v_cta">Periksa sendiri &rarr;</span>
+      </a>
+      <a id="proof-log" href="#" target="_blank" rel="noopener noreferrer" class="lift bg-pure-white rounded-2xl p-7 border border-black/5 no-underline block">
+        <div class="text-3xl mb-3">&#128220;</div>
+        <div class="font-bold text-lg mb-2" data-i18n="proof_l_t">Catatan Insiden</div>
+        <div class="text-text-secondary text-sm leading-relaxed mb-4" data-i18n="proof_l_d">Daftar kesalahan kami sendiri: kontrak yang harus dibuang, klaim yang dulu terlalu jauh, kelemahan keamanan yang kami temukan sendiri — termasuk satu yang <strong>masih terbuka</strong>. Tiap entri menyebut apa akibatnya, bukan cuma "sudah diperbaiki".</div>
+        <span class="text-soft-green font-semibold text-sm" data-i18n="proof_l_cta">Baca kesalahan kami &rarr;</span>
+      </a>
+    </div>
+    <p class="text-center text-text-secondary text-xs mt-8 max-w-xl mx-auto" data-i18n="proof_note">Kami menerbitkan kesalahan bukan karena bangga, tapi karena DEX yang menyembunyikan kesalahannya adalah DEX yang belum ketahuan.</p>
+  </div>
+</section>
+
 <!-- ===== LIVE STATS (on-chain) ===== -->
-<section id="livestats" class="bg-bg-white py-16 lg:py-20">
+<section id="livestats" class="bg-pure-white py-16 lg:py-20">
   <div class="max-w-[1400px] mx-auto px-5 lg:px-12">
     <div class="text-center mb-10">
       <div class="inline-flex items-center gap-2 text-soft-green font-mono text-xs uppercase tracking-widest mb-3">
@@ -211,30 +302,35 @@
         <span data-i18n="live_badge">Data Langsung</span>
       </div>
       <h2 class="font-bold tracking-tight" style="font-size:clamp(1.5rem,3.5vw,2.6rem)"><span data-i18n="live_title">Statistik On-Chain</span></h2>
-      <p class="text-text-secondary text-sm mt-2" id="live-note" data-i18n="live_note">Diambil langsung dari smart contract.</p>
+      <p class="text-text-secondary text-sm mt-2" id="live-note" data-i18n="live_note">Dibaca langsung dari smart contract oleh browser Anda.</p>
       <div class="inline-flex items-center gap-2 mt-3 px-3 py-1 rounded-pill bg-soft-green/10 border border-soft-green/30 text-soft-green text-xs font-semibold">
         <span class="w-1.5 h-1.5 rounded-full bg-soft-green"></span>
         <span data-i18n="dia_badge">Harga terverifikasi oleh DIA — oracle resmi LitVM</span>
       </div>
     </div>
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-pure-white rounded-2xl p-6 border border-black/5 text-center">
-        <div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-2" data-i18n="ls_tvl">Total Likuiditas</div>
-        <div id="ls-tvl" class="font-bold text-2xl lg:text-3xl text-deep-teal">—</div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger">
+      <div class="lift bg-bg-white rounded-2xl p-6 border border-black/5 text-center">
+        <div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-2" data-i18n="ls_tvl">Likuiditas USDC/DAI</div>
+        <div id="ls-tvl" class="tabnum font-bold text-2xl lg:text-3xl text-deep-teal">—</div>
+        <div class="text-text-secondary text-[11px] mt-1" data-i18n="ls_tvl_s">dua stablecoin, ≈ USD</div>
       </div>
-      <div class="bg-pure-white rounded-2xl p-6 border border-black/5 text-center">
-        <div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-2">Total LP Supply</div>
-        <div id="ls-lp" class="font-bold text-2xl lg:text-3xl text-deep-teal">—</div>
+      <div class="lift bg-bg-white rounded-2xl p-6 border border-black/5 text-center">
+        <div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-2" data-i18n="ls_lp">Total LP Supply</div>
+        <div id="ls-lp" class="tabnum font-bold text-2xl lg:text-3xl text-deep-teal">—</div>
+        <div class="text-text-secondary text-[11px] mt-1" data-i18n="ls_lp_s">pool USDC/DAI</div>
       </div>
-      <div class="bg-pure-white rounded-2xl p-6 border border-black/5 text-center">
-        <div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-2">Reserve USDC</div>
-        <div id="ls-ra" class="font-bold text-2xl lg:text-3xl text-deep-teal">—</div>
+      <div class="lift bg-bg-white rounded-2xl p-6 border border-black/5 text-center">
+        <div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-2" data-i18n="ls_pools">Pool Aktif</div>
+        <div id="ls-pools" class="tabnum font-bold text-2xl lg:text-3xl text-deep-teal">—</div>
+        <div class="text-text-secondary text-[11px] mt-1" data-i18n="ls_pools_s">punya likuiditas</div>
       </div>
-      <div class="bg-pure-white rounded-2xl p-6 border border-black/5 text-center">
-        <div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-2">Reserve DAI</div>
-        <div id="ls-rb" class="font-bold text-2xl lg:text-3xl text-deep-teal">—</div>
+      <div class="lift bg-bg-white rounded-2xl p-6 border border-black/5 text-center">
+        <div class="font-mono text-[11px] uppercase tracking-wider text-text-secondary mb-2" data-i18n="ls_staked">LP Di-stake</div>
+        <div id="ls-staked" class="tabnum font-bold text-2xl lg:text-3xl text-deep-teal">—</div>
+        <div class="text-text-secondary text-[11px] mt-1" data-i18n="ls_staked_s">menghasilkan FREE</div>
       </div>
     </div>
+    <p class="text-center text-text-secondary text-xs mt-6" data-i18n="ls_foot">Angka di atas hanya sebagian. Rincian tiap kontrak — dan pemeriksaannya secara langsung — ada di halaman verifikasi.</p>
   </div>
 </section>
 
@@ -244,8 +340,9 @@
     <div class="text-center mb-12">
       <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="feat_badge">Fitur</div>
       <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="feat_title">Yang Bisa Anda Lakukan</span></h2>
+      <p class="text-text-secondary mt-3 max-w-xl mx-auto" data-i18n="feat_sub">Semuanya sudah berjalan di testnet hari ini — kecuali satu yang kami tandai jujur sebagai "segera".</p>
     </div>
-    <div id="features-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    <div id="features-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger"></div>
   </div>
 </section>
 
@@ -253,26 +350,26 @@
 <section id="tokenomics" class="bg-pure-white py-20 lg:py-28">
   <div class="max-w-[1400px] mx-auto px-5 lg:px-12 grid lg:grid-cols-2 gap-12 items-center">
     <div>
-      <div class="text-soft-green font-mono text-xs uppercase tracking-widest mb-3">Keberlanjutan</div>
-      <h2 class="font-bold tracking-tight mb-4" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="tok_title">Model</span> <span class="text-soft-green">Keberlanjutan</span></h2>
+      <div class="text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="nav_sustain">Keberlanjutan</div>
+      <h2 class="font-bold tracking-tight mb-4" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="tok_title">Model</span> <span class="text-soft-green" data-i18n="tok_title2">Keberlanjutan</span></h2>
       <p class="text-text-secondary leading-relaxed mb-8 max-w-lg" data-i18n="tok_sub">Bagaimana Freesia bertahan tanpa mengorbankan pengguna. Fokus pada fee yang adil dan dukungan ekosistem — bukan mencetak token untuk hype.</p>
       <div id="tok-list" class="space-y-5"></div>
     </div>
     <div class="flex flex-col items-center">
-      <div class="w-full max-w-[340px] space-y-3">
+      <div class="w-full max-w-[340px] space-y-3 stagger">
         <div class="bg-bg-white rounded-2xl p-5 border border-black/5">
           <div class="flex items-center justify-between mb-1">
             <span class="font-semibold text-sm" data-i18n="sus_fee_now">Fee swap saat ini</span>
             <span class="font-mono text-soft-green font-bold">100% &rarr; LP</span>
           </div>
-          <div class="h-2 rounded-full bg-surface-raised overflow-hidden"><div class="h-full rounded-full" style="width:100%;background:#49B76B"></div></div>
+          <div class="h-2 rounded-full bg-surface-raised overflow-hidden"><div class="bar h-full rounded-full" data-w="100" style="width:0;background:#49B76B"></div></div>
         </div>
         <div class="bg-bg-white rounded-2xl p-5 border border-black/5">
           <div class="flex items-center justify-between mb-1">
             <span class="font-semibold text-sm" data-i18n="sus_fee_future">Protocol fee (masa depan)</span>
             <span class="font-mono text-text-secondary font-bold" data-i18n="sus_max">maks 1/6</span>
           </div>
-          <div class="h-2 rounded-full bg-surface-raised overflow-hidden"><div class="h-full rounded-full" style="width:16.6%;background:#3B5A53"></div></div>
+          <div class="h-2 rounded-full bg-surface-raised overflow-hidden"><div class="bar h-full rounded-full" data-w="16.6" style="width:0;background:#3B5A53"></div></div>
           <div class="text-text-secondary text-xs mt-2" data-i18n="sus_off">Dimatikan default. LP selalu dapat minimal 5/6 fee.</div>
         </div>
         <div class="bg-bg-white rounded-2xl p-5 border border-black/5">
@@ -291,10 +388,10 @@
 <section id="roadmap" class="py-20 lg:py-28" style="background:linear-gradient(180deg,#F5F7F8,#FFF,#F5F7F8)">
   <div class="max-w-[1000px] mx-auto px-5 lg:px-12">
     <div class="text-center mb-12">
-      <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3">Roadmap</div>
+      <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="nav_roadmap">Roadmap</div>
       <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="road_title">Jalan Menuju Mainnet</span></h2>
     </div>
-    <div id="roadmap-list" class="space-y-4"></div>
+    <div id="roadmap-list" class="space-y-4 stagger"></div>
   </div>
 </section>
 
@@ -305,7 +402,7 @@
       <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="sec_badge">Keamanan</div>
       <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="sec_title">Keamanan Sejak Hari Pertama</span></h2>
     </div>
-    <div id="security-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5"></div>
+    <div id="security-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 stagger"></div>
   </div>
 </section>
 
@@ -317,7 +414,7 @@
       <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="start_title">Cara Mulai dalam 3 Langkah</span></h2>
       <p class="text-text-secondary mt-3 max-w-xl mx-auto" data-i18n="start_sub">Dari nol sampai menghasilkan reward FREE. Butuh beberapa menit saja.</p>
     </div>
-    <div id="steps-list" class="grid md:grid-cols-3 gap-5 mb-10"></div>
+    <div id="steps-list" class="grid md:grid-cols-3 gap-5 mb-10 stagger"></div>
     <div class="bg-pure-white border border-black/5 rounded-2xl p-6">
       <div class="font-semibold mb-3 flex items-center gap-2">&#128161; <span data-i18n="tips_title">Tips Penting</span></div>
       <ul id="tips-list" class="space-y-2 text-sm text-text-secondary"></ul>
@@ -348,8 +445,13 @@
         <div id="con-chainid" class="font-bold font-mono">—</div>
       </div>
     </div>
-    <div id="contracts-list" class="space-y-3"></div>
-    <p class="text-center text-text-secondary text-xs mt-6" data-i18n="con_warn">⚠️ Ini masih fase testnet. Kontrak belum diaudit. Jangan gunakan dana sungguhan.</p>
+    <div id="contracts-list" class="space-y-3 stagger"></div>
+    <div class="text-center mt-8">
+      <a id="con-verify" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-11 px-6 rounded-pill border border-soft-green/40 text-soft-green font-semibold text-sm hover:bg-soft-green hover:text-white transition no-underline">
+        <span data-i18n="con_verify_cta">Periksa semua kontrak secara langsung</span> &rarr;
+      </a>
+    </div>
+    <p class="text-center text-text-secondary text-xs mt-6" data-i18n="con_warn">⚠️ Ini masih fase testnet. Kontrak belum diaudit pihak ketiga. Jangan gunakan dana sungguhan.</p>
   </div>
 </section>
 
@@ -359,7 +461,7 @@
     <div class="text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="dev_badge">Dari Pengembang</div>
     <h2 class="font-bold tracking-tight mb-6" style="font-size:clamp(1.5rem,4vw,2.6rem)"><span data-i18n="dev_title">Dibangun dengan</span> <span class="text-soft-green" data-i18n="dev_heart">Hati</span><span data-i18n="dev_title2">, Bukan Modal Besar</span></h2>
     <p class="text-text-primary leading-relaxed mb-4" data-i18n="dev_p1">Freesia DEX adalah proyek solo yang saya bangun dari nol di atas LitVM. Setiap baris kode, desain, dan keputusan berasal dari pengalaman saya sendiri sebagai trader DeFi yang frustrasi dengan fitur dasar yang masih hilang di DEX besar.</p>
-    <p class="text-text-primary leading-relaxed mb-4" data-i18n="dev_p2">Saat ini kami di fase testnet. Tidak ada angka TVL yang dibesar-besarkan, tidak ada testimonial palsu — hanya kode nyata yang terus berkembang. Saya percaya transparansi adalah fondasi protokol DeFi yang sehat.</p>
+    <p class="text-text-primary leading-relaxed mb-4" data-i18n="dev_p2">Saat ini kami di fase testnet. Tidak ada angka TVL yang dibesar-besarkan, tidak ada testimonial palsu — hanya kode nyata yang terus berkembang. Saya membangun satu orang, jadi kesalahan pasti terjadi; yang bisa saya janjikan bukan kesempurnaan, tapi Anda akan selalu tahu.</p>
     <p class="text-text-secondary italic leading-relaxed mb-8" data-i18n="dev_p3">"Kalau kamu percaya pada visi DEX yang benar-benar user-first, bergabunglah sebagai early tester. Feedback-mu akan membentuk fitur-fitur berikutnya."</p>
     <div class="flex flex-col sm:flex-row items-center gap-4 pt-6 border-t border-black/5">
       <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-white text-lg" style="background:linear-gradient(135deg,#3B5A53,#49B76B)">Z</div>
@@ -379,15 +481,15 @@
       <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="faq_badge">Pertanyaan Umum</div>
       <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)">FAQ</h2>
     </div>
-    <div id="faq-list" class="space-y-3"></div>
+    <div id="faq-list" class="space-y-3 stagger"></div>
   </div>
 </section>
 
 <!-- ===== CTA ===== -->
 <section class="py-20 lg:py-28 px-5">
   <div class="max-w-[900px] mx-auto rounded-3xl text-center px-6 py-16" style="background:linear-gradient(135deg,#3B5A53,#142B25)">
-    <h2 class="font-extrabold text-white tracking-tight mb-4" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="cta_title">Siap untuk Masa Depan DeFi?</span></h2>
-    <p class="text-white/85 max-w-lg mx-auto leading-relaxed mb-8" data-i18n="cta_sub">Bergabunglah dengan early access list. Jadilah yang pertama merasakan DEX yang seharusnya sudah ada sejak lama.</p>
+    <h2 class="font-extrabold text-white tracking-tight mb-4" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="cta_title">Siap Mencobanya?</span></h2>
+    <p class="text-white/85 max-w-lg mx-auto leading-relaxed mb-8" data-i18n="cta_sub">Token testnet gratis lewat faucet, tanpa daftar, tanpa izin. Kalau ada yang salah, beri tahu kami — itu justru gunanya fase ini.</p>
     <div class="flex flex-wrap gap-4 justify-center">
       <a id="cta-launch" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill bg-bright-mint text-deep-teal font-bold text-[15px] hover:scale-[1.03] transition inline-flex items-center gap-2 no-underline"><span data-i18n="btn_enter">Masuk ke App</span> &rarr;</a>
       <a id="cta-docs" href="#" target="_blank" rel="noopener noreferrer" class="h-12 px-7 rounded-pill border border-white/50 text-white font-semibold text-[15px] hover:bg-white/10 transition inline-flex items-center no-underline"><span data-i18n="btn_docs">Baca Dokumentasi</span></a>
@@ -404,20 +506,22 @@
           <svg class="freesia-mark" viewBox="0 0 80 80" role="img" aria-label="Freesia"><g transform="translate(40,40)"><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#2E6F68" transform="rotate(-12) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#3E8A80" transform="rotate(48) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#57A99B" transform="rotate(108) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#6FC2B4" transform="rotate(168) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#7FD0C2" transform="rotate(228) scale(0.94)"/><path d="M0,0 C7.15,-5.76 13.00,-23.04 0.00,-32.00 C-13.00,-23.04 -7.15,-5.76 0,0 Z" fill="#8CDCCB" transform="rotate(288) scale(0.94)"/></g></svg>
           <span class="brand-text"><span class="brand-name">Freesia</span> <span class="brand-suffix">DEX</span></span>
         </div>
-        <p class="text-text-secondary leading-relaxed max-w-[260px]" data-i18n="foot_desc">DEX generasi berikutnya yang memperbaiki apa yang hilang. Dibangun di atas LitVM — Hard Money Web3.</p>
+        <p class="text-text-secondary leading-relaxed max-w-[260px]" data-i18n="foot_desc">AMM ringan di LitVM yang memperingatkan Anda sebelum rugi. Semua on-chain, semua bisa diperiksa sendiri.</p>
       </div>
       <div>
         <h4 class="font-semibold mb-3" data-i18n="foot_product">Produk</h4>
         <div class="flex flex-col gap-2 text-text-secondary">
           <a id="foot-launch" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline">Launch App</a>
           <a href="#features" class="hover:text-soft-green no-underline" data-i18n="nav_features">Fitur</a>
-          <a href="#tokenomics" class="hover:text-soft-green no-underline">Keberlanjutan</a>
-          <a href="#roadmap" class="hover:text-soft-green no-underline">Roadmap</a>
+          <a href="#tokenomics" class="hover:text-soft-green no-underline" data-i18n="nav_sustain">Keberlanjutan</a>
+          <a href="#roadmap" class="hover:text-soft-green no-underline" data-i18n="nav_roadmap">Roadmap</a>
         </div>
       </div>
       <div>
         <h4 class="font-semibold mb-3" data-i18n="foot_res">Sumber Daya</h4>
         <div class="flex flex-col gap-2 text-text-secondary">
+          <a id="foot-verify" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline" data-i18n="foot_verify">Verifikasi kontrak</a>
+          <a id="foot-log" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline" data-i18n="foot_log">Catatan insiden</a>
           <a id="foot-docs" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline" data-i18n="foot_docs">Dokumentasi</a>
           <a id="foot-gh" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline">GitHub</a>
         </div>
@@ -440,6 +544,8 @@
 var CONFIG = {
   DEX_URL:  "https://app.freesiadex.xyz",
   DOCS_URL: "https://docs.freesiadex.xyz",
+  VERIFY_URL: "https://app.freesiadex.xyz/verify",    // halaman verifikasi kontrak
+  LOG_URL:    "https://app.freesiadex.xyz/insiden",   // catatan insiden
   X:        "https://x.com/freesiadex",
   GITHUB:   "https://github.com/Muhammadzack",
   TELEGRAM: "#",
@@ -452,69 +558,139 @@ var CHAIN = {
   CHAIN_ID: 4441,
   EXPLORER: "https://liteforge.explorer.caldera.xyz",
   NETWORK_NAME: "LitVM Testnet",
-  POOL:    "0x79989f44c13B8ed41a2bA68Cd0a584e158cD11E8",  // SimpleLiquidityPoolV3 (USDC/DAI)
-  STAKING: "0x5810F270dd7643Caa60858b1f5CC4a250BA38C13",  // Staking / Earn (menunjuk pool V3)
+
+  // JUJUR: pool USDC/DAI ini di-deploy SEBELUM SimpleLiquidityPoolV3 ada.
+  // Kode sumbernya hilang; sebagian proteksi V3 tidak dapat diverifikasi di sana.
+  // Migrasinya tercatat sebagai PR terbuka di halaman /insiden.
+  POOL:    "0x79989f44c13B8ed41a2bA68Cd0a584e158cD11E8",  // Pool USDC/DAI — generasi awal (pra-V3)
+  STAKING: "0x5810F270dd7643Caa60858b1f5CC4a250BA38C13",  // Staking / Earn untuk pool USDC/DAI
+
+  // Pool yang benar-benar lahir dari SimpleLiquidityPoolV3 (6 FIX, aman sejak lahir)
+  POOL_KOPDES: "0xBAE8787b417AE7b56458A4FEB904c65cd8018F8a",
+  POOL_MBGUSDC:"0x17F9b1ea3f6ceC4e5605f7cEDfa90674e3D3Faaf",
+  POOL_MBGUSDT:"0xd54598e60712684EcEFA810E4cCA0c30C2F41B54",  // generasi awal juga
+
   USDC:    "0x6c567a7Fb7A2b4968D230A644D3C76E731e34837",
   DAI:     "0xd06C4C54837e1BBd458948C45E306DA38b19a0Bc",
   FREE:    "0x5072FE98CD78604d8750a935fa39039F06b6e800",
-  FN_TOTAL_SUPPLY: "totalSupply()",
-  FN_RESERVE_A:    "reserveA()",
-  FN_RESERVE_B:    "reserveB()",
   DECIMALS: 18,
 };
 
+/* 4-byte selector = 4 byte pertama keccak256(signature). Diverifikasi manual:
+   totalSupply() = 0x18160ddd · reserveA() = 0xdc5fa6c5 · reserveB() = 0x19e36f3b */
+var SEL = { totalSupply:"0x18160ddd", reserveA:"0xdc5fa6c5", reserveB:"0x19e36f3b" };
+
 /* ============ DATA ============ */
 var FEATURES = [
-  {ic:"🛡️", t:"Shielded Swap (Segera)", id:"Proteksi MEV terhadap sandwich attack. Belum aktif — membutuhkan private relay atau perubahan smart contract, dan masih dalam roadmap.", en:"MEV protection against sandwich attacks. Not active yet — requires a private relay or smart contract changes, still on the roadmap."},
-  {ic:"📈", t:"Live Price Chart", id:"Grafik pergerakan harga pasangan token secara real-time langsung di halaman swap.", en:"Real-time price movement chart for the token pair, right on the swap page."},
-  {ic:"🎚️", t:"Slippage Control", id:"Atur toleransi slippage sesuai kebutuhan Anda — preset cepat atau nilai custom.", en:"Set your own slippage tolerance — quick presets or a custom value."},
-  {ic:"💧", t:"Add / Remove Liquidity", id:"Sediakan likuiditas ke pool USDC/DAI dan tarik kembali kapan saja, langsung on-chain.", en:"Provide liquidity to the USDC/DAI pool and withdraw anytime, fully on-chain."},
-  {ic:"🌱", t:"Stake LP, Earn FREE", id:"Stake LP token Anda untuk mulai menghasilkan reward token FREE secara berkelanjutan.", en:"Stake your LP tokens to start continuously earning FREE reward tokens."},
-  {ic:"🚰", t:"Testnet Faucet", id:"Klaim token testnet (USDC & DAI) langsung dari DEX untuk mulai mencoba tanpa hambatan.", en:"Claim testnet tokens (USDC & DAI) directly from the DEX to start trying it out with no friction."},
-  {ic:"🔗", t:"Koneksi Wallet Native", id:"Sambungkan wallet Anda (mis. MetaMask) dan otomatis diarahkan ke jaringan LitVM Testnet.", en:"Connect your wallet (e.g. MetaMask) and get automatically switched to LitVM Testnet."},
-  {ic:"🕐", t:"Riwayat Transaksi", id:"Lihat riwayat swap Anda di sesi berjalan, lengkap dengan link ke block explorer.", en:"View your swap history for the current session, complete with a block explorer link."},
-  {ic:"🔍", t:"Kuotasi On-Chain", id:"Estimasi hasil swap dihitung langsung dari smart contract, bukan simulasi off-chain.", en:"Swap output estimates are computed directly from the smart contract, not an off-chain simulation."},
-  {ic:"📊", t:"Harga Referensi DIA", id:"Harga pasar independen dari DIA (oracle resmi LitVM) ditampilkan di samping harga pool, agar Anda tahu bila swap tidak wajar.", en:"Independent market prices from DIA (LitVM's official oracle) shown next to pool prices, so you know when a swap is off."},
+  {ic:"🚨", t:{id:"Peringatan Kerugian dalam Dolar",en:"Loss Warnings in Dollars"},
+   id:"Sebelum swap, Freesia menghitung berapa uang yang akan hilang — bukan cuma persen. Kalau angkanya buruk, tombolnya berubah dan Anda harus mengetik konfirmasi. Kami menahan, bukan melarang.",
+   en:"Before a swap, Freesia works out how much money you'd lose — not just a percentage. When the number is bad, the button changes and you must type a confirmation. We slow you down; we never block you."},
+  {ic:"🛡️", t:{id:"Pemeriksaan Keamanan Swap",en:"Swap Safety Check"},
+   id:"Setiap swap dirangkum jadi satu vonis: aman, hati-hati, atau berisiko — memakai dampak harga dan pembanding oracle DIA.",
+   en:"Every swap is summarised into one verdict: safe, caution, or risky — using price impact and the DIA oracle benchmark."},
+  {ic:"🔍", t:{id:"Kuotasi On-Chain",en:"On-Chain Quotes"},
+   id:"Estimasi hasil swap dihitung langsung dari smart contract, bukan simulasi off-chain. Sesaat sebelum kirim, kutipan diambil ulang agar transaksi tidak gagal sia-sia.",
+   en:"Swap estimates come straight from the smart contract, not an off-chain simulation. Right before sending, the quote is refetched so your transaction doesn't fail for nothing."},
+  {ic:"💧", t:{id:"Add / Remove Liquidity",en:"Add / Remove Liquidity"},
+   id:"Sediakan likuiditas ke pool USDC/DAI, KOPDES/USDC, atau MBG/USDC — dan tarik kembali kapan saja, langsung on-chain.",
+   en:"Provide liquidity to the USDC/DAI, KOPDES/USDC, or MBG/USDC pools — and withdraw anytime, fully on-chain."},
+  {ic:"🌱", t:{id:"Stake LP, Earn FREE",en:"Stake LP, Earn FREE"},
+   id:"Stake LP token Anda untuk menghasilkan reward FREE dalam periode yang jelas — bukan janji imbal hasil tanpa batas.",
+   en:"Stake your LP tokens to earn FREE rewards over a clearly bounded period — not a promise of infinite yield."},
+  {ic:"📉", t:{id:"Kalkulator Impermanent Loss",en:"Impermanent Loss Calculator"},
+   id:"Geser satu slider dan lihat kerugian Anda dibanding sekadar menahan token — sebelum jadi LP, bukan sesudah menyesal.",
+   en:"Drag one slider and see your loss versus simply holding — before you become an LP, not after you regret it."},
+  {ic:"📊", t:{id:"Statistik & Peringkat On-Chain",en:"On-Chain Stats & Leaderboard"},
+   id:"Dashboard dan peringkat dihitung dari event Swap di kontrak, bukan data browser. Saat sepi, angkanya ditampilkan apa adanya — tidak dipoles.",
+   en:"The dashboard and leaderboard are computed from contract Swap events, not browser data. When it's quiet, the numbers say so — unpolished."},
+  {ic:"🕐", t:{id:"Riwayat Transaksi On-Chain",en:"On-Chain Transaction History"},
+   id:"Riwayat swap dibaca dari event milik alamat Anda langsung di kontrak — bertahan setelah halaman ditutup, dan bisa diperiksa di explorer.",
+   en:"Your swap history is read from your address's own contract events — it survives a page reload and can be checked on the explorer."},
+  {ic:"🚰", t:{id:"Testnet Faucet",en:"Testnet Faucet"},
+   id:"Klaim token testnet gratis langsung dari DEX. Tanpa daftar, tanpa izin, tanpa syarat.",
+   en:"Claim free testnet tokens directly from the DEX. No signup, no permission, no conditions."},
+  {ic:"🔗", t:{id:"Koneksi Wallet Native",en:"Native Wallet Connection"},
+   id:"Sambungkan wallet apa pun (MetaMask, Rabby, Zerion) lewat standar EIP-6963 — Anda yang memilih, bukan kami.",
+   en:"Connect any wallet (MetaMask, Rabby, Zerion) via the EIP-6963 standard — you pick it, not us."},
+  {ic:"📈", t:{id:"Grafik Dampak Harga",en:"Price Impact Chart"},
+   id:"Grafik jujur: menunjukkan seberapa buruk harga Anda saat ukuran swap membesar, dihitung dari cadangan pool nyata.",
+   en:"An honest chart: it shows how much worse your price gets as the swap grows, computed from real pool reserves."},
+  {ic:"🕶️", t:{id:"Shielded Swap (Segera)",en:"Shielded Swap (Soon)"},
+   id:"Proteksi MEV terhadap sandwich attack. BELUM AKTIF — butuh private relay atau perubahan kontrak, masih di roadmap. Kami mencantumkannya sebagai rencana, bukan fitur.",
+   en:"MEV protection against sandwich attacks. NOT ACTIVE — it needs a private relay or contract changes, still on the roadmap. We list it as a plan, not a feature."},
 ];
 
 var TOK = [
-  {t:"Fee 0.3% — 100% ke LP", id:"Saat ini seluruh fee swap mengalir ke penyedia likuiditas, bukan ke protokol. Kami memprioritaskan menarik likuiditas dulu, bukan mengambil untung dari pengguna awal.", en:"Right now, all swap fees flow to liquidity providers, not the protocol. We prioritize attracting liquidity first, not profiting from early users."},
-  {t:"Fee-Switch: Siap, Sengaja Dimatikan", id:"Infrastruktur protocol-fee sudah dirancang (maksimal 1/6 dari fee, meniru Uniswap) tapi dimatikan default. Baru diaktifkan lewat governance saat likuiditas cukup dalam — punya sakelar bukan berarti menyalakannya.", en:"Protocol-fee infrastructure is designed (max 1/6 of fees, mirroring Uniswap) but off by default. Only enabled via governance once liquidity is deep enough — having the switch doesn't mean flipping it."},
-  {t:"Treasury dari Insentif Ekosistem", id:"Keberlanjutan awal berasal dari dukungan ekosistem LitVM (grant, kredit audit), bukan dari memeras fee pengguna saat komunitas masih kecil.", en:"Early sustainability comes from LitVM ecosystem support (grants, audit credits), not from squeezing user fees while the community is small."},
-  {t:"Reward FREE dengan Periode Jelas", id:"Reward staking berjalan dalam periode terbatas waktu yang transparan — bukan janji imbal hasil tak terbatas yang tidak berkelanjutan.", en:"Staking rewards run in transparent, time-bounded periods — not unsustainable promises of infinite yield."},
+  {t:{id:"Fee 0.3% — 100% ke LP",en:"0.3% Fee — 100% to LPs"},
+   id:"Saat ini seluruh fee swap mengalir ke penyedia likuiditas, bukan ke protokol. Kami memprioritaskan menarik likuiditas dulu, bukan mengambil untung dari pengguna awal.",
+   en:"Right now, all swap fees flow to liquidity providers, not the protocol. We prioritize attracting liquidity first, not profiting from early users."},
+  {t:{id:"Fee-Switch: Siap, Sengaja Dimatikan",en:"Fee-Switch: Ready, Deliberately Off"},
+   id:"Infrastruktur protocol-fee sudah dirancang (maksimal 1/6 dari fee, meniru Uniswap) tapi dimatikan default. Baru diaktifkan lewat governance saat likuiditas cukup dalam — punya sakelar bukan berarti menyalakannya.",
+   en:"Protocol-fee infrastructure is designed (max 1/6 of fees, mirroring Uniswap) but off by default. Only enabled via governance once liquidity is deep enough — having the switch doesn't mean flipping it."},
+  {t:{id:"Treasury dari Insentif Ekosistem",en:"Treasury from Ecosystem Incentives"},
+   id:"Keberlanjutan awal berasal dari dukungan ekosistem LitVM (grant, kredit audit), bukan dari memeras fee pengguna saat komunitas masih kecil.",
+   en:"Early sustainability comes from LitVM ecosystem support (grants, audit credits), not from squeezing user fees while the community is small."},
+  {t:{id:"Reward FREE dengan Periode Jelas",en:"FREE Rewards, Clearly Bounded"},
+   id:"Reward staking berjalan dalam periode terbatas waktu yang transparan — bukan janji imbal hasil tak terbatas yang tidak berkelanjutan.",
+   en:"Staking rewards run in transparent, time-bounded periods — not unsustainable promises of infinite yield."},
 ];
 
 var ROADMAP = [
-  {p:"Fase 1", t:"Fondasi", f:"AMM Swap + Pool + Earn", id:"AMM constant-product lengkap: swap, penyediaan likuiditas, staking LP, dan reward FREE. Sudah berjalan dan bisa diverifikasi on-chain.", en:"Complete constant-product AMM: swap, liquidity provision, LP staking, and FREE rewards. Live and verifiable on-chain.", tId:"Selesai", tEn:"Done", active:true},
-  {p:"Fase 2", t:"Lapisan Perlindungan", f:"Panel Risiko + Harga DIA + Pemeriksaan Keamanan", id:"Fitur yang menerjemahkan risiko jadi bahasa manusia: panel kerugian, harga referensi oracle DIA, dan pemeriksaan keamanan swap sebelum konfirmasi. Sebagian besar sudah live.", en:"Features that translate risk into plain language: loss panel, DIA oracle reference pricing, and a swap safety check before you confirm. Mostly live already.", tId:"Berjalan", tEn:"In progress", active:true},
-  {p:"Fase 3", t:"Transparansi & Edukasi", f:"Penjelas Transaksi + Kalkulator IL + Dokumentasi", id:"Penjelas transaksi dalam bahasa sederhana, kalkulator impermanent loss sebelum jadi LP, dan dokumentasi publik. Semua ringan, aman, dan gratis.", en:"Plain-language transaction explainer, impermanent-loss calculator before becoming an LP, and public docs. All lightweight, safe, and free.", tId:"1-3 Bulan", tEn:"1-3 Months", active:false},
-  {p:"Fase 4", t:"Kesiapan Mainnet", f:"Audit + Bug Bounty + Verifikasi Kontrak", id:"Audit smart-contract profesional (mengandalkan dukungan ekosistem LitVM), bug bounty saat dana memungkinkan, dan verifikasi kontrak publik. Gerbang wajib sebelum mainnet.", en:"Professional smart-contract audit (relying on LitVM ecosystem support), a bug bounty when funds allow, and public contract verification. The required gate before mainnet.", tId:"Tergantung dukungan", tEn:"Support-dependent", active:false},
-  {p:"Fase 5", t:"Pertumbuhan Berkelanjutan", f:"Pair Baru + Fee-Switch + Trading Otomatis", id:"Arah jangka panjang: pasangan token baru (mis. zkLTC), aktivasi fee-switch protokol saat likuiditas cukup dalam, governance komunitas, serta fitur trading otomatis (DCA & Zap). Aspirasional — DCA/Zap butuh prasyarat: pengguna aktif, audit selesai, dan infrastruktur eksekusi. Tidak dibangun sebelum fondasi itu ada.", en:"Long-term direction: new token pairs (e.g. zkLTC), activating the protocol fee-switch once liquidity is deep enough, community governance, plus automated trading (DCA & Zap). Aspirational — DCA/Zap require prerequisites: active users, a completed audit, and execution infrastructure. Not built before that foundation exists.", tId:"Aspirasional", tEn:"Aspirational", active:false},
+  {p:"Fase 1", t:{id:"Fondasi",en:"Foundation"}, f:"AMM Swap + Pool + Earn",
+   id:"AMM constant-product lengkap: swap, penyediaan likuiditas, staking LP, dan reward FREE. Sudah berjalan dan bisa diverifikasi on-chain.",
+   en:"Complete constant-product AMM: swap, liquidity provision, LP staking, and FREE rewards. Live and verifiable on-chain.",
+   tId:"Selesai", tEn:"Done", active:true},
+  {p:"Fase 2", t:{id:"Lapisan Perlindungan",en:"Protection Layer"}, f:"Panel Risiko + Harga DIA + Pemeriksaan Keamanan",
+   id:"Fitur yang menerjemahkan risiko jadi bahasa manusia: panel kerugian dalam dolar, harga referensi oracle DIA, dan pemeriksaan keamanan swap sebelum konfirmasi. Sudah live.",
+   en:"Features that translate risk into plain language: a loss panel in dollars, DIA oracle reference pricing, and a swap safety check before you confirm. Live now.",
+   tId:"Selesai", tEn:"Done", active:true},
+  {p:"Fase 3", t:{id:"Transparansi & Edukasi",en:"Transparency & Education"}, f:"Halaman Verifikasi + Catatan Insiden + Kalkulator IL",
+   id:"Halaman verifikasi yang memeriksa tiap kontrak langsung dari rantai, catatan insiden yang menerbitkan kesalahan kami sendiri, dan kalkulator impermanent loss. Sudah live — dokumentasi publik masih berjalan.",
+   en:"A verification page that checks every contract straight from the chain, an incident log that publishes our own mistakes, and an impermanent-loss calculator. Live — public docs still in progress.",
+   tId:"Berjalan", tEn:"In progress", active:true},
+  {p:"Fase 4", t:{id:"Kesiapan Mainnet",en:"Mainnet Readiness"}, f:"Audit + Migrasi Pool Lama + Verifikasi Kontrak",
+   id:"Audit smart-contract profesional (mengandalkan dukungan ekosistem LitVM), migrasi pool USDC/DAI generasi awal ke V3, bug bounty saat dana memungkinkan, dan verifikasi kode sumber publik. Gerbang wajib sebelum mainnet.",
+   en:"A professional smart-contract audit (relying on LitVM ecosystem support), migrating the early-generation USDC/DAI pool to V3, a bug bounty when funds allow, and public source verification. The required gate before mainnet.",
+   tId:"Tergantung dukungan", tEn:"Support-dependent", active:false},
+  {p:"Fase 5", t:{id:"Pertumbuhan Berkelanjutan",en:"Sustainable Growth"}, f:"Pair Baru + Fee-Switch + Trading Otomatis",
+   id:"Arah jangka panjang: pasangan token baru (mis. zkLTC), aktivasi fee-switch protokol saat likuiditas cukup dalam, governance komunitas, serta fitur trading otomatis (DCA & Zap). Aspirasional — DCA/Zap butuh prasyarat: pengguna aktif, audit selesai, dan infrastruktur eksekusi. Tidak dibangun sebelum fondasi itu ada.",
+   en:"Long-term direction: new token pairs (e.g. zkLTC), activating the protocol fee-switch once liquidity is deep enough, community governance, plus automated trading (DCA & Zap). Aspirational — DCA/Zap require prerequisites: active users, a completed audit, and execution infrastructure. Not built before that foundation exists.",
+   tId:"Aspirasional", tEn:"Aspirational", active:false},
 ];
 
 var SECURITY = [
-  {ic:"🔒", t:{id:"Audit Mandiri Terbuka — Kontrak V3",en:"Open Self-Audit — V3 Contract"}, d:{id:"Kontrak SimpleLiquidityPoolV3 kami menutup enam kelas kerentanan: setoran kecil yang lenyap, serangan first-depositor, token sisa tak dikembalikan, proteksi slippage saat remove, reentrancy, dan transfer gagal diam-diam (FIX #1–#6). Pool baru dibangun dari kontrak ini. Jujur: pool USDC/DAI awal dibuat sebelum kontrak V3 ada — sebagian FIX belum bisa kami verifikasi di sana, dan migrasinya sedang ditinjau.",en:"Our SimpleLiquidityPoolV3 contract closes six vulnerability classes: vanishing small deposits, first-depositor attack, unreturned excess tokens, slippage protection on removal, reentrancy, and silent failed transfers (FIX #1–#6). New pools are built from this contract. To be honest: the original USDC/DAI pool predates the V3 contract — some FIXes can't be verified there yet, and migration is under review."}},
-  {ic:"🛡️", t:{id:"Reentrancy Guard (Kontrak V3)",en:"Reentrancy Guard (V3 Contract)"}, d:{id:"Di kontrak V3, seluruh fungsi swap, add, dan remove liquidity dilindungi nonReentrant — menutup satu kelas serangan paling umum di AMM.",en:"In the V3 contract, all swap, add, and remove liquidity functions are protected by nonReentrant — closing one of the most common AMM attack classes."}},
-  {ic:"📊", t:{id:"Harga Referensi DIA",en:"DIA Reference Pricing"}, d:{id:"Terintegrasi dengan DIA, oracle resmi LitVM. Harga pasar independen ditampilkan di samping harga pool, agar Anda tahu bila swap tidak wajar.",en:"Integrated with DIA, LitVM's official oracle. Independent market prices shown next to pool prices, so you know when a swap is off."}},
-  {ic:"⚠️", t:{id:"Audit Profesional: Direncanakan",en:"Professional Audit: Planned"}, d:{id:"Belum diaudit pihak ketiga. Audit profesional direncanakan sebelum mainnet — kami jujur soal status ini. Sampai saat itu, gunakan hanya dana testnet.",en:"Not yet third-party audited. A professional audit is planned before mainnet — we're honest about this status. Until then, use testnet funds only."}},
+  {ic:"🔒", t:{id:"Audit Mandiri Terbuka — Kontrak V3",en:"Open Self-Audit — V3 Contract"},
+   d:{id:"Kontrak SimpleLiquidityPoolV3 menutup enam kelas kerentanan: setoran kecil yang lenyap, serangan first-depositor, token sisa tak dikembalikan, proteksi slippage saat penarikan, reentrancy, dan transfer gagal diam-diam. Pool KOPDES/USDC dan MBG/USDC lahir dari kontrak ini. Jujur: pool USDC/DAI dibuat sebelum V3 ada — sebagian FIX tidak bisa kami verifikasi di sana, dan migrasinya tercatat terbuka di catatan insiden.",
+      en:"The SimpleLiquidityPoolV3 contract closes six vulnerability classes: vanishing small deposits, the first-depositor attack, unreturned excess tokens, slippage protection on withdrawal, reentrancy, and silent failed transfers. The KOPDES/USDC and MBG/USDC pools are born from it. Honestly: the USDC/DAI pool predates V3 — some fixes can't be verified there, and its migration is logged openly in our incident log."}},
+  {ic:"🕵️", t:{id:"Kami Menerbitkan Kesalahan Kami",en:"We Publish Our Own Mistakes"},
+   d:{id:"Kelemahan XSS yang kami temukan sendiri, enam kontrak yang harus dibuang, klaim yang dulu terlalu jauh — semuanya tercatat lengkap dengan akibatnya. Termasuk satu insiden yang masih terbuka hari ini.",
+      en:"An XSS weakness we found ourselves, six contracts we had to discard, a claim that once reached too far — all logged, each with what it cost. Including one incident still open today."}},
+  {ic:"📊", t:{id:"Harga Referensi DIA",en:"DIA Reference Pricing"},
+   d:{id:"Terintegrasi dengan DIA, oracle resmi LitVM. Harga pasar independen ditampilkan di samping harga pool, agar Anda tahu bila swap tidak wajar. Oracle hanya dipakai sebagai pembanding — tidak pernah menyentuh logika swap.",
+      en:"Integrated with DIA, LitVM's official oracle. Independent market prices sit next to pool prices, so you know when a swap is off. The oracle is only a benchmark — it never touches swap logic."}},
+  {ic:"⚠️", t:{id:"Audit Profesional: Belum Ada",en:"Professional Audit: Not Yet"},
+   d:{id:"Belum diaudit pihak ketiga. Audit mandiri kami sendiri menemukan kerentanan yang lolos berbulan-bulan — jadi kami tahu persis batasnya. Audit profesional adalah syarat mutlak sebelum mainnet. Sampai saat itu: token testnet saja.",
+      en:"No third-party audit. Our own self-audit found a vulnerability that had survived for months — so we know exactly its limits. A professional audit is an absolute prerequisite before mainnet. Until then: testnet tokens only."}},
 ];
 
 var FAQ = {
   id:[
-    {q:"Apakah Freesia DEX sudah live di mainnet?", a:"Belum. Saat ini Freesia DEX masih dalam fase testnet di LitVM. Mainnet akan diluncurkan setelah semua fitur inti diuji dan diaudit dengan baik."},
-    {q:"Siapa yang membangun Freesia DEX?", a:"Freesia DEX dibangun oleh solo developer (Zack) dengan dukungan komunitas. Ini adalah proyek open source yang dibangun dengan transparansi penuh."},
-    {q:"Kapan mainnet launch?", a:"Target mainnet tergantung pada progress testnet dan audit. Kami tidak memberikan janji tanggal pasti — kualitas dan keamanan adalah prioritas utama."},
-    {q:"Apakah smart contract sudah diaudit?", a:"Belum oleh pihak ketiga. Kami melakukan audit mandiri terbuka dan menulis kontrak SimpleLiquidityPoolV3 yang menutup enam kelas kerentanan (FIX #1–#6) — pool baru dibangun dari kontrak itu. Sejujurnya, pool USDC/DAI awal dibuat sebelum kontrak V3 ada, jadi sebagian FIX belum bisa kami verifikasi di sana; migrasinya sedang ditinjau. Audit mandiri bukan pengganti audit profesional, dan audit profesional direncanakan sebelum mainnet."},
-    {q:"Bagaimana cara menjadi early tester?", a:"Hubungi kami di X/Twitter @0xzackbh atau join komunitas. Kamu bisa mencoba testnet dan memberikan feedback langsung."},
-    {q:"Apakah ada token?", a:"Belum ada token yang diluncurkan, dan kami tidak terburu-buru. Token hanya masuk akal kalau ada volume nyata yang membenarkannya — meluncurkan token sebelum ada guna adalah jebakan umum. Fokus kami sekarang: fee yang adil (100% ke LP) dan keberlanjutan dari dukungan ekosistem."},
+    {q:"Bagaimana saya tahu Freesia tidak menipu?", a:"Jangan percaya kami — periksa sendiri. Halaman verifikasi membuat browser Anda menghubungi RPC LitVM dan membaca tiap kontrak langsung dari blockchain, tanpa melewati server kami. Halaman catatan insiden memuat daftar kesalahan kami sendiri, termasuk satu yang masih terbuka. Kalau ada yang tidak cocok, itu akan terlihat di sana, bukan di kalimat pemasaran."},
+    {q:"Apakah Freesia DEX sudah live di mainnet?", a:"Belum. Saat ini Freesia DEX masih dalam fase testnet di LitVM. Mainnet baru masuk akal setelah audit profesional selesai dan pool generasi awal dimigrasikan."},
+    {q:"Siapa yang membangun Freesia DEX?", a:"Satu orang: Zack. Itu berarti kesalahan akan terjadi — dan sudah terjadi. Yang kami janjikan bukan kesempurnaan, tapi Anda akan selalu tahu: semuanya kami terbitkan di catatan insiden."},
+    {q:"Kapan mainnet launch?", a:"Tidak ada tanggal. Ada syarat: audit profesional selesai, pool USDC/DAI generasi awal dimigrasikan ke V3, dan ada pengguna nyata yang mengujinya. Memberi tanggal palsu lebih mudah daripada memenuhi syarat — kami memilih yang kedua."},
+    {q:"Apakah smart contract sudah diaudit?", a:"Belum oleh pihak ketiga. Kami melakukan audit mandiri terbuka dan menulis SimpleLiquidityPoolV3 yang menutup enam kelas kerentanan — pool KOPDES/USDC dan MBG/USDC lahir dari kontrak itu. Sejujurnya, pool USDC/DAI dibuat sebelum V3 ada, jadi sebagian FIX tidak bisa kami verifikasi di sana; migrasinya tercatat sebagai insiden terbuka. Audit mandiri bukan pengganti audit profesional — audit mandiri kami sendiri sempat melewatkan kerentanan XSS selama berbulan-bulan."},
+    {q:"Bagaimana cara menjadi early tester?", a:"Langsung saja pakai — token testnet gratis lewat faucet, tanpa daftar. Lalu beri tahu kami apa yang rusak di X/Twitter @0xzackbh. Laporan dari luar akan dicatat di halaman insiden lengkap dengan kredit."},
+    {q:"Apakah ada token?", a:"Belum ada token yang diluncurkan, dan kami tidak terburu-buru. Token hanya masuk akal kalau ada volume nyata yang membenarkannya — meluncurkan token sebelum ada guna adalah jebakan umum. Leaderboard kami sengaja tidak menjanjikan alokasi apa pun. Fokus sekarang: fee yang adil (100% ke LP) dan keberlanjutan dari dukungan ekosistem."},
   ],
   en:[
-    {q:"Is Freesia DEX live on mainnet?", a:"Not yet. Freesia DEX is currently in testnet phase on LitVM. Mainnet will launch after all core features are tested and audited."},
-    {q:"Who is building Freesia DEX?", a:"Freesia DEX is built by a solo developer (Zack) with community support. It's an open-source project built with full transparency."},
-    {q:"When is mainnet launch?", a:"Mainnet target depends on testnet progress and audits. We don't give specific date promises — quality and security are our top priorities."},
-    {q:"Are the smart contracts audited?", a:"Not yet by a third party. We did an open self-audit and wrote a SimpleLiquidityPoolV3 contract that closes six vulnerability classes (FIX #1–#6) — new pools are built from it. To be honest, the original USDC/DAI pool predates the V3 contract, so some FIXes can't be verified there yet; migration is under review. A self-audit is not a substitute for a professional audit, and a professional audit is planned before mainnet."},
-    {q:"How do I become an early tester?", a:"Reach out to us on X/Twitter @0xzackbh or join the community. You can try the testnet and provide direct feedback."},
-    {q:"Is there a token?", a:"No token has launched, and we're not rushing one. A token only makes sense when real volume justifies it — launching before there's utility is a common trap. Our focus now: fair fees (100% to LP) and sustainability from ecosystem support."},
+    {q:"How do I know Freesia isn't a scam?", a:"Don't trust us — check. The verification page makes your own browser contact the LitVM RPC and read each contract straight from the blockchain, never through our servers. The incident log lists our own mistakes, including one still open. If something doesn't add up, it'll show up there, not in a marketing sentence."},
+    {q:"Is Freesia DEX live on mainnet?", a:"Not yet. Freesia DEX is currently in testnet phase on LitVM. Mainnet only makes sense after a professional audit and after the early-generation pool is migrated."},
+    {q:"Who is building Freesia DEX?", a:"One person: Zack. That means mistakes will happen — and they have. What we promise isn't perfection; it's that you'll always know: everything gets published in the incident log."},
+    {q:"When is mainnet launch?", a:"No date. There are conditions: a completed professional audit, migrating the early-generation USDC/DAI pool to V3, and real users testing it. Announcing a fake date is easier than meeting conditions — we chose the latter."},
+    {q:"Are the smart contracts audited?", a:"Not by a third party. We did an open self-audit and wrote SimpleLiquidityPoolV3, which closes six vulnerability classes — the KOPDES/USDC and MBG/USDC pools are born from it. Honestly, the USDC/DAI pool predates V3, so some fixes can't be verified there; its migration is logged as an open incident. A self-audit is no substitute for a professional one — ours missed an XSS weakness for months."},
+    {q:"How do I become an early tester?", a:"Just use it — free testnet tokens from the faucet, no signup. Then tell us what broke, at X/Twitter @0xzackbh. Reports from outside get logged on the incident page, with credit."},
+    {q:"Is there a token?", a:"No token has launched, and we're not rushing one. A token only makes sense when real volume justifies it — launching before there's utility is a common trap. Our leaderboard deliberately promises no allocation whatsoever. Focus now: fair fees (100% to LPs) and sustainability from ecosystem support."},
   ],
 };
 
@@ -532,34 +708,56 @@ var TIPS = {
     "Add Liquidity butuh DUA tanda tangan: Approve dulu, baru transaksi Add Liquidity. Keduanya harus dikonfirmasi.",
     "Isi kedua token dengan nilai seimbang sesuai rasio pool, agar tidak ada sisa yang dikembalikan.",
     "Setelah transaksi sukses, tunggu beberapa detik lalu muat ulang halaman kalau saldo LP belum berubah.",
-    "Pastikan Anda punya sedikit native token untuk gas.",
+    "Pastikan Anda punya sedikit zkLTC untuk gas.",
     "Ini testnet — gunakan token testnet, jangan dana sungguhan.",
   ],
   en:[
     "Add Liquidity needs TWO signatures: Approve first, then the Add Liquidity transaction. Both must be confirmed.",
     "Enter balanced amounts matching the pool ratio, so nothing gets refunded.",
     "After a successful transaction, wait a few seconds and refresh if your LP balance hasn't updated.",
-    "Make sure you hold a little native token for gas.",
+    "Make sure you hold a little zkLTC for gas.",
     "This is testnet — use testnet tokens, never real funds.",
   ],
 };
 
 var CONTRACTS = [
-  {key:"POOL",    label:{id:"Pool Likuiditas",en:"Liquidity Pool"}, sub:"SimpleLiquidityPoolV3"},
-  {key:"STAKING", label:{id:"Kontrak Staking",en:"Staking Contract"}, sub:"Earn / Farm · V3-compatible"},
-  {key:"FREE",    label:{id:"Token Reward",en:"Reward Token"}, sub:"FREE"},
-  {key:"USDC",    label:{id:"Token USDC",en:"USDC Token"}, sub:"USDC"},
-  {key:"DAI",     label:{id:"Token DAI",en:"DAI Token"}, sub:"DAI"},
+  {key:"POOL",         label:{id:"Pool USDC/DAI",en:"USDC/DAI Pool"},        sub:{id:"Generasi awal · pra-V3",en:"Early generation · pre-V3"}, flag:true},
+  {key:"POOL_KOPDES",  label:{id:"Pool KOPDES/USDC",en:"KOPDES/USDC Pool"},  sub:{id:"SimpleLiquidityPoolV3",en:"SimpleLiquidityPoolV3"}},
+  {key:"POOL_MBGUSDC", label:{id:"Pool MBG/USDC",en:"MBG/USDC Pool"},        sub:{id:"SimpleLiquidityPoolV3",en:"SimpleLiquidityPoolV3"}},
+  {key:"STAKING",      label:{id:"Kontrak Staking",en:"Staking Contract"},   sub:{id:"Earn / Farm · pool USDC/DAI",en:"Earn / Farm · USDC/DAI pool"}},
+  {key:"FREE",         label:{id:"Token Reward",en:"Reward Token"},          sub:{id:"FREE",en:"FREE"}},
+  {key:"USDC",         label:{id:"Token USDC",en:"USDC Token"},              sub:{id:"USDC",en:"USDC"}},
+  {key:"DAI",          label:{id:"Token DAI",en:"DAI Token"},                sub:{id:"DAI",en:"DAI"}},
 ];
 
 var I18N = {
   nav_features:["Fitur","Features"], nav_security:["Keamanan","Security"],
   nav_start:["Cara Mulai","Get Started"], nav_contracts:["Kontrak","Contracts"],
+  nav_proof:["Bukti","Proof"], nav_sustain:["Keberlanjutan","Sustainability"], nav_roadmap:["Roadmap","Roadmap"],
+  proof_badge:["Bukti","Proof"],
+  proof_title:["Jangan Percaya. Periksa.","Don't Trust. Verify."],
+  proof_sub:["Setiap proyek DeFi mengaku transparan. Dua halaman ini membuat klaim itu bisa diuji — oleh siapa pun, tanpa izin kami.","Every DeFi project claims transparency. These two pages make that claim testable — by anyone, without our permission."],
+  proof_v_t:["Halaman Verifikasi","Verification Page"],
+  proof_v_d:["Browser Anda sendiri menghubungi RPC LitVM dan memeriksa 19 kontrak satu per satu, langsung di depan mata: cadangan pool, suplai token, harga oracle. Tidak lewat server kami. Halaman itu juga memuat daftar hal yang <em>tidak</em> bisa dibuktikannya.","Your own browser contacts the LitVM RPC and checks 19 contracts one by one, right in front of you: pool reserves, token supplies, oracle prices. Never through our servers. That page also lists what it <em>cannot</em> prove."],
+  proof_v_cta:["Periksa sendiri →","Check it yourself →"],
+  proof_l_t:["Catatan Insiden","Incident Log"],
+  proof_l_d:["Daftar kesalahan kami sendiri: kontrak yang harus dibuang, klaim yang dulu terlalu jauh, kelemahan keamanan yang kami temukan sendiri — termasuk satu yang <strong>masih terbuka</strong>. Tiap entri menyebut apa akibatnya, bukan cuma \"sudah diperbaiki\".","Our own list of mistakes: contracts we had to discard, a claim that once reached too far, a security weakness we found ourselves — including one that's <strong>still open</strong>. Each entry says what it cost, not just that it was fixed."],
+  proof_l_cta:["Baca kesalahan kami →","Read our mistakes →"],
+  proof_note:["Kami menerbitkan kesalahan bukan karena bangga, tapi karena DEX yang menyembunyikan kesalahannya adalah DEX yang belum ketahuan.","We publish mistakes not out of pride, but because a DEX that hides its mistakes is just a DEX that hasn't been caught yet."],
   live_badge:["Data Langsung","Live Data"],
   live_title:["Statistik On-Chain","On-Chain Statistics"],
-  live_note:["Diambil langsung dari smart contract.","Fetched directly from the smart contract."],
+  live_note:["Dibaca langsung dari smart contract oleh browser Anda.","Read directly from the smart contracts by your browser."],
+  live_fail:["Tidak bisa menghubungi RPC LitVM. Mungkin jaringan Anda, mungkin RPC-nya sedang turun — dua-duanya berarti angka di bawah belum terbukti.","Couldn't reach the LitVM RPC. Might be your network, might be the RPC being down — either way, the numbers below aren't proven yet."],
   dia_badge:["Harga terverifikasi oleh DIA — oracle resmi LitVM","Prices verified by DIA — LitVM's official oracle"],
-  ls_tvl:["Total Likuiditas","Total Liquidity"],
+  ls_tvl:["Likuiditas USDC/DAI","USDC/DAI Liquidity"],
+  ls_tvl_s:["dua stablecoin, ≈ USD","two stablecoins, ≈ USD"],
+  ls_lp:["Total LP Supply","Total LP Supply"],
+  ls_lp_s:["pool USDC/DAI","USDC/DAI pool"],
+  ls_pools:["Pool Aktif","Active Pools"],
+  ls_pools_s:["punya likuiditas","with liquidity"],
+  ls_staked:["LP Di-stake","LP Staked"],
+  ls_staked_s:["menghasilkan FREE","earning FREE"],
+  ls_foot:["Angka di atas hanya sebagian. Rincian tiap kontrak — dan pemeriksaannya secara langsung — ada di halaman verifikasi.","These numbers are only part of the picture. Every contract — and a live check of each — is on the verification page."],
   start_badge:["Panduan","Guide"],
   start_title:["Cara Mulai dalam 3 Langkah","Get Started in 3 Steps"],
   start_sub:["Dari nol sampai menghasilkan reward FREE. Butuh beberapa menit saja.","From zero to earning FREE rewards. Takes just a few minutes."],
@@ -569,17 +767,21 @@ var I18N = {
   con_title:["Kontrak & Jaringan","Contracts & Network"],
   con_sub:["Semua kontrak terbuka untuk diperiksa. Jangan percaya, verifikasi sendiri.","All contracts are open for inspection. Don't trust, verify."],
   con_net:["Jaringan","Network"],
+  con_legacy:["Pool ini di-deploy sebelum SimpleLiquidityPoolV3 ada dan kode sumbernya hilang — sebagian proteksi tidak dapat kami verifikasi. Migrasinya tercatat terbuka di catatan insiden.","This pool was deployed before SimpleLiquidityPoolV3 existed and its source is lost — some protections can't be verified. Its migration is logged openly in the incident log."],
+  con_verify_cta:["Periksa semua kontrak secara langsung","Check every contract live"],
   con_warn:["⚠️ Ini masih fase testnet. Kontrak belum diaudit pihak ketiga. Jangan gunakan dana sungguhan.","⚠️ This is still testnet. Contracts are not third-party audited. Do not use real funds."],
   hero_badge:["Testnet Live · LitVM","Testnet Live · LitVM"],
   hero_h1a:["DEX Sederhana yang","A Simple DEX That"],
   hero_h1b:["Benar-Benar Berjalan","Actually Works"],
   hero_sub:["Freesia DEX adalah AMM ringan di LitVM: swap token, sediakan likuiditas, dan stake LP untuk reward FREE. Semua on-chain, semua bisa diverifikasi.","Freesia DEX is a lightweight AMM on LitVM: swap tokens, provide liquidity, and stake LP for FREE rewards. All on-chain, all verifiable."],
   btn_launch:["Launch App","Launch App"], btn_enter:["Masuk ke App","Enter App"], btn_docs:["Baca Dokumentasi","Read Documentation"],
+  btn_verify:["Periksa Kontraknya","Verify the Contracts"],
   st1l:["Fase","Phase"], st1v:["Testnet","Testnet"], st1s:["Pengembangan aktif","Active Development"],
   st2l:["Pengembang","Developer"], st2s:["Open source & transparan","Open source & transparent"],
   st3l:["Arsitektur","Architecture"],
   feat_badge:["Fitur","Features"], feat_title:["Yang Bisa Anda Lakukan","What You Can Do"],
-  tok_title:["Model","A"],
+  feat_sub:["Semuanya sudah berjalan di testnet hari ini — kecuali satu yang kami tandai jujur sebagai \"segera\".","Everything here runs on testnet today — except one, which we honestly label \"soon\"."],
+  tok_title:["Model","A"], tok_title2:["Keberlanjutan","Sustainable Model"],
   tok_sub:["Bagaimana Freesia bertahan tanpa mengorbankan pengguna. Fokus pada fee yang adil dan dukungan ekosistem — bukan mencetak token untuk hype.","How Freesia sustains itself without sacrificing users. Focused on fair fees and ecosystem support — not minting a token for hype."],
   sus_fee_now:["Fee swap saat ini","Current swap fee"],
   sus_fee_future:["Protocol fee (masa depan)","Protocol fee (future)"],
@@ -592,35 +794,37 @@ var I18N = {
   sec_badge:["Keamanan","Security"], sec_title:["Keamanan Sejak Hari Pertama","Security from Day One"],
   dev_badge:["Dari Pengembang","From the Developer"],
   dev_title:["Dibangun dengan","Built with"], dev_heart:["Hati","Heart"], dev_title2:[", Bukan Modal Besar",", Not Big Capital"],
-  dev_p1:["Freesia DEX adalah proyek solo yang saya bangun dari nol di atas LitVM. Setiap baris kode, desain, dan keputusan berasal dari pengalaman saya sendiri sebagai trader DeFi yang frustrasi dengan fitur dasar yang masih hilang di DEX besar.","Freesia DEX is a solo project I'm building from scratch on LitVM. Every line of code, every design, and every decision comes from my own experience as a DeFi trader frustrated with basic features still missing from major DEXes."],
-  dev_p2:["Saat ini kami di fase testnet. Tidak ada angka TVL yang dibesar-besarkan, tidak ada testimonial palsu — hanya kode nyata yang terus berkembang. Saya percaya transparansi adalah fondasi protokol DeFi yang sehat.","We're currently in testnet phase. No inflated TVL numbers, no fake testimonials — just real code that's continuously evolving. I believe transparency is the foundation of a healthy DeFi protocol."],
+  dev_p1:["Freesia DEX adalah proyek solo yang saya bangun dari nol di atas LitVM. Setiap baris kode, desain, dan keputusan berasal dari pengalaman saya sendiri sebagai trader DeFi yang frustrasi dengan fitur dasar yang masih hilang di DEX besar.","Freesia DEX is a solo project I built from scratch on LitVM. Every line of code, every design, and every decision comes from my own experience as a DeFi trader frustrated with basic features still missing from major DEXes."],
+  dev_p2:["Saat ini kami di fase testnet. Tidak ada angka TVL yang dibesar-besarkan, tidak ada testimonial palsu — hanya kode nyata yang terus berkembang. Saya membangun satu orang, jadi kesalahan pasti terjadi; yang bisa saya janjikan bukan kesempurnaan, tapi Anda akan selalu tahu.","We're in testnet phase. No inflated TVL, no fake testimonials — just real code that keeps evolving. I build alone, so mistakes will happen; what I can promise isn't perfection, but that you'll always know."],
   dev_p3:['"Kalau kamu percaya pada visi DEX yang benar-benar user-first, bergabunglah sebagai early tester. Feedback-mu akan membentuk fitur-fitur berikutnya."','"If you believe in the vision of a truly user-first DEX, join as an early tester. Your feedback will shape the next features."'],
   dev_role:["Pengembang Solo & Pendiri","Solo Developer & Founder"],
   faq_badge:["Pertanyaan Umum","FAQ"],
-  cta_title:["Siap untuk Masa Depan DeFi?","Ready for the Future of DeFi?"],
-  cta_sub:["Bergabunglah dengan early access list. Jadilah yang pertama merasakan DEX yang seharusnya sudah ada sejak lama.","Join the early access list. Be the first to experience the DEX that should have existed all along."],
-  foot_desc:["DEX generasi berikutnya yang memperbaiki apa yang hilang. Dibangun di atas LitVM — Hard Money Web3.","The next-generation DEX that fixes what's missing. Built on LitVM — Hard Money Web3."],
+  cta_title:["Siap Mencobanya?","Ready to Try It?"],
+  cta_sub:["Token testnet gratis lewat faucet, tanpa daftar, tanpa izin. Kalau ada yang salah, beri tahu kami — itu justru gunanya fase ini.","Free testnet tokens from the faucet, no signup, no permission. If something's wrong, tell us — that's exactly what this phase is for."],
+  foot_desc:["AMM ringan di LitVM yang memperingatkan Anda sebelum rugi. Semua on-chain, semua bisa diperiksa sendiri.","A lightweight AMM on LitVM that warns you before you lose money. All on-chain, all verifiable yourself."],
   foot_product:["Produk","Product"], foot_res:["Sumber Daya","Resources"], foot_docs:["Dokumentasi","Documentation"], foot_comm:["Komunitas","Community"],
+  foot_verify:["Verifikasi kontrak","Verify contracts"], foot_log:["Catatan insiden","Incident log"],
   foot_copy:["© 2026 Freesia DEX. Dibangun dengan transparansi untuk komunitas DeFi.","© 2026 Freesia DEX. Built with transparency for the DeFi community."],
 };
 
 /* ============ RENDER ============ */
 var lang = (function(){ try { return localStorage.getItem("freesia_lang")==="en"?"en":"id"; } catch(e){ return "id"; } })();
+var liveFailed = false;   /* agar pesan error tidak tertimpa saat ganti bahasa */
 
 function tr(o){ return lang==="id" ? o.id : o.en; }
 
 function renderFeatures(){
   document.getElementById("features-grid").innerHTML = FEATURES.map(function(f){
-    return '<div class="bg-pure-white rounded-2xl p-6 border border-black/5 hover:shadow-lg hover:-translate-y-1 transition">'+
+    return '<div class="lift bg-pure-white rounded-2xl p-6 border border-black/5">'+
       '<div class="text-3xl mb-3">'+f.ic+'</div>'+
-      '<div class="font-bold mb-2">'+f.t+'</div>'+
+      '<div class="font-bold mb-2">'+tr(f.t)+'</div>'+
       '<div class="text-text-secondary text-sm leading-relaxed">'+(lang==="id"?f.id:f.en)+'</div></div>';
   }).join("");
 }
 function renderTok(){
   document.getElementById("tok-list").innerHTML = TOK.map(function(u){
     return '<div class="flex gap-3"><div class="mt-0.5 w-5 h-5 rounded-full bg-soft-green/10 flex items-center justify-center shrink-0 text-soft-green text-xs">✓</div>'+
-      '<div><div class="font-semibold text-[15px]">'+u.t+'</div><div class="text-text-secondary text-sm leading-relaxed">'+(lang==="id"?u.id:u.en)+'</div></div></div>';
+      '<div><div class="font-semibold text-[15px]">'+tr(u.t)+'</div><div class="text-text-secondary text-sm leading-relaxed">'+(lang==="id"?u.id:u.en)+'</div></div></div>';
   }).join("");
 }
 function renderRoadmap(){
@@ -628,9 +832,9 @@ function renderRoadmap(){
     var badge = r.active
       ? '<span class="text-[11px] font-mono px-2 py-0.5 rounded-pill bg-soft-green text-white">'+(lang==="id"?"Aktif":"Active")+'</span>'
       : '<span class="text-[11px] font-mono px-2 py-0.5 rounded-pill bg-surface-raised text-text-secondary">'+(lang==="id"?"Direncanakan":"Planned")+'</span>';
-    return '<div class="bg-pure-white rounded-2xl p-6 border '+(r.active?"border-soft-green":"border-black/5")+'">'+
+    return '<div class="lift bg-pure-white rounded-2xl p-6 border '+(r.active?"border-soft-green":"border-black/5")+'">'+
       '<div class="flex items-center justify-between mb-2 flex-wrap gap-2">'+
-        '<div class="flex items-center gap-3"><span class="font-mono text-sm text-soft-green font-bold">'+r.p+'</span><span class="font-bold">'+r.t+'</span></div>'+
+        '<div class="flex items-center gap-3"><span class="font-mono text-sm text-soft-green font-bold">'+r.p+'</span><span class="font-bold">'+tr(r.t)+'</span></div>'+
         '<div class="flex items-center gap-3">'+badge+'<span class="font-mono text-xs text-text-secondary">'+(lang==="id"?r.tId:r.tEn)+'</span></div>'+
       '</div>'+
       '<div class="text-soft-green text-sm font-semibold mb-1">'+r.f+'</div>'+
@@ -639,7 +843,7 @@ function renderRoadmap(){
 }
 function renderSecurity(){
   document.getElementById("security-grid").innerHTML = SECURITY.map(function(s){
-    return '<div class="bg-bg-white rounded-2xl p-6 border border-black/5">'+
+    return '<div class="lift bg-bg-white rounded-2xl p-6 border border-black/5">'+
       '<div class="text-3xl mb-3">'+s.ic+'</div><div class="font-bold mb-2">'+tr(s.t)+'</div>'+
       '<div class="text-text-secondary text-sm leading-relaxed">'+tr(s.d)+'</div></div>';
   }).join("");
@@ -653,9 +857,13 @@ function renderFaq(){
       '<div class="faq-body"><div class="px-5 pb-4 text-text-secondary text-sm leading-relaxed">'+f.a+'</div></div></div>';
   }).join("");
 }
+/* Tinggi dihitung dari isi sebenarnya — jawaban panjang tidak lagi terpotong */
 function toggleFaq(i){
-  var items = document.querySelectorAll(".faq-item");
-  items[i].classList.toggle("open");
+  var item = document.querySelectorAll(".faq-item")[i];
+  if(!item) return;
+  var body = item.querySelector(".faq-body");
+  var open = item.classList.toggle("open");
+  body.style.maxHeight = open ? (body.scrollHeight + "px") : "0px";
 }
 
 /* -- Menu mobile / tablet -- */
@@ -692,7 +900,9 @@ window.addEventListener('keydown', function(e){
 function applyLinks(){
   var m = {
     "nav-launch":CONFIG.DEX_URL, "hero-launch":CONFIG.DEX_URL, "cta-launch":CONFIG.DEX_URL, "foot-launch":CONFIG.DEX_URL, "start-launch":CONFIG.DEX_URL, "menu-launch":CONFIG.DEX_URL,
-    "hero-x":CONFIG.X, "dev-x":CONFIG.X, "foot-x":CONFIG.X,
+    "hero-verify":CONFIG.VERIFY_URL, "proof-verify":CONFIG.VERIFY_URL, "foot-verify":CONFIG.VERIFY_URL, "con-verify":CONFIG.VERIFY_URL,
+    "proof-log":CONFIG.LOG_URL, "foot-log":CONFIG.LOG_URL,
+    "dev-x":CONFIG.X, "foot-x":CONFIG.X,
     "dev-gh":CONFIG.GITHUB, "foot-gh":CONFIG.GITHUB,
     "cta-docs":CONFIG.DOCS_URL, "foot-docs":CONFIG.DOCS_URL, "nav-docs":CONFIG.DOCS_URL, "menu-docs":CONFIG.DOCS_URL,
     "foot-tg":CONFIG.TELEGRAM, "foot-dc":CONFIG.DISCORD,
@@ -702,18 +912,21 @@ function applyLinks(){
 function applyI18n(){
   document.querySelectorAll("[data-i18n]").forEach(function(el){
     var k = el.getAttribute("data-i18n");
-    if(I18N[k]) el.textContent = lang==="id"?I18N[k][0]:I18N[k][1];
+    if(!I18N[k]) return;
+    if(k === "live_note" && liveFailed) return;      // jangan timpa pesan kegagalan RPC
+    var v = lang==="id"?I18N[k][0]:I18N[k][1];
+    if(v.indexOf("<") !== -1) el.innerHTML = v; else el.textContent = v;
   });
   document.querySelectorAll("[data-lang-btn]").forEach(function(b){
     var active = b.getAttribute("data-lang-btn")===lang;
-    b.className = "px-3 py-1 rounded-pill text-xs font-bold " + (active?"bg-deep-teal text-white":"text-text-secondary");
+    b.className = "px-3 py-1 rounded-pill text-xs font-bold transition " + (active?"bg-deep-teal text-white":"text-text-secondary");
   });
   document.documentElement.lang = lang;
 }
 /* ---- Cara Mulai ---- */
 function renderSteps(){
   document.getElementById("steps-list").innerHTML = STEPS.map(function(s){
-    return '<div class="bg-pure-white rounded-2xl p-6 border border-black/5 hover:shadow-lg hover:-translate-y-1 transition relative">'+
+    return '<div class="lift bg-pure-white rounded-2xl p-6 border border-black/5 relative">'+
       '<div class="absolute top-5 right-5 font-mono text-4xl font-bold text-black/5">'+s.n+'</div>'+
       '<div class="text-3xl mb-3">'+s.ic+'</div>'+
       '<div class="font-bold mb-2">'+tr(s.t)+'</div>'+
@@ -742,9 +955,14 @@ function renderContracts(){
     } else {
       right = '<span class="font-mono text-xs text-text-secondary/60">'+soon+'</span>';
     }
-    return '<div class="bg-bg-white border border-black/5 rounded-xl p-4 flex items-center justify-between gap-3 flex-wrap">'+
-      '<div><div class="font-semibold text-sm">'+tr(c.label)+'</div><div class="font-mono text-[11px] text-text-secondary">'+c.sub+'</div></div>'+
-      right+'</div>';
+    /* Pool generasi awal diberi catatan jujur, bukan disembunyikan */
+    var flag = c.flag
+      ? '<div class="w-full mt-3 pt-3 border-t border-black/5 text-[11.5px] leading-relaxed text-text-secondary">⚠️ '+
+        (lang==="id"?I18N.con_legacy[0]:I18N.con_legacy[1])+'</div>'
+      : '';
+    return '<div class="bg-bg-white border '+(c.flag?'border-amber-500/30':'border-black/5')+' rounded-xl p-4 flex items-center justify-between gap-3 flex-wrap">'+
+      '<div><div class="font-semibold text-sm">'+tr(c.label)+'</div><div class="font-mono text-[11px] text-text-secondary">'+tr(c.sub)+'</div></div>'+
+      right+flag+'</div>';
   }).join("");
 }
 function copyAddr(addr, btn){
@@ -760,38 +978,31 @@ function copyAddr(addr, btn){
   }
 }
 
-/* ---- Live Stats (on-chain via JSON-RPC eth_call) ---- */
-function selector(sig){
-  /* Selector 4-byte hasil keccak256(signature), diverifikasi manual.
-     totalSupply() = 0x18160ddd (standar ERC20)
-     reserveA()/reserveB() diverifikasi dari ABI kontrak SimpleLiquidityPoolV3 */
-  var known = {
-    "totalSupply()":"0x18160ddd",
-    "reserveA()":"0xdc5fa6c5",
-    "reserveB()":"0x19e36f3b",
-  };
-  return known[sig] || null;
-}
+/* ---- Live Stats (on-chain via JSON-RPC eth_call) ----
+   Ringan & tanpa dependensi: hanya eth_call dengan selector yang sudah diverifikasi. */
 function hexToNum(hex, decimals){
   if(!hex || hex==="0x") return null;
   try {
     var v = BigInt(hex);
     var base = BigInt(10) ** BigInt(decimals);
-    var whole = v / base;
-    return Number(whole);
+    return Number(v / base);
   } catch(e){ return null; }
 }
 function fmt(n){
   if(n===null || n===undefined || isNaN(n)) return "—";
   return n.toLocaleString(lang==="id"?"id-ID":"en-US");
 }
-function animateTo(el, target){
+/* Hitung naik dengan easing — hanya dijalankan saat kartunya terlihat */
+function animateTo(el, target, suffix){
+  if(el === null || el === undefined) return;
   if(target===null){ el.textContent="—"; return; }
-  var start=0, dur=900, t0=performance.now();
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){ el.textContent = fmt(target) + (suffix||""); return; }
+  var start=0, dur=1100, t0=performance.now();
   function step(now){
     var p = Math.min((now-t0)/dur, 1);
     var eased = 1-Math.pow(1-p,3);
-    el.textContent = fmt(Math.floor(start + (target-start)*eased));
+    el.textContent = fmt(Math.floor(start + (target-start)*eased)) + (suffix||"");
     if(p<1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
@@ -802,62 +1013,110 @@ function rpcCall(to, data){
     body: JSON.stringify({jsonrpc:"2.0", id:1, method:"eth_call", params:[{to:to, data:data},"latest"]})
   }).then(function(r){ return r.json(); }).then(function(j){ return j.result; });
 }
+var liveLoaded = false;
 function loadLiveStats(){
+  if(liveLoaded) return;
+  liveLoaded = true;
   var note = document.getElementById("live-note");
   var dot  = document.getElementById("live-dot");
-  if(!CHAIN.RPC_URL || !CHAIN.POOL){
-    note.textContent = lang==="id"
-      ? "Belum dikonfigurasi. Isi RPC_URL & alamat POOL di index.html untuk mengaktifkan."
-      : "Not configured yet. Set RPC_URL & POOL address in index.html to enable.";
-    return;
-  }
-  dot.className = "w-2 h-2 rounded-full bg-soft-green animate-pulse";
+  dot.className = "w-2 h-2 rounded-full bg-soft-green live-on";
+
+  var pools = [CHAIN.POOL, CHAIN.POOL_KOPDES, CHAIN.POOL_MBGUSDC, CHAIN.POOL_MBGUSDT].filter(Boolean);
+
+  /* Pool USDC/DAI: cadangan + suplai LP. Keduanya stablecoin, jadi menjumlahkannya
+     wajar sebagai perkiraan USD. Pool lain TIDAK dijumlahkan — MBG bukan $1. */
   var jobs = [
-    {id:"ls-lp", sig:CHAIN.FN_TOTAL_SUPPLY},
-    {id:"ls-ra", sig:CHAIN.FN_RESERVE_A},
-    {id:"ls-rb", sig:CHAIN.FN_RESERVE_B},
-  ];
-  var results = {};
-  Promise.all(jobs.map(function(j){
-    var sel = selector(j.sig);
-    if(!sel) return Promise.resolve(null);
-    return rpcCall(CHAIN.POOL, sel).then(function(hex){
-      var n = hexToNum(hex, CHAIN.DECIMALS);
-      results[j.id]=n;
-      animateTo(document.getElementById(j.id), n);
-      return n;
-    }).catch(function(){ results[j.id]=null; return null; });
-  })).then(function(){
-    var a=results["ls-ra"], b=results["ls-rb"];
-    var tvl = (a!==null && b!==null && a!==undefined && b!==undefined) ? a+b : null;
-    animateTo(document.getElementById("ls-tvl"), tvl);
-    if(tvl===null){
-      note.textContent = lang==="id"
-        ? "Tidak bisa membaca kontrak. Cek RPC_URL, alamat POOL, dan nama fungsinya."
-        : "Could not read the contract. Check RPC_URL, POOL address, and function names.";
-      dot.className = "w-2 h-2 rounded-full bg-text-secondary/40";
-    } else {
-      note.textContent = lang==="id" ? "Diambil langsung dari smart contract." : "Fetched directly from the smart contract.";
-    }
+    rpcCall(CHAIN.POOL, SEL.reserveA),
+    rpcCall(CHAIN.POOL, SEL.reserveB),
+    rpcCall(CHAIN.POOL, SEL.totalSupply),
+    rpcCall(CHAIN.STAKING, SEL.totalSupply),
+  ].concat(pools.map(function(p){ return rpcCall(p, SEL.reserveA).catch(function(){ return null; }); }));
+
+  Promise.all(jobs).then(function(res){
+    var ra = hexToNum(res[0], CHAIN.DECIMALS);
+    var rb = hexToNum(res[1], CHAIN.DECIMALS);
+    var lp = hexToNum(res[2], CHAIN.DECIMALS);
+    var st = hexToNum(res[3], CHAIN.DECIMALS);
+    var active = res.slice(4).reduce(function(n,h){
+      var v = hexToNum(h, CHAIN.DECIMALS);
+      return n + (v !== null && v > 0 ? 1 : 0);
+    }, 0);
+
+    if(ra===null && rb===null){ throw new Error("rpc"); }
+
+    animateTo(document.getElementById("ls-tvl"), (ra!==null&&rb!==null) ? ra+rb : null);
+    animateTo(document.getElementById("ls-lp"), lp);
+    animateTo(document.getElementById("ls-staked"), st);
+    var poolsEl = document.getElementById("ls-pools");
+    animateTo(poolsEl, active, " / " + pools.length);
+    liveFailed = false;
+    note.textContent = lang==="id" ? I18N.live_note[0] : I18N.live_note[1];
+  }).catch(function(){
+    liveFailed = true;
+    note.textContent = lang==="id" ? I18N.live_fail[0] : I18N.live_fail[1];
+    dot.className = "w-2 h-2 rounded-full bg-text-secondary/40";
+    ["ls-tvl","ls-lp","ls-pools","ls-staked"].forEach(function(id){
+      var el = document.getElementById(id); if(el) el.textContent = "—";
+    });
   });
 }
 
-function renderAll(){ renderFeatures(); renderTok(); renderRoadmap(); renderSecurity(); renderFaq(); renderSteps(); renderContracts(); applyI18n(); applyLinks(); }
+function renderAll(){ renderFeatures(); renderTok(); renderRoadmap(); renderSecurity(); renderFaq(); renderSteps(); renderContracts(); applyI18n(); applyLinks(); observeNew(); }
 function setLang(l){ lang=l; try{ localStorage.setItem("freesia_lang",l);}catch(e){} renderAll(); }
 
 renderAll();
-loadLiveStats();
 
-/* scroll progress */
+/* ============ GERAK ============ */
+/* Satu observer untuk semua: seksi muncul, anak-anak grid menyusul beruntun,
+   angka on-chain baru dihitung saat kartunya benar-benar terlihat. */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(!e.isIntersecting) return;
+    e.target.classList.add("in");
+    if(e.target.classList.contains("stagger")){
+      Array.prototype.slice.call(e.target.children).forEach(function(child, i){
+        child.style.transitionDelay = Math.min(i*70, 560) + "ms";
+      });
+    }
+    if(e.target.id === "livestats") loadLiveStats();
+    if(e.target.id === "tokenomics"){
+      document.querySelectorAll(".bar").forEach(function(b){
+        b.style.transition = "width 1.1s cubic-bezier(.22,.61,.36,1)";
+        requestAnimationFrame(function(){ b.style.width = b.getAttribute("data-w") + "%"; });
+      });
+    }
+    io.unobserve(e.target);
+  });
+}, {threshold:.12, rootMargin:"0px 0px -40px 0px"});
+
+function observeNew(){
+  document.querySelectorAll("section, .stagger").forEach(function(el){
+    if(el.dataset.obs) return;
+    el.dataset.obs = "1";
+    if(el.tagName === "SECTION" && el.id !== "top") el.classList.add("reveal");
+    io.observe(el);
+  });
+}
+observeNew();
+
+/* Hero tidak perlu menunggu di-scroll */
+var top_ = document.getElementById("top");
+if(top_) top_.classList.add("in");
+
+/* Bilah progres gulir */
 var sp=document.getElementById("scroll-progress");
+var nav=document.getElementById("nav");
+var ticking=false;
 window.addEventListener("scroll", function(){
-  var h=document.documentElement.scrollHeight-window.innerHeight;
-  sp.style.width = h>0 ? (window.scrollY/h*100)+"%" : "0%";
+  if(ticking) return;
+  ticking = true;
+  requestAnimationFrame(function(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    sp.style.width = h>0 ? (window.scrollY/h*100)+"%" : "0%";
+    if(nav) nav.classList.toggle("shrunk", window.scrollY > 40);
+    ticking = false;
+  });
 }, {passive:true});
-
-/* scroll reveal */
-var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }); }, {threshold:.12});
-document.querySelectorAll("section").forEach(function(s){ s.classList.add("reveal"); io.observe(s); });
 </script>
 </body>
 </html>
