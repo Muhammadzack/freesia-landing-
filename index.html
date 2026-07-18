@@ -522,6 +522,7 @@
         <div class="flex flex-col gap-2 text-text-secondary">
           <a id="foot-verify" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline" data-i18n="foot_verify">Verifikasi kontrak</a>
           <a id="foot-log" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline" data-i18n="foot_log">Catatan insiden</a>
+          <a id="foot-report" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline" data-i18n="foot_report">Laporkan masalah</a>
           <a id="foot-docs" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline" data-i18n="foot_docs">Dokumentasi</a>
           <a id="foot-gh" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-soft-green no-underline">GitHub</a>
         </div>
@@ -546,6 +547,7 @@ var CONFIG = {
   DOCS_URL: "https://docs.freesiadex.xyz",
   VERIFY_URL: "https://app.freesiadex.xyz/verify",    // halaman verifikasi kontrak
   LOG_URL:    "https://app.freesiadex.xyz/insiden",   // catatan insiden
+  ISSUES_URL: "https://github.com/Muhammadzack/Freesia/issues/new/choose",  // kanal keluhan pengguna
   X:        "https://x.com/freesiadex",
   GITHUB:   "https://github.com/Muhammadzack",
   TELEGRAM: "#",
@@ -804,6 +806,7 @@ var I18N = {
   foot_desc:["AMM ringan di LitVM yang memperingatkan Anda sebelum rugi. Semua on-chain, semua bisa diperiksa sendiri.","A lightweight AMM on LitVM that warns you before you lose money. All on-chain, all verifiable yourself."],
   foot_product:["Produk","Product"], foot_res:["Sumber Daya","Resources"], foot_docs:["Dokumentasi","Documentation"], foot_comm:["Komunitas","Community"],
   foot_verify:["Verifikasi kontrak","Verify contracts"], foot_log:["Catatan insiden","Incident log"],
+  foot_report:["Laporkan masalah","Report an issue"],
   foot_copy:["© 2026 Freesia DEX. Dibangun dengan transparansi untuk komunitas DeFi.","© 2026 Freesia DEX. Built with transparency for the DeFi community."],
 };
 
@@ -901,7 +904,7 @@ function applyLinks(){
   var m = {
     "nav-launch":CONFIG.DEX_URL, "hero-launch":CONFIG.DEX_URL, "cta-launch":CONFIG.DEX_URL, "foot-launch":CONFIG.DEX_URL, "start-launch":CONFIG.DEX_URL, "menu-launch":CONFIG.DEX_URL,
     "hero-verify":CONFIG.VERIFY_URL, "proof-verify":CONFIG.VERIFY_URL, "foot-verify":CONFIG.VERIFY_URL, "con-verify":CONFIG.VERIFY_URL,
-    "proof-log":CONFIG.LOG_URL, "foot-log":CONFIG.LOG_URL,
+    "proof-log":CONFIG.LOG_URL, "foot-log":CONFIG.LOG_URL, "foot-report":CONFIG.ISSUES_URL,
     "dev-x":CONFIG.X, "foot-x":CONFIG.X,
     "dev-gh":CONFIG.GITHUB, "foot-gh":CONFIG.GITHUB,
     "cta-docs":CONFIG.DOCS_URL, "foot-docs":CONFIG.DOCS_URL, "nav-docs":CONFIG.DOCS_URL, "menu-docs":CONFIG.DOCS_URL,
@@ -1064,12 +1067,20 @@ function loadLiveStats(){
 function renderAll(){ renderFeatures(); renderTok(); renderRoadmap(); renderSecurity(); renderFaq(); renderSteps(); renderContracts(); applyI18n(); applyLinks(); observeNew(); }
 function setLang(l){ lang=l; try{ localStorage.setItem("freesia_lang",l);}catch(e){} renderAll(); }
 
-renderAll();
-
 /* ============ GERAK ============ */
 /* Satu observer untuk semua: seksi muncul, anak-anak grid menyusul beruntun,
    angka on-chain baru dihitung saat kartunya benar-benar terlihat. */
-var io = new IntersectionObserver(function(entries){
+/* Pengaman: kalau apa pun gagal, isi halaman TETAP tampil.
+   Konten tidak boleh bergantung pada animasi. */
+function showAllNow(){
+  document.querySelectorAll("section, .stagger").forEach(function(el){ el.classList.add("in"); });
+  document.querySelectorAll(".bar").forEach(function(b){ b.style.width = b.getAttribute("data-w") + "%"; });
+  loadLiveStats();
+}
+
+var io = null;
+try {
+  if("IntersectionObserver" in window) io = new IntersectionObserver(function(entries){
   entries.forEach(function(e){
     if(!e.isIntersecting) return;
     e.target.classList.add("in");
@@ -1087,9 +1098,11 @@ var io = new IntersectionObserver(function(entries){
     }
     io.unobserve(e.target);
   });
-}, {threshold:.12, rootMargin:"0px 0px -40px 0px"});
+  }, {threshold:.12, rootMargin:"0px 0px -40px 0px"});
+} catch(e){ io = null; }
 
 function observeNew(){
+  if(!io){ showAllNow(); return; }   // browser lama / observer gagal → tampilkan saja
   document.querySelectorAll("section, .stagger").forEach(function(el){
     if(el.dataset.obs) return;
     el.dataset.obs = "1";
@@ -1097,11 +1110,28 @@ function observeNew(){
     io.observe(el);
   });
 }
-observeNew();
+
+/* Baru render setelah observer siap — urutan ini penting:
+   renderAll() memanggil observeNew(), jadi io HARUS sudah ada. */
+try {
+  renderAll();
+} catch(err) {
+  console.error("Render gagal:", err);
+  showAllNow();          // jangan pernah tinggalkan halaman kosong
+}
 
 /* Hero tidak perlu menunggu di-scroll */
 var top_ = document.getElementById("top");
 if(top_) top_.classList.add("in");
+
+/* Jaring pengaman terakhir: kalau setelah 2,5 detik masih ada seksi yang
+   belum tampil (mis. observer tak pernah memicu), tampilkan paksa. */
+setTimeout(function(){
+  document.querySelectorAll(".stagger:not(.in)").forEach(function(el){
+    var r = el.getBoundingClientRect();
+    if(r.top < window.innerHeight && r.bottom > 0) el.classList.add("in");
+  });
+}, 2500);
 
 /* Bilah progres gulir */
 var sp=document.getElementById("scroll-progress");
