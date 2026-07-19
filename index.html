@@ -189,6 +189,7 @@
     </a>
     <div class="hidden lg:flex items-center gap-7 text-sm font-semibold text-text-secondary">
       <a href="#proof" class="hover:text-soft-green no-underline" data-i18n="nav_proof">Bukti</a>
+      <a href="#syariah" class="hover:text-soft-green no-underline" data-i18n="nav_syariah">Syariah</a>
       <a href="#start" class="hover:text-soft-green no-underline" data-i18n="nav_start">Cara Mulai</a>
       <a href="#features" class="hover:text-soft-green no-underline" data-i18n="nav_features">Fitur</a>
       <a href="#tokenomics" class="hover:text-soft-green no-underline" data-i18n="nav_sustain">Keberlanjutan</a>
@@ -213,6 +214,7 @@
   <!-- Panel menu mobile/tablet -->
   <div id="mobileMenu" class="mobile-menu lg:hidden" aria-hidden="true">
     <a href="#proof"      onclick="closeMenu()" data-i18n="nav_proof">Bukti</a>
+    <a href="#syariah"    onclick="closeMenu()" data-i18n="nav_syariah">Syariah</a>
     <a href="#start"      onclick="closeMenu()" data-i18n="nav_start">Cara Mulai</a>
     <a href="#features"   onclick="closeMenu()" data-i18n="nav_features">Fitur</a>
     <a href="#tokenomics" onclick="closeMenu()" data-i18n="nav_sustain">Keberlanjutan</a>
@@ -290,6 +292,44 @@
       </a>
     </div>
     <p class="text-center text-text-secondary text-xs mt-8 max-w-xl mx-auto" data-i18n="proof_note">Kami menerbitkan kesalahan bukan karena bangga, tapi karena DEX yang menyembunyikan kesalahannya adalah DEX yang belum ketahuan.</p>
+  </div>
+</section>
+
+<!-- ===== PRINSIP DESAIN SYARIAH =====
+     PENTING (jangan diubah jadi klaim penuh tanpa tinjauan ahli):
+     Ini menyatakan PRINSIP DESAIN yang bisa dibuktikan sendiri — BUKAN sertifikasi
+     "syariah-compliant". Tidak ada otoritas fiqih yang meninjau Freesia. Bahasa
+     sengaja: "dirancang dengan prinsip menghindari riba", "mengundang tinjauan ahli".
+     Naikkan ke klaim penuh HANYA setelah ada dewan/ahli syariah yang menyatakan. -->
+<section id="syariah" class="bg-bg-white py-20 lg:py-28">
+  <div class="max-w-[1000px] mx-auto px-5 lg:px-12">
+    <div class="text-center mb-12">
+      <div class="inline-block text-soft-green font-mono text-xs uppercase tracking-widest mb-3" data-i18n="sy_badge">Prinsip Desain</div>
+      <h2 class="font-bold tracking-tight" style="font-size:clamp(1.6rem,4vw,3rem)"><span data-i18n="sy_title">Dirancang dengan Prinsip Syariah</span></h2>
+      <p class="text-text-secondary mt-3 max-w-2xl mx-auto" data-i18n="sy_sub">Keuangan Islam tidak melarang keuntungan — ia melarang keuntungan yang tidak adil: bunga atas pinjaman (riba), spekulasi berlebihan (gharar), dan judi (maysir). Freesia dibangun dengan prinsip-prinsip itu sejak awal. Ini keputusan desain yang bisa Anda periksa sendiri, bukan sertifikasi.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5 stagger">
+      <div class="lift bg-pure-white rounded-2xl p-6 border border-black/5">
+        <div class="text-3xl mb-3">&#129534;</div>
+        <div class="font-bold mb-2" data-i18n="sy_1_t">Fee dari Aktivitas, Bukan Bunga</div>
+        <div class="text-text-secondary text-sm leading-relaxed" data-i18n="sy_1_d">Imbal hasil penyedia likuiditas datang dari fee 0,3% atas swap nyata yang difasilitasi — aktivitas ekonomi produktif, bukan bunga tetap atas pinjaman (riba). Sumber pendapatannya bisa Anda verifikasi on-chain.</div>
+      </div>
+      <div class="lift bg-pure-white rounded-2xl p-6 border border-black/5">
+        <div class="text-3xl mb-3">&#128683;</div>
+        <div class="font-bold mb-2" data-i18n="sy_2_t">Tanpa Lending Berbunga</div>
+        <div class="text-text-secondary text-sm leading-relaxed" data-i18n="sy_2_d">Kami berkomitmen tidak menambahkan produk pinjam-meminjam berbasis bunga ke Freesia. Model yang dilarang riba tidak akan masuk roadmap kami — itu batas desain, bukan sekadar preferensi.</div>
+      </div>
+      <div class="lift bg-pure-white rounded-2xl p-6 border border-black/5">
+        <div class="text-3xl mb-3">&#127793;</div>
+        <div class="font-bold mb-2" data-i18n="sy_3_t">Tanpa Spekulasi Buatan</div>
+        <div class="text-text-secondary text-sm leading-relaxed" data-i18n="sy_3_d">Tidak ada token yang diluncurkan, tidak ada janji airdrop, tidak ada mekanika mirip judi untuk memancing hype. Leaderboard kami sengaja tidak menjanjikan alokasi apa pun.</div>
+      </div>
+    </div>
+
+    <div class="mt-8 bg-pure-white border border-soft-green/30 rounded-2xl p-6 md:p-7" style="border-left:3px solid #49B76B">
+      <div class="font-semibold mb-2 flex items-center gap-2">&#9878;&#65039; <span data-i18n="sy_honest_t">Sejujurnya: ini prinsip desain, belum sertifikasi</span></div>
+      <p class="text-text-secondary text-sm leading-relaxed" data-i18n="sy_honest_d">Freesia <strong>belum ditinjau oleh otoritas fiqih mana pun</strong>, dan sebagian ulama masih memperdebatkan status penyediaan likuiditas AMM. Kami tidak menyebut Freesia "bersertifikat syariah" karena itu klaim yang belum bisa kami buktikan. Yang bisa kami tunjukkan adalah prinsip desain di atas — dan kami <strong>mengundang ahli fiqih muamalah untuk meninjau kontrak kami</strong>. Untuk keputusan pribadi soal kepatuhan, konsultasikan dengan ahli yang Anda percaya.</p>
+    </div>
   </div>
 </section>
 
@@ -684,6 +724,7 @@ var FAQ = {
     {q:"Apakah smart contract sudah diaudit?", a:"Belum oleh pihak ketiga — dan sejujurnya, di fase testnet LitVM saat ini belum ada DEX yang diaudit pihak ketiga, termasuk yang terbesar. Bedanya ada pada cara mengakuinya. Sebagian proyek menyebut kontraknya \'teruji-tempur\' atau \'fork dari standar industri\'; itu terdengar seperti audit, padahal artinya kode itu belum pernah diperiksa untuk proyek mereka. Kami memilih menyebutnya apa adanya: belum diaudit. Yang kami lakukan adalah audit mandiri terbuka dan menulis SimpleLiquidityPoolV3 yang menutup enam kelas kerentanan (pool KOPDES/USDC dan MBG/USDC lahir dari kontrak itu). Tapi audit mandiri bukan pengganti audit profesional — audit mandiri kami sendiri sempat melewatkan kerentanan XSS berbulan-bulan. Audit profesional adalah syarat mutlak sebelum mainnet. Sampai saat itu: token testnet saja, dan Anda bisa memeriksa tiap kontrak sendiri di /verify."},
     {q:"Bagaimana cara menjadi early tester?", a:"Langsung saja pakai — token testnet gratis lewat faucet, tanpa daftar. Lalu beri tahu kami apa yang rusak di X/Twitter @0xzackbh. Laporan dari luar akan dicatat di halaman insiden lengkap dengan kredit."},
     {q:"Apakah ada token?", a:"Belum ada token yang diluncurkan, dan kami tidak terburu-buru. Token hanya masuk akal kalau ada volume nyata yang membenarkannya — meluncurkan token sebelum ada guna adalah jebakan umum. Leaderboard kami sengaja tidak menjanjikan alokasi apa pun. Fokus sekarang: fee yang adil (100% ke LP) dan keberlanjutan dari dukungan ekosistem."},
+    {q:"Apakah Freesia sesuai syariah?", a:"Freesia dirancang dengan prinsip menghindari riba: imbal hasil datang dari fee atas aktivitas swap nyata, bukan bunga atas pinjaman, dan kami berkomitmen tidak menambahkan lending berbunga. Tapi jujur — kami BELUM ditinjau otoritas fiqih mana pun, jadi kami tidak menyebut diri \"bersertifikat syariah\". Sebagian ulama juga masih memperdebatkan status penyediaan likuiditas AMM. Yang kami tawarkan adalah prinsip desain yang bisa Anda periksa sendiri, dan undangan terbuka bagi ahli fiqih muamalah untuk meninjau kontrak kami. Untuk keputusan pribadi, konsultasikan ahli yang Anda percaya."},
   ],
   en:[
     {q:"How do I know Freesia isn't a scam?", a:"Don't trust us — check. The verification page makes your own browser contact the LitVM RPC and read each contract straight from the blockchain, never through our servers. The incident log lists our own mistakes, including one still open. If something doesn't add up, it'll show up there, not in a marketing sentence."},
@@ -693,6 +734,7 @@ var FAQ = {
     {q:"Are the smart contracts audited?", a:"Not by a third party — and honestly, at LitVM's current testnet stage no DEX is third-party audited, including the largest ones. The difference is how you admit it. Some projects call their contracts \'battle-tested\' or \'forked from industry standards\'; that sounds like an audit, but it means the code was never reviewed for their project. We'd rather say it plainly: not audited. What we did do is an open self-audit and wrote SimpleLiquidityPoolV3, which closes six vulnerability classes (the KOPDES/USDC and MBG/USDC pools are born from it). But a self-audit is no substitute for a professional one — ours missed an XSS weakness for months. A professional audit is a hard prerequisite before mainnet. Until then: testnet tokens only, and you can check every contract yourself at /verify."},
     {q:"How do I become an early tester?", a:"Just use it — free testnet tokens from the faucet, no signup. Then tell us what broke, at X/Twitter @0xzackbh. Reports from outside get logged on the incident page, with credit."},
     {q:"Is there a token?", a:"No token has launched, and we're not rushing one. A token only makes sense when real volume justifies it — launching before there's utility is a common trap. Our leaderboard deliberately promises no allocation whatsoever. Focus now: fair fees (100% to LPs) and sustainability from ecosystem support."},
+    {q:"Is Freesia Sharia-compliant?", a:"Freesia is designed on the principle of avoiding riba: yield comes from fees on real swap activity, not interest on loans, and we commit to not adding interest-based lending. But honestly — we have NOT been reviewed by any fiqh authority, so we don't call ourselves \"Sharia-certified\". Some scholars also still debate the status of AMM liquidity provision. What we offer is design principles you can verify yourself, and an open invitation for scholars of fiqh muamalah to review our contracts. For personal decisions, consult an expert you trust."},
   ],
 };
 
@@ -736,6 +778,18 @@ var I18N = {
   nav_features:["Fitur","Features"], nav_security:["Keamanan","Security"],
   nav_start:["Cara Mulai","Get Started"], nav_contracts:["Kontrak","Contracts"],
   nav_proof:["Bukti","Proof"], nav_sustain:["Keberlanjutan","Sustainability"], nav_roadmap:["Roadmap","Roadmap"],
+  nav_syariah:["Syariah","Sharia"],
+  sy_badge:["Prinsip Desain","Design Principle"],
+  sy_title:["Dirancang dengan Prinsip Syariah","Designed on Sharia Principles"],
+  sy_sub:["Keuangan Islam tidak melarang keuntungan — ia melarang keuntungan yang tidak adil: bunga atas pinjaman (riba), spekulasi berlebihan (gharar), dan judi (maysir). Freesia dibangun dengan prinsip-prinsip itu sejak awal. Ini keputusan desain yang bisa Anda periksa sendiri, bukan sertifikasi.","Islamic finance doesn't forbid profit — it forbids unjust profit: interest on loans (riba), excessive speculation (gharar), and gambling (maysir). Freesia was built on these principles from the start. This is a design decision you can verify yourself, not a certification."],
+  sy_1_t:["Fee dari Aktivitas, Bukan Bunga","Fees from Activity, Not Interest"],
+  sy_1_d:["Imbal hasil penyedia likuiditas datang dari fee 0,3% atas swap nyata yang difasilitasi — aktivitas ekonomi produktif, bukan bunga tetap atas pinjaman (riba). Sumber pendapatannya bisa Anda verifikasi on-chain.","Liquidity providers' returns come from the 0.3% fee on real swaps facilitated — productive economic activity, not fixed interest on loans (riba). The source of yield is verifiable on-chain."],
+  sy_2_t:["Tanpa Lending Berbunga","No Interest-Based Lending"],
+  sy_2_d:["Kami berkomitmen tidak menambahkan produk pinjam-meminjam berbasis bunga ke Freesia. Model yang dilarang riba tidak akan masuk roadmap kami — itu batas desain, bukan sekadar preferensi.","We commit to not adding interest-based lending to Freesia. Riba-based models will not enter our roadmap — that's a design boundary, not just a preference."],
+  sy_3_t:["Tanpa Spekulasi Buatan","No Manufactured Speculation"],
+  sy_3_d:["Tidak ada token yang diluncurkan, tidak ada janji airdrop, tidak ada mekanika mirip judi untuk memancing hype. Leaderboard kami sengaja tidak menjanjikan alokasi apa pun.","No token launched, no airdrop promises, no gambling-like mechanics to bait hype. Our leaderboard deliberately promises no allocation whatsoever."],
+  sy_honest_t:["Sejujurnya: ini prinsip desain, belum sertifikasi","Honestly: this is a design principle, not a certification"],
+  sy_honest_d:["Freesia <strong>belum ditinjau oleh otoritas fiqih mana pun</strong>, dan sebagian ulama masih memperdebatkan status penyediaan likuiditas AMM. Kami tidak menyebut Freesia \"bersertifikat syariah\" karena itu klaim yang belum bisa kami buktikan. Yang bisa kami tunjukkan adalah prinsip desain di atas — dan kami <strong>mengundang ahli fiqih muamalah untuk meninjau kontrak kami</strong>. Untuk keputusan pribadi soal kepatuhan, konsultasikan dengan ahli yang Anda percaya.","Freesia <strong>has not been reviewed by any fiqh authority</strong>, and some scholars still debate the status of AMM liquidity provision. We do not call Freesia \"Sharia-certified\" because that's a claim we can't yet back. What we can show is the design principles above — and we <strong>invite scholars of fiqh muamalah to review our contracts</strong>. For personal compliance decisions, consult an expert you trust."],
   proof_badge:["Bukti","Proof"],
   proof_title:["Jangan Percaya. Periksa.","Don't Trust. Verify."],
   proof_sub:["Setiap proyek DeFi mengaku transparan. Dua halaman ini membuat klaim itu bisa diuji — oleh siapa pun, tanpa izin kami.","Every DeFi project claims transparency. These two pages make that claim testable — by anyone, without our permission."],
