@@ -1202,5 +1202,92 @@ window.addEventListener("scroll", function(){
   });
 }, {passive:true});
 </script>
+<!-- ============================================================
+     SECTION: AI-Managed Liquidity Vault  (untuk landing page)
+     Tempel di landing page pada posisi yang kamu mau (mis. setelah
+     section fitur utama). Gaya menyesuaikan tema gelap Freesia.
+     Ganti VARIABEL warna kalau landing-mu pakai nama berbeda.
+     ============================================================ -->
+<section class="vault-promo stagger" id="ai-vault">
+  <style>
+    .vault-promo {
+      max-width: 920px; margin: 0 auto; padding: 56px 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .vault-promo .vp-inner {
+      position: relative; overflow: hidden;
+      background: linear-gradient(160deg, #101917 0%, #0c1310 100%);
+      border: 1px solid #223029; border-radius: 24px;
+      padding: 40px 32px;
+    }
+    /* glow dekoratif */
+    .vault-promo .vp-inner::before {
+      content: ""; position: absolute; top: -80px; right: -60px;
+      width: 280px; height: 280px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(63,209,139,0.18), transparent 70%);
+      pointer-events: none;
+    }
+    .vault-promo .vp-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .vault-promo .vp-badge {
+      font-size: 0.7rem; letter-spacing: 0.06em; font-weight: 700;
+      padding: 4px 11px; border-radius: 20px; text-transform: uppercase;
+    }
+    .vp-badge.testnet { background: rgba(224,177,90,0.12); color: #e0b15a; border: 1px solid rgba(224,177,90,0.3); }
+    .vp-badge.open { background: rgba(63,209,139,0.12); color: #3fd18b; border: 1px solid rgba(63,209,139,0.3); }
+    .vault-promo h2 {
+      font-size: 1.9rem; line-height: 1.2; margin: 0 0 14px; color: #eef5f1;
+      letter-spacing: -0.02em; position: relative;
+    }
+    .vault-promo h2 .accent { color: #3fd18b; }
+    .vault-promo .vp-lead { font-size: 1.02rem; color: #b6c7bf; margin: 0 0 22px; max-width: 620px; }
+    .vault-promo .vp-points { list-style: none; padding: 0; margin: 0 0 28px; display: grid; gap: 12px; }
+    .vault-promo .vp-points li { display: flex; gap: 11px; align-items: flex-start; color: #cdddd5; font-size: 0.94rem; }
+    .vault-promo .vp-points .tick {
+      flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+      background: rgba(63,209,139,0.14); color: #3fd18b;
+      display: flex; align-items: center; justify-content: center; font-size: 12px; margin-top: 1px;
+    }
+    .vault-promo .vp-cta { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .vault-promo .vp-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #3fd18b; color: #06120c; font-weight: 700; font-size: 0.95rem;
+      padding: 13px 22px; border-radius: 12px; text-decoration: none;
+      transition: filter .15s, transform .15s;
+    }
+    .vault-promo .vp-btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    .vault-promo .vp-note { font-size: 0.82rem; color: #7f968c; }
+    @media (max-width: 560px) {
+      .vault-promo { padding: 36px 14px; }
+      .vault-promo .vp-inner { padding: 30px 22px; }
+      .vault-promo h2 { font-size: 1.55rem; }
+    }
+  </style>
+
+  <div class="vp-inner">
+    <div class="vp-badges">
+      <span class="vp-badge testnet">Testnet</span>
+      <span class="vp-badge open">Transparan &amp; on-chain</span>
+    </div>
+
+    <h2>AI-Managed <span class="accent">Liquidity Vault</span></h2>
+
+    <p class="vp-lead">
+      Vault ERC-4626 tempat agen AI menghitung alokasi optimal secara transparan.
+      Saat ini fase testnet: cobalah alurnya, periksa keputusannya, dan tumbuh
+      bersama kami menuju DeFi yang lebih cerdas.
+    </p>
+
+    <ul class="vp-points">
+      <li><span class="tick">&#10003;</span> Setor aset, terima share standar ERC-4626 — deposit &amp; tarik kapan saja.</li>
+      <li><span class="tick">&#10003;</span> Setiap keputusan alokasi AI tercatat on-chain — bukan kotak hitam.</li>
+      <li><span class="tick">&#10003;</span> Dana tidak bisa dikunci admin. Kamu yang pegang kendali.</li>
+    </ul>
+
+    <div class="vp-cta">
+      <a class="vp-btn" href="/vault">Coba di Testnet &rarr;</a>
+      <span class="vp-note">Token testnet tanpa nilai nyata &middot; belum diaudit</span>
+    </div>
+  </div>
+</section>
 </body>
 </html>
