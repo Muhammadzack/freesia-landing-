@@ -1,0 +1,172 @@
+html { scroll-behavior: smooth; }
+body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+
+/* Nav melayang di atas konten — beri ruang agar judul seksi tidak tertutup */
+section[id] { scroll-margin-top: 84px; }
+
+/* ── Gerak: satu kurva easing dipakai konsisten di seluruh halaman ── */
+.reveal { opacity: 0; transform: translateY(26px);
+  transition: opacity .8s cubic-bezier(.22,.61,.36,1), transform .8s cubic-bezier(.22,.61,.36,1); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Anak-anak grid muncul beruntun, bukan serempak */
+.stagger > * { opacity: 0; transform: translateY(20px);
+  transition: opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1); }
+.stagger.in > * { opacity: 1; transform: none; }
+
+.faq-body { max-height: 0; overflow: hidden; transition: max-height .4s cubic-bezier(.22,.61,.36,1); }
+.faq-item.open .faq-chev { transform: rotate(180deg); }
+
+#scroll-progress { position:fixed; top:0; left:0; height:3px; width:0%; z-index:60;
+  background:linear-gradient(90deg,#49B76B,#D4FF5C); transition:width .12s linear; }
+a, button { -webkit-tap-highlight-color: transparent; }
+
+/* Nav mengecil & mengeras saat digulir */
+#nav { transition: box-shadow .35s ease, background-color .35s ease; }
+#nav-inner { transition: height .35s cubic-bezier(.22,.61,.36,1); }
+#nav.shrunk { box-shadow: 0 8px 28px -18px rgba(20,43,37,.45); }
+#nav.shrunk #nav-inner { height: 3.25rem; }
+
+/* -- Logo bunga Freesia (sama dengan DEX) -- */
+.freesia-mark { width:34px; height:34px; flex-shrink:0; display:block;
+  filter:drop-shadow(0 0 5px rgba(73,183,107,0.30));
+  animation:markGlow 3s ease-in-out infinite; transform-origin:center; }
+@keyframes markGlow {
+  0%,100% { filter:drop-shadow(0 0 3px rgba(73,183,107,0.25)); transform:scale(1); }
+  50%     { filter:drop-shadow(0 0 9px rgba(73,183,107,0.45)); transform:scale(1.04); }
+}
+.brand-text { display:inline-flex; align-items:baseline; gap:6px; letter-spacing:-0.01em; font-size:19px; font-weight:800; }
+.brand-name { background:linear-gradient(100deg,#2E6F68 0%,#49B76B 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  -webkit-text-fill-color:transparent; font-weight:800; }
+.brand-suffix { color:#5C7A73; font-weight:700; font-size:0.86em; letter-spacing:0.06em; }
+
+/* Footer bertema gelap: warnai ulang agar tetap terbaca */
+footer .brand-name { background:linear-gradient(100deg,#8CDCCB 0%,#49B76B 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
+
+/* ── Tanda tangan halaman: bunga Freesia mekar saat halaman dibuka ──
+   Kelopak muncul satu per satu, lalu bunga berputar sangat pelan.
+   Ini satu-satunya tempat kami "berani" — sisanya dibiarkan tenang. */
+.hero-bloom { width:clamp(84px,14vw,120px); height:clamp(84px,14vw,120px); margin:0 auto 18px;
+  opacity:0; transform:scale(.72);
+  animation:bloomIn 1.1s cubic-bezier(.22,.61,.36,1) .15s forwards; }
+@keyframes bloomIn { to { opacity:1; transform:scale(1); } }
+.hero-bloom svg { width:100%; height:100%; display:block;
+  filter:drop-shadow(0 0 18px rgba(212,255,92,.28));
+  animation:bloomSpin 64s linear 1.3s infinite; transform-origin:center; }
+@keyframes bloomSpin { to { transform:rotate(360deg); } }
+.hero-bloom path { opacity:0; animation:petalIn .85s cubic-bezier(.22,.61,.36,1) forwards; }
+@keyframes petalIn { to { opacity:1; } }
+.hero-bloom path:nth-child(1){ animation-delay:.30s } .hero-bloom path:nth-child(2){ animation-delay:.42s }
+.hero-bloom path:nth-child(3){ animation-delay:.54s } .hero-bloom path:nth-child(4){ animation-delay:.66s }
+.hero-bloom path:nth-child(5){ animation-delay:.78s } .hero-bloom path:nth-child(6){ animation-delay:.90s }
+
+/* Isi hero menyusul setelah bunganya mekar */
+.hero-rise { opacity:0; transform:translateY(18px);
+  animation:heroRise .9s cubic-bezier(.22,.61,.36,1) forwards; }
+@keyframes heroRise { to { opacity:1; transform:none; } }
+
+/* Latar hero bergerak sangat pelan — hidup, tapi tidak mengganggu baca */
+.hero-bg { animation:heroDrift 34s ease-in-out infinite alternate; }
+@keyframes heroDrift { from{ transform:scale(1.06) translate3d(0,0,0);} to{ transform:scale(1.12) translate3d(-1.5%,-1.5%,0);} }
+
+/* Kartu: satu perilaku angkat yang sama di seluruh halaman */
+.lift { transition: transform .3s cubic-bezier(.22,.61,.36,1), box-shadow .3s cubic-bezier(.22,.61,.36,1), border-color .3s ease; }
+.lift:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -20px rgba(20,43,37,.30); }
+
+/* Titik "data langsung" berdenyut halus saat RPC menjawab */
+@keyframes livePulse { 0%,100%{ box-shadow:0 0 0 0 rgba(73,183,107,.5);} 70%{ box-shadow:0 0 0 7px rgba(73,183,107,0);} }
+.live-on { animation: livePulse 2.2s ease-out infinite; }
+
+/* Angka on-chain: lebar digit tetap agar tidak "bergetar" saat menghitung */
+.tabnum { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .stagger > * { opacity:1 !important; transform:none !important; transition:none !important; }
+  .hero-bloom, .hero-rise { opacity:1 !important; transform:none !important; }
+  * { animation:none !important; }
+}
+
+@media (max-width:400px) {
+  .freesia-mark { width:30px; height:30px; }
+  .brand-text { font-size:17px; }
+}
+
+/* -- Menu mobile / tablet -- */
+.menu-btn { width:40px; height:40px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:5px; border:1px solid rgba(0,0,0,0.08); background:#EEF1F2;
+  border-radius:10px; cursor:pointer; padding:0; transition:background .2s; }
+.menu-btn:hover { background:#E3E9E6; }
+.menu-btn span { display:block; width:18px; height:2px; background:#3B5A53; border-radius:2px;
+  transition:transform .3s cubic-bezier(.22,.61,.36,1), opacity .2s ease; }
+.menu-btn.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.menu-btn.open span:nth-child(2) { opacity:0; }
+.menu-btn.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+.mobile-menu { display:none; flex-direction:column; gap:2px; padding:10px 20px 18px;
+  background:#FFFFFF; border-top:1px solid rgba(0,0,0,0.06);
+  box-shadow:0 12px 24px -12px rgba(20,43,37,0.18); max-height:calc(100vh - 4rem); overflow-y:auto; }
+.mobile-menu.open { display:flex; animation:menuDrop .28s cubic-bezier(.22,.61,.36,1); }
+@keyframes menuDrop { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
+.mobile-menu a { padding:13px 6px; font-size:15px; font-weight:600; color:#5C7A73;
+  text-decoration:none; border-bottom:1px solid rgba(0,0,0,0.05); transition:color .2s; }
+.mobile-menu a:last-of-type { border-bottom:none; }
+.mobile-menu a:hover { color:#49B76B; }
+.mobile-menu .menu-launch { margin-top:12px; text-align:center; background:#3B5A53; color:#fff;
+  border-radius:999px; padding:13px; font-weight:700; border-bottom:none; }
+.mobile-menu .menu-launch:hover { background:#49B76B; color:#fff; }
+
+/* Cegah halaman ikut scroll saat menu terbuka */
+body.menu-open { overflow:hidden; }
+
+a:focus-visible, button:focus-visible { outline:2px solid #49B76B; outline-offset:3px; border-radius:4px; }
+
+/* ===== AI VAULT SECTION ===== */
+.vault-section { position:relative; overflow:hidden; }
+.vault-section .vault-inner {
+  position:relative; overflow:hidden;
+  background: linear-gradient(160deg, #2a4a42 0%, #1e3a33 100%);
+  border: 1px solid rgba(73,183,107,0.25); border-radius: 24px;
+  padding: 40px 32px;
+}
+.vault-section .vault-inner::before {
+  content: ""; position: absolute; top: -80px; right: -60px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,255,92,0.12), transparent 70%);
+  pointer-events: none;
+}
+.vault-section .vault-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; position:relative; }
+.vault-section .vault-badge {
+  font-size: 0.7rem; letter-spacing: 0.06em; font-weight: 700;
+  padding: 4px 11px; border-radius: 20px; text-transform: uppercase;
+}
+.vault-badge.exp { background: rgba(224,177,90,0.14); color: #e0b15a; border: 1px solid rgba(224,177,90,0.35); }
+.vault-badge.open { background: rgba(73,183,107,0.14); color: #49B76B; border: 1px solid rgba(73,183,107,0.35); }
+.vault-section h2 {
+  font-size: 1.9rem; line-height: 1.2; margin: 0 0 14px; color: #eef5f1;
+  letter-spacing: -0.02em; position: relative;
+}
+.vault-section h2 .accent { color: #D4FF5C; }
+.vault-section .vault-lead { font-size: 1.02rem; color: #b6c7bf; margin: 0 0 22px; max-width: 620px; }
+.vault-section .vault-points { list-style: none; padding: 0; margin: 0 0 28px; display: grid; gap: 12px; }
+.vault-section .vault-points li { display: flex; gap: 11px; align-items: flex-start; color: #cdddd5; font-size: 0.94rem; }
+.vault-section .vault-points .tick {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(73,183,107,0.16); color: #D4FF5C;
+  display: flex; align-items: center; justify-content: center; font-size: 12px; margin-top: 1px;
+}
+.vault-section .vault-cta { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; position:relative; }
+.vault-section .vault-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #D4FF5C; color: #142B25; font-weight: 700; font-size: 0.95rem;
+  padding: 13px 22px; border-radius: 12px; text-decoration: none;
+  transition: filter .15s, transform .15s;
+}
+.vault-section .vault-btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.vault-section .vault-note { font-size: 0.82rem; color: #7f968c; }
+@media (max-width: 560px) {
+  .vault-section .vault-inner { padding: 30px 22px; }
+  .vault-section h2 { font-size: 1.55rem; }
+}
